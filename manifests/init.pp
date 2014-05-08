@@ -13,11 +13,13 @@
 class lmod (
   $prefix = '/opt/apps',
   $modulepath_root = 'UNSET',
-  $modulepaths = [ $::kernel, 'Core' ],
+  $modulepaths = [ '$LMOD_sys', 'Core' ],
+  $lmod_package_path = true,
   $default_module = 'StdEnv',
   $manage_build_packages = false,
 ) inherits lmod::params {
 
+  validate_bool($lmod_package_path)
   validate_bool($manage_build_packages)
 
   include lmod::load

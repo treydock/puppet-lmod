@@ -48,6 +48,7 @@ describe 'lmod' do
 
   # Test verify_boolean parameters
   [
+    'lmod_package_path',
     'manage_build_packages',
   ].each do |param|
     context "with #{param} => 'foo'" do
