@@ -1,0 +1,17 @@
+fixtures:
+  repositories:
+    stdlib:
+      repo: git://github.com/puppetlabs/puppetlabs-stdlib.git
+      ref: 4.1.0
+    devtools: git://github.com/treydock/puppet-devtools.git
+    gcc:
+      repo: git://github.com/puppetlabs/puppetlabs-gcc.git
+      ref: 0.1.0
+    git:
+      repo: git://github.com/puppetlabs/puppetlabs-git.git
+      ref: 0.0.3
+    java:
+      repo: git://github.com/puppetlabs/puppetlabs-java.git
+      ref: 1.1.0
+  symlinks:
+    lmod: "#{source_dir}"

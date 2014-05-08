@@ -1,0 +1,40 @@
+#!/bin/sh
+# -*- shell-script -*-
+########################################################################
+#  This is the system wide source file for setting up
+#  modules:
+#
+########################################################################
+
+if [ -z "$USER_IS_ROOT" ]; then
+
+  if [ -z "$MODULEPATH_ROOT" ]; then
+    USER=${USER-${LOGNAME}}  # make sure $USER is set
+    export USER
+
+    LMOD_sys=`uname`; export LMOD_sys
+
+    LMOD_arch=`uname -m`
+    if [ "x$LMOD_sys" = xAIX ]; then
+      LMOD_arch=rs6k
+    fi
+    export LMOD_arch
+
+
+    MODULEPATH_ROOT="<%= @_modulepath_root %>"
+    export MODULEPATH_ROOT
+    export LMOD_SETTARG_CMD=":"
+    export LMOD_FULL_SETTARG_SUPPORT=no
+    export LMOD_COLORIZE=yes
+    export LMOD_PREPEND_BLOCK=normal
+<% @modulepaths.each do |modulepath| -%>
+    export MODULEPATH=$(<%= @prefix %>/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/<%= modulepath %>)
+<% end -%>
+    export MODULEPATH=$(<%= @prefix %>/lmod/lmod/libexec/addto --append MODULEPATH <%= @prefix %>/lmod/lmod/modulefiles/Core)
+
+    export BASH_ENV=<%= @prefix %>/lmod/lmod/init/bash
+  fi
+
+  . <%= @prefix %>/lmod/lmod/init/bash >/dev/null # Module Support
+
+fi
