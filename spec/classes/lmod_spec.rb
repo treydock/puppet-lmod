@@ -5,46 +5,15 @@ describe 'lmod' do
 
   let(:facts) { default_facts }
 
-  base_packages = [
-    'lua-filesystem',
-    'lua-posix',
-    'zsh',
-  ]
-
-  runtime_packages = [
-    'lua',
-  ]
-
-  build_packages = [
-    'lua-devel',
-  ]
-
   it { should create_class('lmod') }
   it { should contain_class('lmod::params') }
 
-  it { should have_package_resource_count(4) }
+  it { should contain_anchor('lmod::start').that_comes_before('Class[epel]') }
+  it { should contain_anchor('lmod::end') }
 
-  base_packages.each do |package|
-    it { should contain_package(package).with({ 'ensure' => 'present' }) }
-  end
-
-  runtime_packages.each do |package|
-    it { should contain_package(package).with({ 'ensure' => 'present' }) }
-  end
-
-  build_packages.each do |package|
-    it { should_not contain_package(package) }
-  end
-  
-  context "manage_build_packages => true" do
-    let(:params) {{ :manage_build_packages => true }}
-
-    it { should have_package_resource_count(5) }
-
-    build_packages.each do |package|
-      it { should contain_package(package).with({ 'ensure' => 'present' }) }
-    end
-  end
+  it { should contain_class('epel').that_comes_before('Class[lmod::install]') }
+  it { should contain_class('lmod::install').that_comes_before('Class[lmod::load]') }
+  it { should contain_class('lmod::load').that_comes_before('Anchor[lmod::end]') }
 
   # Test verify_boolean parameters
   [

@@ -2,6 +2,7 @@
 #
 class lmod::apps::gcc {
   include lmod
+  include devtools
 
   $manage_build_packages = $::lmod::manage_build_packages
 

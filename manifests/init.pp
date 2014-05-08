@@ -22,10 +22,24 @@ class lmod (
   validate_bool($lmod_package_path)
   validate_bool($manage_build_packages)
 
+  anchor { 'lmod::start': }
+  anchor { 'lmod::end': }
+
+  include epel
+  include lmod::install
   include lmod::load
 
-  ensure_packages($lmod::params::base_packages)
-  ensure_packages($lmod::params::lmod_runtime_packages)
-  if $manage_build_packages { ensure_packages($lmod::params::lmod_build_packages) }
+  case $::osfamily {
+    'RedHat': {
+      Anchor['lmod::start']->
+      Class['epel']->
+      Class['lmod::install']->
+      Class['lmod::load']->
+      Anchor['lmod::end']
+    }
 
+    default: {
+      # Do nothing
+    }
+  }
 }

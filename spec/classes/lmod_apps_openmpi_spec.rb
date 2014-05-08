@@ -23,8 +23,6 @@ describe 'lmod::apps::openmpi' do
   it { should contain_class('lmod') }
   it { should contain_class('java') }
 
-  it { should have_package_resource_count(12) }
-
   base_packages.each do |package|
     it { should contain_package(package).with({ 'ensure' => 'present' }) }
   end
@@ -39,8 +37,6 @@ describe 'lmod::apps::openmpi' do
   
   context "manage_build_packages => true" do
     let(:pre_condition) { "class { 'lmod': manage_build_packages => true}" }
-
-    it { should have_package_resource_count(20) }
 
     build_packages.each do |package|
       it { should contain_package(package).with({ 'ensure' => 'present' }) }

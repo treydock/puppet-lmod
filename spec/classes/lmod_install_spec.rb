@@ -1,26 +1,30 @@
 require 'spec_helper'
 
-describe 'lmod::apps::gcc' do
+describe 'lmod::install' do
   include_context :defaults
 
   let(:facts) { default_facts }
 
+  let(:pre_condition) { "class { 'lmod': }" }
+
   base_packages = [
-    'texinfo',
-    'dejagnu',
+    'lua-filesystem',
+    'lua-posix',
+    'zsh',
   ]
 
   runtime_packages = [
-    'gmp',
-    'libmpc',
-    'mpfr',
-    'libgcj',
+    'lua',
   ]
 
-  build_packages = runtime_packages.map{|p| "#{p}-devel" }
+  build_packages = [
+    'lua-devel',
+  ]
 
-  it { should create_class('lmod::apps::gcc') }
+  it { should create_class('lmod::install') }
   it { should contain_class('lmod') }
+
+  it { should have_package_resource_count(4) }
 
   base_packages.each do |package|
     it { should contain_package(package).with({ 'ensure' => 'present' }) }
@@ -33,9 +37,11 @@ describe 'lmod::apps::gcc' do
   build_packages.each do |package|
     it { should_not contain_package(package) }
   end
-  
+
   context "manage_build_packages => true" do
-    let(:pre_condition) { "class { 'lmod': manage_build_packages => true}" }
+    let(:pre_condition) { "class { 'lmod': manage_build_packages => true }" }
+
+    it { should have_package_resource_count(5) }
 
     build_packages.each do |package|
       it { should contain_package(package).with({ 'ensure' => 'present' }) }

@@ -10,7 +10,9 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class lmod::load inherits lmod {
+class lmod::load {
+
+  include lmod
 
   $_modulepath_root = $lmod::modulepath_root ? {
     'UNSET' => "${lmod::prefix}/modulefiles",

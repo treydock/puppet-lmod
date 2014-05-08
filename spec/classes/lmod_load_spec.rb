@@ -5,8 +5,10 @@ describe 'lmod::load' do
 
   let(:facts) { default_facts }
 
+  let(:pre_condition) { "class { 'lmod': }" }
+
   it { should create_class('lmod::load') }
-  it { should contain_class('lmod::params') }
+  it { should contain_class('lmod') }
 
   it do
     should contain_file('/etc/profile.d/modules.sh').with({

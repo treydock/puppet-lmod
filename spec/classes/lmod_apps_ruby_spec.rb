@@ -19,8 +19,6 @@ describe 'lmod::apps::ruby' do
   it { should create_class('lmod::apps::ruby') }
   it { should contain_class('lmod') }
 
-  it { should have_package_resource_count(7) }
-
   base_packages.each do |package|
     it { should contain_package(package).with({ 'ensure' => 'present' }) }
   end
@@ -35,8 +33,6 @@ describe 'lmod::apps::ruby' do
   
   context "manage_build_packages => true" do
     let(:pre_condition) { "class { 'lmod': manage_build_packages => true}" }
-
-    it { should have_package_resource_count(10) }
 
     build_packages.each do |package|
       it { should contain_package(package).with({ 'ensure' => 'present' }) }
