@@ -37,6 +37,11 @@ if ( ! $?MODULEPATH_ROOT ) then
 <% if @lmod_package_path -%>
     setenv LMOD_PACKAGE_PATH ${MODULEPATH_ROOT}/Site
 <% end -%>
+
+<% if @default_module -%>
+    setenv LMOD_SYSTEM_DEFAULT_MODULES <%= @default_module %>
+    module --initial_load restore
+<% end -%>
 endif
 
 if ( -f  <%= @prefix %>/lmod/lmod/init/csh  ) then
@@ -44,6 +49,8 @@ if ( -f  <%= @prefix %>/lmod/lmod/init/csh  ) then
 endif
 
 <% if @default_module -%>
-setenv LMOD_SYSTEM_DEFAULT_MODULES <%= @default_module %>
-module --initial_load restore
+if ( ! $?__Init_Default_Modules ) then
+   setenv __Init_Default_Modules 1
+   module load <%= @default_module %>
+endif
 <% end -%>

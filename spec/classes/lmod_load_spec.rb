@@ -28,9 +28,9 @@ describe 'lmod::load' do
       '    export MODULEPATH=$(/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH /opt/apps/lmod/lmod/modulefiles/Core)',
       '    export BASH_ENV=/opt/apps/lmod/lmod/init/bash',
       '    export LMOD_PACKAGE_PATH=${MODULEPATH_ROOT}/Site',
+      '    export LMOD_SYSTEM_DEFAULT_MODULES=StdEnv',
+      '    module --initial_load restore',
       '  . /opt/apps/lmod/lmod/init/bash >/dev/null # Module Support',
-      '  export LMOD_SYSTEM_DEFAULT_MODULES=StdEnv',
-      '  module --initial_load restore',
     ])
   end
 
@@ -52,10 +52,10 @@ describe 'lmod::load' do
       '    setenv MODULEPATH           `/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH /opt/apps/lmod/lmod/modulefiles/Core`',
       '    setenv BASH_ENV /opt/apps/lmod/lmod/init/bash',
       '    setenv LMOD_PACKAGE_PATH ${MODULEPATH_ROOT}/Site',
+      '    setenv LMOD_SYSTEM_DEFAULT_MODULES StdEnv',
+      '    module --initial_load restore',
       'if ( -f  /opt/apps/lmod/lmod/init/csh  ) then',
       '  source /opt/apps/lmod/lmod/init/csh',
-      'setenv LMOD_SYSTEM_DEFAULT_MODULES StdEnv',
-      'module --initial_load restore',
     ])
   end
 
@@ -78,9 +78,9 @@ describe 'lmod::load' do
         '    export MODULEPATH=$(/apps/lmod/lmod/libexec/addto --append MODULEPATH /apps/lmod/lmod/modulefiles/Core)',
         '    export BASH_ENV=/apps/lmod/lmod/init/bash',
         '    export LMOD_PACKAGE_PATH=${MODULEPATH_ROOT}/Site',
+        '    export LMOD_SYSTEM_DEFAULT_MODULES=StdEnv',
+        '    module --initial_load restore',
         '  . /apps/lmod/lmod/init/bash >/dev/null # Module Support',
-        '  export LMOD_SYSTEM_DEFAULT_MODULES=StdEnv',
-        '  module --initial_load restore',
       ])
     end
 
@@ -92,10 +92,10 @@ describe 'lmod::load' do
         '    setenv MODULEPATH           `/apps/lmod/lmod/libexec/addto --append MODULEPATH /apps/lmod/lmod/modulefiles/Core`',
         '    setenv BASH_ENV /apps/lmod/lmod/init/bash',
         '    setenv LMOD_PACKAGE_PATH ${MODULEPATH_ROOT}/Site',
+        '    setenv LMOD_SYSTEM_DEFAULT_MODULES StdEnv',
+        '    module --initial_load restore',
         'if ( -f  /apps/lmod/lmod/init/csh  ) then',
         '  source /apps/lmod/lmod/init/csh',
-        'setenv LMOD_SYSTEM_DEFAULT_MODULES StdEnv',
-        'module --initial_load restore',
       ])
     end
   end
@@ -136,13 +136,13 @@ describe 'lmod::load' do
 
     it do
       verify_contents(catalogue, '/etc/profile.d/modules.sh', [
-        '  export LMOD_SYSTEM_DEFAULT_MODULES=foo',
+        '    export LMOD_SYSTEM_DEFAULT_MODULES=foo',
       ])
     end
 
     it do
       verify_contents(catalogue, '/etc/profile.d/modules.csh', [
-        'setenv LMOD_SYSTEM_DEFAULT_MODULES foo',
+        '    setenv LMOD_SYSTEM_DEFAULT_MODULES foo',
       ])
     end
   end
