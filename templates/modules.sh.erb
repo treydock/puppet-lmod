@@ -46,11 +46,3 @@ if [ -z "$USER_IS_ROOT" ]; then
   . <%= @prefix %>/lmod/lmod/init/bash >/dev/null # Module Support
 
 fi
-
-<% if @default_module -%>
-# Load default modules
-if [ -z "$__Init_Default_Modules" ]; then
-  export __Init_Default_Modules=1
-  module load <%= @default_module %>
-fi
-<% end -%>

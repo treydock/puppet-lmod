@@ -17,6 +17,8 @@ class lmod (
   $lmod_package_path = true,
   $default_module = 'StdEnv',
   $manage_build_packages = false,
+  $modules_bash_template = 'lmod/modules.sh.erb',
+  $modules_csh_template = 'lmod/modules.csh.erb',
 ) inherits lmod::params {
 
   validate_bool($lmod_package_path)

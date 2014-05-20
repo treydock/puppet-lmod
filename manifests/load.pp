@@ -22,7 +22,7 @@ class lmod::load {
   file { '/etc/profile.d/modules.sh':
     ensure  => present,
     path    => '/etc/profile.d/modules.sh',
-    content => template('lmod/modules.sh.erb'),
+    content => template($lmod::modules_bash_template),
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
@@ -31,7 +31,7 @@ class lmod::load {
   file { '/etc/profile.d/modules.csh':
     ensure  => present,
     path    => '/etc/profile.d/modules.csh',
-    content => template('lmod/modules.csh.erb'),
+    content => template($lmod::modules_csh_template),
     owner   => 'root',
     group   => 'root',
     mode    => '0644',

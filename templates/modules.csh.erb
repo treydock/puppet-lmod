@@ -47,10 +47,3 @@ endif
 if ( -f  <%= @prefix %>/lmod/lmod/init/csh  ) then
   source <%= @prefix %>/lmod/lmod/init/csh
 endif
-
-<% if @default_module -%>
-if ( ! $?__Init_Default_Modules ) then
-   setenv __Init_Default_Modules 1
-   module load <%= @default_module %>
-endif
-<% end -%>
