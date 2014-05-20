@@ -44,6 +44,6 @@ if ( -f  <%= @prefix %>/lmod/lmod/init/csh  ) then
 endif
 
 <% if @default_module -%>
-  setenv LMOD_SYSTEM_DEFAULT_MODULES <%= @default_module %>
-  module --initial_load restore
+setenv LMOD_SYSTEM_DEFAULT_MODULES <%= @default_module %>
+module --initial_load restore
 <% end -%>

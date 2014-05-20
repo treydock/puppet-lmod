@@ -54,8 +54,8 @@ describe 'lmod::load' do
       '    setenv LMOD_PACKAGE_PATH ${MODULEPATH_ROOT}/Site',
       'if ( -f  /opt/apps/lmod/lmod/init/csh  ) then',
       '  source /opt/apps/lmod/lmod/init/csh',
-      '  setenv LMOD_SYSTEM_DEFAULT_MODULES StdEnv',
-      '  module --initial_load restore',
+      'setenv LMOD_SYSTEM_DEFAULT_MODULES StdEnv',
+      'module --initial_load restore',
     ])
   end
 
@@ -94,8 +94,8 @@ describe 'lmod::load' do
         '    setenv LMOD_PACKAGE_PATH ${MODULEPATH_ROOT}/Site',
         'if ( -f  /apps/lmod/lmod/init/csh  ) then',
         '  source /apps/lmod/lmod/init/csh',
-        '  setenv LMOD_SYSTEM_DEFAULT_MODULES StdEnv',
-        '  module --initial_load restore',
+        'setenv LMOD_SYSTEM_DEFAULT_MODULES StdEnv',
+        'module --initial_load restore',
       ])
     end
   end
@@ -142,7 +142,7 @@ describe 'lmod::load' do
 
     it do
       verify_contents(catalogue, '/etc/profile.d/modules.csh', [
-        '  setenv LMOD_SYSTEM_DEFAULT_MODULES foo',
+        'setenv LMOD_SYSTEM_DEFAULT_MODULES foo',
       ])
     end
   end
