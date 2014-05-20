@@ -1,7 +1,0 @@
-if ( ! $?__Init_Default_Modules ) then
-  module getdefault default
-  if ( $status != 0 ) then
-    module load <%= @default_module %>
-  endif
-  setenv __Init_Default_Modules 1
-endif

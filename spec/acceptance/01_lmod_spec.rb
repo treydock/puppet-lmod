@@ -25,8 +25,6 @@ describe 'lmod class:' do
     [
       '/etc/profile.d/modules.sh',
       '/etc/profile.d/modules.csh',
-      '/etc/profile.d/z00_StdEnv.sh',
-      '/etc/profile.d/z00_StdEnv.csh',
     ].each do |file|
       describe file(file) do
         it { should be_file }
@@ -62,8 +60,6 @@ describe 'lmod class:' do
     [
       '/etc/profile.d/modules.sh',
       '/etc/profile.d/modules.csh',
-      '/etc/profile.d/z00_StdEnv.sh',
-      '/etc/profile.d/z00_StdEnv.csh',
     ].each do |file|
       describe file(file) do
         it { should be_file }

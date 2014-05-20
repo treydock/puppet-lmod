@@ -107,3 +107,4 @@ If you have Vagrant >= 1.2.0 installed you can run system tests
 ## TODO
 
 * Add additional classes to the `lmod::apps` namespace
+* More accurate package dependency mapping for the `lmod::apps` classes

@@ -40,4 +40,8 @@ if [ -z "$USER_IS_ROOT" ]; then
 
   . <%= @prefix %>/lmod/lmod/init/bash >/dev/null # Module Support
 
+<% if @default_module -%>
+  export LMOD_SYSTEM_DEFAULT_MODULES=<%= @default_module %>
+  module --initial_load restore
+<% end -%>
 fi

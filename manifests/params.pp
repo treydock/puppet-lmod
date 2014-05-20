@@ -58,8 +58,17 @@ class lmod::params {
         'libX11',
         'papi',
         'pciutils',
+        'hwloc',
+        'libtool-ltdl',
       ]
       $openmpi_build_packages = suffix($openmpi_runtime_packages, '-devel')
+
+      ## MVAPICH2 ##
+      $mvapich2_packages = []
+      $mvapich2_runtime_packages = [
+        'libibmad',
+      ]
+      $mvapich2_build_packages = suffix($mvapich2_runtime_packages, '-devel')
 
       ## Ruby ##
       $ruby_packages = [
