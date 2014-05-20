@@ -1,5 +1,8 @@
 require 'beaker-rspec'
 
+dir = File.expand_path(File.dirname(__FILE__))
+Dir["#{dir}/acceptance/support/*.rb"].sort.each {|f| require f}
+
 hosts.each do |host|
   # Install Puppet
   install_puppet unless ENV['BEAKER_provision'] == 'no'

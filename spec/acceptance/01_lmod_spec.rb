@@ -8,31 +8,11 @@ describe 'lmod class:' do
       EOS
 
       apply_manifest(pp, :catch_failures => true)
-      expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      apply_manifest(pp, :catch_changes => true)
     end
 
-    [
-      'lua',
-      'lua-filesystem',
-      'lua-posix',
-      'zsh',
-    ].each do |package|
-      describe package(package) do
-        it { should be_installed }
-      end
-    end
-
-    [
-      '/etc/profile.d/modules.sh',
-      '/etc/profile.d/modules.csh',
-    ].each do |file|
-      describe file(file) do
-        it { should be_file }
-        it { should be_mode 644 }
-        it { should be_owned_by 'root' }
-        it { should be_grouped_into 'root' }
-      end
-    end
+    it_behaves_like 'lmod::install without build packages'
+    it_behaves_like 'lmod::load'
   end
 
   context 'when manage_build_packages => true' do
@@ -42,31 +22,10 @@ describe 'lmod class:' do
       EOS
 
       apply_manifest(pp, :catch_failures => true)
-      expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      apply_manifest(pp, :catch_changes => true)
     end
 
-    [
-      'lua',
-      'lua-devel',
-      'lua-filesystem',
-      'lua-posix',
-      'zsh',
-    ].each do |package|
-      describe package(package) do
-        it { should be_installed }
-      end
-    end
-
-    [
-      '/etc/profile.d/modules.sh',
-      '/etc/profile.d/modules.csh',
-    ].each do |file|
-      describe file(file) do
-        it { should be_file }
-        it { should be_mode 644 }
-        it { should be_owned_by 'root' }
-        it { should be_grouped_into 'root' }
-      end
-    end
+    it_behaves_like 'lmod::install with build packages'
+    it_behaves_like 'lmod::load'
   end
 end
