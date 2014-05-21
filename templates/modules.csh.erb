@@ -40,7 +40,6 @@ if ( ! $?MODULEPATH_ROOT ) then
 
 <% if @default_module -%>
     setenv LMOD_SYSTEM_DEFAULT_MODULES <%= @default_module %>
-    module --initial_load restore
 <% end -%>
 endif
 

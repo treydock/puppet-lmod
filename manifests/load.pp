@@ -37,12 +37,32 @@ class lmod::load {
     mode    => '0644',
   }
 
-  file { '/etc/profile.d/z00_StdEnv.sh':
-    ensure  => absent,
-  }
+if $lmod::default_module {
+    file { '/etc/profile.d/z00_StdEnv.sh':
+      ensure  => present,
+      path    => '/etc/profile.d/z00_StdEnv.sh',
+      content => template('lmod/z00_StdEnv.sh.erb'),
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+    }
 
-  file { '/etc/profile.d/z00_StdEnv.csh':
-    ensure  => absent,
+    file { '/etc/profile.d/z00_StdEnv.csh':
+      ensure  => present,
+      path    => '/etc/profile.d/z00_StdEnv.csh',
+      content => template('lmod/z00_StdEnv.csh.erb'),
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+    }
+  } else {
+    file { '/etc/profile.d/z00_StdEnv.sh':
+      ensure  => absent,
+    }
+
+    file { '/etc/profile.d/z00_StdEnv.csh':
+      ensure  => absent,
+    }
   }
 
 }

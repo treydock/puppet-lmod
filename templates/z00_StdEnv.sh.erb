@@ -1,0 +1,4 @@
+if [ -z "$__Init_Default_Modules" ]; then
+  __Init_Default_Modules=1; export __Init_Default_Modules;
+  module getdefault default || module load <%= @default_module %>
+fi

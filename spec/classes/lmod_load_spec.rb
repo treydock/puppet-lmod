@@ -29,7 +29,6 @@ describe 'lmod::load' do
       '    export BASH_ENV=/opt/apps/lmod/lmod/init/bash',
       '    export LMOD_PACKAGE_PATH=${MODULEPATH_ROOT}/Site',
       '    export LMOD_SYSTEM_DEFAULT_MODULES=StdEnv',
-      '    module --initial_load restore',
       '  . /opt/apps/lmod/lmod/init/bash >/dev/null # Module Support',
     ])
   end
@@ -53,18 +52,50 @@ describe 'lmod::load' do
       '    setenv BASH_ENV /opt/apps/lmod/lmod/init/bash',
       '    setenv LMOD_PACKAGE_PATH ${MODULEPATH_ROOT}/Site',
       '    setenv LMOD_SYSTEM_DEFAULT_MODULES StdEnv',
-      '    module --initial_load restore',
       'if ( -f  /opt/apps/lmod/lmod/init/csh  ) then',
       '  source /opt/apps/lmod/lmod/init/csh',
     ])
   end
 
   it do
-    should contain_file('/etc/profile.d/z00_StdEnv.sh').with_ensure('absent')
+    should contain_file('/etc/profile.d/z00_StdEnv.sh').with({
+      :ensure  => 'present',
+      :path    => '/etc/profile.d/z00_StdEnv.sh',
+      :owner   => 'root',
+      :group   => 'root',
+      :mode    => '0644',
+    })
   end
 
   it do
-    should contain_file('/etc/profile.d/z00_StdEnv.csh').with_ensure('absent')
+    verify_contents(catalogue, '/etc/profile.d/z00_StdEnv.sh', [
+      'if [ -z "$__Init_Default_Modules" ]; then',
+      '  __Init_Default_Modules=1; export __Init_Default_Modules;',
+      '  module getdefault default || module load StdEnv',
+      'fi',
+    ])
+  end
+
+  it do
+    should contain_file('/etc/profile.d/z00_StdEnv.csh').with({
+      :ensure  => 'present',
+      :path    => '/etc/profile.d/z00_StdEnv.csh',
+      :owner   => 'root',
+      :group   => 'root',
+      :mode    => '0644',
+    })
+  end
+
+  it do
+    verify_contents(catalogue, '/etc/profile.d/z00_StdEnv.csh', [
+      'if ( ! $?__Init_Default_Modules ) then',
+      '  module getdefault default',
+      '  if ( $status != 0 ) then',
+      '    module load StdEnv',
+      '  endif',
+      '  setenv __Init_Default_Modules 1',
+      'endif',
+    ])
   end
 
   context "when prefix => '/apps'" do
@@ -79,7 +110,6 @@ describe 'lmod::load' do
         '    export BASH_ENV=/apps/lmod/lmod/init/bash',
         '    export LMOD_PACKAGE_PATH=${MODULEPATH_ROOT}/Site',
         '    export LMOD_SYSTEM_DEFAULT_MODULES=StdEnv',
-        '    module --initial_load restore',
         '  . /apps/lmod/lmod/init/bash >/dev/null # Module Support',
       ])
     end
@@ -93,7 +123,6 @@ describe 'lmod::load' do
         '    setenv BASH_ENV /apps/lmod/lmod/init/bash',
         '    setenv LMOD_PACKAGE_PATH ${MODULEPATH_ROOT}/Site',
         '    setenv LMOD_SYSTEM_DEFAULT_MODULES StdEnv',
-        '    module --initial_load restore',
         'if ( -f  /apps/lmod/lmod/init/csh  ) then',
         '  source /apps/lmod/lmod/init/csh',
       ])
@@ -145,6 +174,18 @@ describe 'lmod::load' do
         '    setenv LMOD_SYSTEM_DEFAULT_MODULES foo',
       ])
     end
+
+    it do
+      verify_contents(catalogue, '/etc/profile.d/z00_StdEnv.sh', [
+        '  module getdefault default || module load foo',
+      ])
+    end
+
+    it do
+      verify_contents(catalogue, '/etc/profile.d/z00_StdEnv.csh', [
+        '    module load foo',
+      ])
+    end
   end
 
   context "when default_module => false" do
@@ -152,7 +193,8 @@ describe 'lmod::load' do
 
     it { should_not contain_file('/etc/profile.d/modules.sh').with_content(/export LMOD_SYSTEM_DEFAULT_MODULES/) }
     it { should_not contain_file('/etc/profile.d/modules.csh').with_content(/setenv LMOD_SYSTEM_DEFAULT_MODULES/) }
-    it { should_not contain_file('/etc/profile.d/modules.sh').with_content(/module --initial_load restore/) }
-    it { should_not contain_file('/etc/profile.d/modules.csh').with_content(/module --initial_load restore/) }
+
+    it { should contain_file('/etc/profile.d/z00_StdEnv.sh').with_ensure('absent') }
+    it { should contain_file('/etc/profile.d/z00_StdEnv.csh').with_ensure('absent') }
   end
 end
