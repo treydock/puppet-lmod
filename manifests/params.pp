@@ -67,6 +67,7 @@ class lmod::params {
       $mvapich2_packages = []
       $mvapich2_runtime_packages = [
         'libibmad',
+        'libpciaccess',
       ]
       $mvapich2_build_packages = suffix($mvapich2_runtime_packages, '-devel')
 

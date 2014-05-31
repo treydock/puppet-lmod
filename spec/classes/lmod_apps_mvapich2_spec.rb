@@ -9,6 +9,7 @@ describe 'lmod::apps::mvapich2' do
 
   runtime_packages = [
     'libibmad',
+    'libpciaccess',
   ]
 
   build_packages = runtime_packages.map{|p| "#{p}-devel" }
