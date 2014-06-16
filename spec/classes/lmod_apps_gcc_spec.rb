@@ -21,6 +21,7 @@ describe 'lmod::apps::gcc' do
 
   it { should create_class('lmod::apps::gcc') }
   it { should contain_class('lmod') }
+  it { should_not contain_class('devtools') }
 
   base_packages.each do |package|
     it { should contain_package(package).with({ 'ensure' => 'present' }) }
@@ -36,6 +37,8 @@ describe 'lmod::apps::gcc' do
   
   context "manage_build_packages => true" do
     let(:pre_condition) { "class { 'lmod': manage_build_packages => true}" }
+
+    it { should contain_class('devtools') }
 
     build_packages.each do |package|
       it { should contain_package(package).with({ 'ensure' => 'present' }) }

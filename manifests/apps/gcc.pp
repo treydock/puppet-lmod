@@ -2,11 +2,14 @@
 #
 class lmod::apps::gcc {
   include lmod
-  include devtools
 
   $manage_build_packages = $::lmod::manage_build_packages
 
   ensure_packages($lmod::params::gcc_packages)
   ensure_packages($lmod::params::gcc_runtime_packages)
-  if $manage_build_packages { ensure_packages($lmod::params::gcc_build_packages) }
+
+  if $manage_build_packages {
+    include devtools
+    ensure_packages($lmod::params::gcc_build_packages)
+  }
 }
