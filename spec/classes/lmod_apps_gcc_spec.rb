@@ -15,6 +15,9 @@ describe 'lmod::apps::gcc' do
     'libmpc',
     'mpfr',
     'libgcj',
+    'elfutils-libelf',
+    'ppl',
+    'cloog-ppl',
   ]
 
   build_packages = runtime_packages.map{|p| "#{p}-devel" }

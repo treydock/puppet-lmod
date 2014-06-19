@@ -45,6 +45,9 @@ class lmod::params {
         'libmpc',
         'mpfr',
         'libgcj',
+        'elfutils-libelf',
+        'ppl',
+        'cloog-ppl',
       ]
       $gcc_build_packages = suffix($gcc_runtime_packages, '-devel')
 
