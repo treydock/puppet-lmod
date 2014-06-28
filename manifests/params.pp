@@ -83,6 +83,22 @@ class lmod::params {
         'libaio',
       ]
       $ruby_build_packages = suffix($ruby_runtime_packages, '-devel')
+
+      ## NumPy ##
+      $numpy_packages = [
+        'python-nose',
+      ]
+      $numpy_runtime_packages = []
+      $numpy_build_packages = suffix($numpy_runtime_packages, '-devel')
+
+      ## SciPy ##
+      $scipy_packages = [
+        'ipython',
+        'python-nose',
+        'python-matplotlib',
+      ]
+      $scipy_runtime_packages = []
+      $scipy_build_packages = suffix($scipy_runtime_packages, '-devel')
     }
 
     default: {
