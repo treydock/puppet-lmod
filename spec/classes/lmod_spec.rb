@@ -7,17 +7,18 @@ describe 'lmod' do
 
   it { should create_class('lmod') }
   it { should contain_class('lmod::params') }
+  it { should contain_class('epel') }
 
-  it { should contain_anchor('lmod::start').that_comes_before('Class[epel]') }
+  it { should contain_anchor('lmod::start').that_comes_before('Yumrepo[epel]') }
   it { should contain_anchor('lmod::end') }
 
-  it { should contain_class('epel').that_comes_before('Class[lmod::install]') }
+  it { should contain_yumrepo('epel').that_comes_before('Class[lmod::install]') }
   it { should contain_class('lmod::install').that_comes_before('Class[lmod::load]') }
   it { should contain_class('lmod::load').that_comes_before('Anchor[lmod::end]') }
 
   # Test verify_boolean parameters
   [
-    'lmod_package_path',
+    'set_lmod_package_path',
     'manage_build_packages',
   ].each do |param|
     context "with #{param} => 'foo'" do

@@ -153,8 +153,8 @@ describe 'lmod::load' do
     end
   end
 
-  context "when lmod_package_path => false" do
-    let(:pre_condition) { "class { 'lmod': lmod_package_path => false }" }
+  context "when set_lmod_package_path => false" do
+    let(:pre_condition) { "class { 'lmod': set_lmod_package_path => false }" }
 
     it { should_not contain_file('/etc/profile.d/modules.sh').with_content(/export LMOD_PACKAGE_PATH/) }
     it { should_not contain_file('/etc/profile.d/modules.csh').with_content(/setenv LMOD_PACKAGE_PATH/) }

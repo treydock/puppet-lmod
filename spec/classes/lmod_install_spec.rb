@@ -9,7 +9,9 @@ describe 'lmod::install' do
 
   base_packages = [
     'lua-filesystem',
+    'lua-json',
     'lua-posix',
+    'lua-term',
     'zsh',
   ]
 
@@ -24,7 +26,7 @@ describe 'lmod::install' do
   it { should create_class('lmod::install') }
   it { should contain_class('lmod') }
 
-  it { should have_package_resource_count(4) }
+  it { should have_package_resource_count(base_packages.size + runtime_packages.size) }
 
   base_packages.each do |package|
     it { should contain_package(package).with({ 'ensure' => 'present' }) }
@@ -41,7 +43,7 @@ describe 'lmod::install' do
   context "manage_build_packages => true" do
     let(:pre_condition) { "class { 'lmod': manage_build_packages => true }" }
 
-    it { should have_package_resource_count(5) }
+    it { should have_package_resource_count(base_packages.size + runtime_packages.size + build_packages.size) }
 
     build_packages.each do |package|
       it { should contain_package(package).with({ 'ensure' => 'present' }) }

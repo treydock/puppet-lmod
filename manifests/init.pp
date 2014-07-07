@@ -1,43 +1,28 @@
 # == Class: lmod
 #
-# Full description of class lmod here.
-#
-# === Authors
-#
-# Author Name <author@domain.com>
-#
-# === Copyright
-#
-# Copyright 2014 Your name here, unless otherwise noted.
-#
 class lmod (
   $prefix = '/opt/apps',
   $modulepath_root = 'UNSET',
   $modulepaths = [ '$LMOD_sys', 'Core' ],
-  $lmod_package_path = true,
+  $set_lmod_package_path = true,
   $default_module = 'StdEnv',
   $manage_build_packages = false,
   $modules_bash_template = 'lmod/modules.sh.erb',
   $modules_csh_template = 'lmod/modules.csh.erb',
 ) inherits lmod::params {
 
-  validate_bool($lmod_package_path)
+  validate_bool($set_lmod_package_path)
   validate_bool($manage_build_packages)
-
-  anchor { 'lmod::start': }
-  anchor { 'lmod::end': }
-
-  include epel
-  include lmod::install
-  include lmod::load
 
   case $::osfamily {
     'RedHat': {
-      Anchor['lmod::start']->
-      Class['epel']->
-      Class['lmod::install']->
-      Class['lmod::load']->
-      Anchor['lmod::end']
+      include epel
+
+      anchor { 'lmod::start': }->
+      Yumrepo['epel']->
+      class { 'lmod::install': }->
+      class { 'lmod::load': }->
+      anchor { 'lmod::end': }
     }
 
     default: {

@@ -25,9 +25,6 @@ RSpec.configure do |c|
         on host, puppet('module', 'install', 'stahnma-epel', '--version', '"0.x"'), { :acceptable_exit_codes => [0,1] }
       end
       on host, puppet('module', 'install', 'puppetlabs-stdlib', '--version', '">=3.2.0 <5.0.0"'), { :acceptable_exit_codes => [0,1] }
-      on host, puppet('module', 'install', 'puppetlabs-gcc', '--version', '"0.x"'), { :acceptable_exit_codes => [0,1] }
-      on host, puppet('module', 'install', 'puppetlabs-git', '--version', '"0.x"'), { :acceptable_exit_codes => [0,1] }
-      on host, puppet('module', 'install', 'puppetlabs-java', '--version', '"1.x"'), { :acceptable_exit_codes => [0,1] }
     end
   end
 end

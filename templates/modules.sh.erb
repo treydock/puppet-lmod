@@ -33,7 +33,7 @@ if [ -z "$USER_IS_ROOT" ]; then
     export MODULEPATH=$(<%= @prefix %>/lmod/lmod/libexec/addto --append MODULEPATH <%= @prefix %>/lmod/lmod/modulefiles/Core)
 
     export BASH_ENV=<%= @prefix %>/lmod/lmod/init/bash
-<% if @lmod_package_path -%>
+<% if @set_lmod_package_path -%>
     export LMOD_PACKAGE_PATH=${MODULEPATH_ROOT}/Site
 <% end -%>
 

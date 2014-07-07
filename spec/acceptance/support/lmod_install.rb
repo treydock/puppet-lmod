@@ -1,9 +1,16 @@
+def base_packages
+  [
+    'lua-filesystem',
+    'lua-json',
+    'lua-posix',
+    'lua-term',
+    'zsh',
+  ]
+end
+
 def runtime_packages
   [
     'lua',
-    'lua-filesystem',
-    'lua-posix',
-    'zsh',
   ]
 end
 
@@ -14,6 +21,12 @@ def build_packages
 end
 
 shared_examples_for 'lmod::install without build packages' do
+  base_packages.each do |package|
+    describe package(package) do
+      it { should be_installed }
+    end
+  end
+
   runtime_packages.each do |package|
     describe package(package) do
       it { should be_installed }
@@ -28,6 +41,12 @@ shared_examples_for 'lmod::install without build packages' do
 end
 
 shared_examples_for 'lmod::install with build packages' do
+  base_packages.each do |package|
+    describe package(package) do
+      it { should be_installed }
+    end
+  end
+
   runtime_packages.each do |package|
     describe package(package) do
       it { should be_installed }
