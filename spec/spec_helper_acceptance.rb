@@ -5,7 +5,12 @@ Dir["#{dir}/acceptance/support/*.rb"].sort.each {|f| require f}
 
 hosts.each do |host|
   # Install Puppet
-  install_puppet unless ENV['BEAKER_provision'] == 'no'
+  #install_puppet unless ENV['BEAKER_provision'] == 'no'
+  if host['platform'] =~ /el-(5|6)/
+    relver = $1
+    on host, "rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-#{relver}.noarch.rpm", { :acceptable_exit_codes => [0,1] }
+    on host, "yum install -y puppet", { :acceptable_exit_codes => [0,1] }
+  end
 end
 
 RSpec.configure do |c|

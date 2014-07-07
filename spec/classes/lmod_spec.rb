@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe 'lmod' do
-  include_context :defaults
-
-  let(:facts) { default_facts }
+  let(:facts) {{ :osfamily => "RedHat" }}
 
   it { should create_class('lmod') }
   it { should contain_class('lmod::params') }

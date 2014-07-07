@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe 'lmod::load' do
-  include_context :defaults
-
-  let(:facts) { default_facts }
+  let(:facts) {{ :osfamily => "RedHat" }}
 
   let(:pre_condition) { "class { 'lmod': }" }
 
