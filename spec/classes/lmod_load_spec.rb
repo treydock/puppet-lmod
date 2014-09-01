@@ -28,7 +28,6 @@ describe 'lmod::load' do
       '    export BASH_ENV=$MODULESHOME/init/bash',
       '    export MANPATH=$(/opt/apps/lmod/lmod/libexec/addto MANPATH /opt/apps/lmod/lmod/share/man)',
       '    export LMOD_PACKAGE_PATH=${MODULEPATH_ROOT}/Site',
-      '    export LMOD_SYSTEM_DEFAULT_MODULES=StdEnv',
       '    export LMOD_AVAIL_STYLE=system',
       '  . /opt/apps/lmod/lmod/init/bash >/dev/null # Module Support',
     ])
@@ -53,7 +52,6 @@ describe 'lmod::load' do
       '    setenv MODULESHOME          "/opt/apps/lmod/lmod"',
       '    setenv BASH_ENV             "$MODULESHOME/init/bash"',
       '    setenv LMOD_PACKAGE_PATH    ${MODULEPATH_ROOT}/Site',
-      '    setenv LMOD_SYSTEM_DEFAULT_MODULES StdEnv',
       '    setenv LMOD_AVAIL_STYLE system',
       'if ( -f  /opt/apps/lmod/lmod/init/csh  ) then',
       '  source /opt/apps/lmod/lmod/init/csh',
@@ -73,8 +71,11 @@ describe 'lmod::load' do
   it do
     verify_contents(catalogue, '/etc/profile.d/z00_StdEnv.sh', [
       'if [ -z "$__Init_Default_Modules" ]; then',
-      '  __Init_Default_Modules=1; export __Init_Default_Modules;',
-      '  module getdefault default || module load StdEnv',
+      '  export __Init_Default_Modules=1',
+      '  export LMOD_SYSTEM_DEFAULT_MODULES="StdEnv"',
+      '  module --initial_load restore',
+      'else',
+      '  module refresh',
       'fi',
     ])
   end
@@ -92,11 +93,11 @@ describe 'lmod::load' do
   it do
     verify_contents(catalogue, '/etc/profile.d/z00_StdEnv.csh', [
       'if ( ! $?__Init_Default_Modules ) then',
-      '  module getdefault default',
-      '  if ( $status != 0 ) then',
-      '    module load StdEnv',
-      '  endif',
       '  setenv __Init_Default_Modules 1',
+      '  setenv LMOD_SYSTEM_DEFAULT_MODULES "StdEnv"',
+      '  module --initial_load restore',
+      'else',
+      '  module refresh',
       'endif',
     ])
   end
@@ -114,7 +115,6 @@ describe 'lmod::load' do
         '    export BASH_ENV=$MODULESHOME/init/bash',
         '    export MANPATH=$(/apps/lmod/lmod/libexec/addto MANPATH /apps/lmod/lmod/share/man)',
         '    export LMOD_PACKAGE_PATH=${MODULEPATH_ROOT}/Site',
-        '    export LMOD_SYSTEM_DEFAULT_MODULES=StdEnv',
         '    export LMOD_AVAIL_STYLE=system',
         '  . /apps/lmod/lmod/init/bash >/dev/null # Module Support',
       ])
@@ -129,7 +129,6 @@ describe 'lmod::load' do
         '    setenv MODULESHOME          "/apps/lmod/lmod"',
         '    setenv BASH_ENV             "$MODULESHOME/init/bash"',
         '    setenv LMOD_PACKAGE_PATH    ${MODULEPATH_ROOT}/Site',
-        '    setenv LMOD_SYSTEM_DEFAULT_MODULES StdEnv',
         '    setenv LMOD_AVAIL_STYLE system',
         'if ( -f  /apps/lmod/lmod/init/csh  ) then',
         '  source /apps/lmod/lmod/init/csh',
@@ -171,36 +170,21 @@ describe 'lmod::load' do
   context "when default_module => 'foo'" do
     let(:pre_condition) { "class { 'lmod': default_module => 'foo' }" }
 
-    it do
-      verify_contents(catalogue, '/etc/profile.d/modules.sh', [
-        '    export LMOD_SYSTEM_DEFAULT_MODULES=foo',
-      ])
-    end
-
-    it do
-      verify_contents(catalogue, '/etc/profile.d/modules.csh', [
-        '    setenv LMOD_SYSTEM_DEFAULT_MODULES foo',
-      ])
-    end
-
-    it do
+    it 'should export LMOD_SYSTEM_DEFAULT_MODULES="foo"' do
       verify_contents(catalogue, '/etc/profile.d/z00_StdEnv.sh', [
-        '  module getdefault default || module load foo',
+        '  export LMOD_SYSTEM_DEFAULT_MODULES="foo"',
       ])
     end
 
-    it do
+    it 'should setenv LMOD_SYSTEM_DEFAULT_MODULES="foo"' do
       verify_contents(catalogue, '/etc/profile.d/z00_StdEnv.csh', [
-        '    module load foo',
+        '  setenv LMOD_SYSTEM_DEFAULT_MODULES "foo"',
       ])
     end
   end
 
   context "when set_default_module => false" do
     let(:pre_condition) { "class { 'lmod': set_default_module => false }" }
-
-    it { should_not contain_file('/etc/profile.d/modules.sh').with_content(/export LMOD_SYSTEM_DEFAULT_MODULES/) }
-    it { should_not contain_file('/etc/profile.d/modules.csh').with_content(/setenv LMOD_SYSTEM_DEFAULT_MODULES/) }
 
     it { should contain_file('/etc/profile.d/z00_StdEnv.sh').with_ensure('absent') }
     it { should contain_file('/etc/profile.d/z00_StdEnv.csh').with_ensure('absent') }

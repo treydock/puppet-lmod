@@ -40,11 +40,6 @@ if ( ! $?MODULEPATH_ROOT ) then
 <% if @set_lmod_package_path -%>
     setenv LMOD_PACKAGE_PATH    <%= @lmod_package_path %>
 <% end -%>
-
-<% if @set_default_module -%>
-    setenv LMOD_SYSTEM_DEFAULT_MODULES <%= @default_module %>
-<% end -%>
-
 <% unless @avail_styles.empty? -%>
     setenv LMOD_AVAIL_STYLE <%= @avail_styles.join(':') %>
 <% end -%>

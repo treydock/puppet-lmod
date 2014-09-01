@@ -31,17 +31,11 @@ if [ -z "$USER_IS_ROOT" ]; then
 <% end -%>
     export MODULEPATH=$(<%= @prefix %>/lmod/lmod/libexec/addto --append MODULEPATH <%= @prefix %>/lmod/lmod/modulefiles/Core)
     export MODULESHOME=<%= @prefix %>/lmod/lmod
-
     export BASH_ENV=$MODULESHOME/init/bash
     export MANPATH=$(<%= @prefix %>/lmod/lmod/libexec/addto MANPATH <%= @prefix %>/lmod/lmod/share/man)
 <% if @set_lmod_package_path -%>
     export LMOD_PACKAGE_PATH=<%= @lmod_package_path %>
 <% end -%>
-
-<% if @set_default_module -%>
-    export LMOD_SYSTEM_DEFAULT_MODULES=<%= @default_module %>
-<% end -%>
-
 <% unless @avail_styles.empty? -%>
     export LMOD_AVAIL_STYLE=<%= @avail_styles.join(':') %>
 <% end -%>

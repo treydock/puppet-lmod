@@ -1,7 +1,7 @@
 if ( ! $?__Init_Default_Modules ) then
-  module getdefault default
-  if ( $status != 0 ) then
-    module load <%= @default_module %>
-  endif
   setenv __Init_Default_Modules 1
+  setenv LMOD_SYSTEM_DEFAULT_MODULES "<%= @default_module %>"
+  module --initial_load restore
+else
+  module refresh
 endif
