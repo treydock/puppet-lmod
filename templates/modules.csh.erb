@@ -1,6 +1,8 @@
 #!/bin/csh
 # -*- shell-script -*-
 ########################################################################
+#  This file is managed by Puppet, do not modify!
+#
 #  This is the system wide source file for setting up
 #  modules:
 #
@@ -33,9 +35,10 @@ if ( ! $?MODULEPATH_ROOT ) then
     setenv MODULEPATH           `<%= @prefix %>/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/<%= modulepath %>`
 <% end -%>
     setenv MODULEPATH           `<%= @prefix %>/lmod/lmod/libexec/addto --append MODULEPATH <%= @prefix %>/lmod/lmod/modulefiles/Core`
-    setenv BASH_ENV <%= @prefix %>/lmod/lmod/init/bash
+    setenv MODULESHOME          "<%= @prefix %>/lmod/lmod"
+    setenv BASH_ENV             "$MODULESHOME/init/bash"
 <% if @set_lmod_package_path -%>
-    setenv LMOD_PACKAGE_PATH ${MODULEPATH_ROOT}/Site
+    setenv LMOD_PACKAGE_PATH    ${MODULEPATH_ROOT}/Site
 <% end -%>
 
 <% if @default_module -%>

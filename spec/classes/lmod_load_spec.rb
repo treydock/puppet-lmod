@@ -20,11 +20,13 @@ describe 'lmod::load' do
 
   it do
     verify_contents(catalogue, '/etc/profile.d/modules.sh', [
-      '    MODULEPATH_ROOT="/opt/apps/modulefiles"',
+      '    export MODULEPATH_ROOT="/opt/apps/modulefiles"',
       '    export MODULEPATH=$(/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/$LMOD_sys)',
       '    export MODULEPATH=$(/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Core)',
       '    export MODULEPATH=$(/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH /opt/apps/lmod/lmod/modulefiles/Core)',
-      '    export BASH_ENV=/opt/apps/lmod/lmod/init/bash',
+      '    export MODULESHOME=/opt/apps/lmod/lmod',
+      '    export BASH_ENV=$MODULESHOME/init/bash',
+      '    export MANPATH=$(/opt/apps/lmod/lmod/libexec/addto MANPATH /opt/apps/lmod/lmod/share/man)',
       '    export LMOD_PACKAGE_PATH=${MODULEPATH_ROOT}/Site',
       '    export LMOD_SYSTEM_DEFAULT_MODULES=StdEnv',
       '  . /opt/apps/lmod/lmod/init/bash >/dev/null # Module Support',
@@ -47,8 +49,9 @@ describe 'lmod::load' do
       '    setenv MODULEPATH           `/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/$LMOD_sys`',
       '    setenv MODULEPATH           `/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Core`',
       '    setenv MODULEPATH           `/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH /opt/apps/lmod/lmod/modulefiles/Core`',
-      '    setenv BASH_ENV /opt/apps/lmod/lmod/init/bash',
-      '    setenv LMOD_PACKAGE_PATH ${MODULEPATH_ROOT}/Site',
+      '    setenv MODULESHOME          "/opt/apps/lmod/lmod"',
+      '    setenv BASH_ENV             "$MODULESHOME/init/bash"',
+      '    setenv LMOD_PACKAGE_PATH    ${MODULEPATH_ROOT}/Site',
       '    setenv LMOD_SYSTEM_DEFAULT_MODULES StdEnv',
       'if ( -f  /opt/apps/lmod/lmod/init/csh  ) then',
       '  source /opt/apps/lmod/lmod/init/csh',
@@ -100,12 +103,16 @@ describe 'lmod::load' do
     let(:pre_condition) { "class { 'lmod': prefix => '/apps' }" }
 
     it do
+      content = catalogue.resource('file', '/etc/profile.d/modules.sh').send(:parameters)[:content]
+      puts content
       verify_contents(catalogue, '/etc/profile.d/modules.sh', [
-        '    MODULEPATH_ROOT="/apps/modulefiles"',
+        '    export MODULEPATH_ROOT="/apps/modulefiles"',
         '    export MODULEPATH=$(/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/$LMOD_sys)',
         '    export MODULEPATH=$(/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Core)',
         '    export MODULEPATH=$(/apps/lmod/lmod/libexec/addto --append MODULEPATH /apps/lmod/lmod/modulefiles/Core)',
-        '    export BASH_ENV=/apps/lmod/lmod/init/bash',
+        '    export MODULESHOME=/apps/lmod/lmod',
+        '    export BASH_ENV=$MODULESHOME/init/bash',
+        '    export MANPATH=$(/apps/lmod/lmod/libexec/addto MANPATH /apps/lmod/lmod/share/man)',
         '    export LMOD_PACKAGE_PATH=${MODULEPATH_ROOT}/Site',
         '    export LMOD_SYSTEM_DEFAULT_MODULES=StdEnv',
         '  . /apps/lmod/lmod/init/bash >/dev/null # Module Support',
@@ -118,8 +125,9 @@ describe 'lmod::load' do
         '    setenv MODULEPATH           `/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/$LMOD_sys`',
         '    setenv MODULEPATH           `/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Core`',
         '    setenv MODULEPATH           `/apps/lmod/lmod/libexec/addto --append MODULEPATH /apps/lmod/lmod/modulefiles/Core`',
-        '    setenv BASH_ENV /apps/lmod/lmod/init/bash',
-        '    setenv LMOD_PACKAGE_PATH ${MODULEPATH_ROOT}/Site',
+        '    setenv MODULESHOME          "/apps/lmod/lmod"',
+        '    setenv BASH_ENV             "$MODULESHOME/init/bash"',
+        '    setenv LMOD_PACKAGE_PATH    ${MODULEPATH_ROOT}/Site',
         '    setenv LMOD_SYSTEM_DEFAULT_MODULES StdEnv',
         'if ( -f  /apps/lmod/lmod/init/csh  ) then',
         '  source /apps/lmod/lmod/init/csh',
