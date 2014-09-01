@@ -13,6 +13,8 @@ PuppetLint.configuration.send('disable_class_parameter_defaults')
 # http://puppet-lint.com/checks/class_inherits_from_params_class/
 PuppetLint.configuration.send('disable_class_inherits_from_params_class')
 
+PuppetLint.configuration.send('disable_single_quote_string_with_variables')
+
 exclude_paths = [
   "pkg/**/*",
   "vendor/**/*",
@@ -21,11 +23,6 @@ exclude_paths = [
 
 PuppetLint.configuration.ignore_paths = exclude_paths
 PuppetSyntax.exclude_paths = exclude_paths
-
-desc "Run acceptance tests"
-RSpec::Core::RakeTask.new(:acceptance) do |t|
-  t.pattern = 'spec/acceptance'
-end
 
 desc "Run syntax, lint, and spec tests."
 task :test => [

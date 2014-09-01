@@ -38,11 +38,15 @@ if ( ! $?MODULEPATH_ROOT ) then
     setenv MODULESHOME          "<%= @prefix %>/lmod/lmod"
     setenv BASH_ENV             "$MODULESHOME/init/bash"
 <% if @set_lmod_package_path -%>
-    setenv LMOD_PACKAGE_PATH    ${MODULEPATH_ROOT}/Site
+    setenv LMOD_PACKAGE_PATH    <%= @lmod_package_path %>
 <% end -%>
 
-<% if @default_module -%>
+<% if @set_default_module -%>
     setenv LMOD_SYSTEM_DEFAULT_MODULES <%= @default_module %>
+<% end -%>
+
+<% unless @avail_styles.empty? -%>
+    setenv LMOD_AVAIL_STYLE <%= @avail_styles.join(':') %>
 <% end -%>
 endif
 

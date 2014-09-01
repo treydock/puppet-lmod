@@ -1,14 +1,6 @@
 # == Class: lmod::load
 #
-# Full description of class lmod here.
-#
-# === Authors
-#
-# Author Name <author@domain.com>
-#
-# === Copyright
-#
-# Copyright 2014 Your name here, unless otherwise noted.
+# Private
 #
 class lmod::load {
 
@@ -37,7 +29,7 @@ class lmod::load {
     mode    => '0644',
   }
 
-if $lmod::default_module {
+  if $lmod::set_default_module {
     file { '/etc/profile.d/z00_StdEnv.sh':
       ensure  => present,
       path    => '/etc/profile.d/z00_StdEnv.sh',

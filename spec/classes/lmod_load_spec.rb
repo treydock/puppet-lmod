@@ -29,6 +29,7 @@ describe 'lmod::load' do
       '    export MANPATH=$(/opt/apps/lmod/lmod/libexec/addto MANPATH /opt/apps/lmod/lmod/share/man)',
       '    export LMOD_PACKAGE_PATH=${MODULEPATH_ROOT}/Site',
       '    export LMOD_SYSTEM_DEFAULT_MODULES=StdEnv',
+      '    export LMOD_AVAIL_STYLE=system',
       '  . /opt/apps/lmod/lmod/init/bash >/dev/null # Module Support',
     ])
   end
@@ -53,6 +54,7 @@ describe 'lmod::load' do
       '    setenv BASH_ENV             "$MODULESHOME/init/bash"',
       '    setenv LMOD_PACKAGE_PATH    ${MODULEPATH_ROOT}/Site',
       '    setenv LMOD_SYSTEM_DEFAULT_MODULES StdEnv',
+      '    setenv LMOD_AVAIL_STYLE system',
       'if ( -f  /opt/apps/lmod/lmod/init/csh  ) then',
       '  source /opt/apps/lmod/lmod/init/csh',
     ])
@@ -103,8 +105,6 @@ describe 'lmod::load' do
     let(:pre_condition) { "class { 'lmod': prefix => '/apps' }" }
 
     it do
-      content = catalogue.resource('file', '/etc/profile.d/modules.sh').send(:parameters)[:content]
-      puts content
       verify_contents(catalogue, '/etc/profile.d/modules.sh', [
         '    export MODULEPATH_ROOT="/apps/modulefiles"',
         '    export MODULEPATH=$(/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/$LMOD_sys)',
@@ -115,6 +115,7 @@ describe 'lmod::load' do
         '    export MANPATH=$(/apps/lmod/lmod/libexec/addto MANPATH /apps/lmod/lmod/share/man)',
         '    export LMOD_PACKAGE_PATH=${MODULEPATH_ROOT}/Site',
         '    export LMOD_SYSTEM_DEFAULT_MODULES=StdEnv',
+        '    export LMOD_AVAIL_STYLE=system',
         '  . /apps/lmod/lmod/init/bash >/dev/null # Module Support',
       ])
     end
@@ -129,6 +130,7 @@ describe 'lmod::load' do
         '    setenv BASH_ENV             "$MODULESHOME/init/bash"',
         '    setenv LMOD_PACKAGE_PATH    ${MODULEPATH_ROOT}/Site',
         '    setenv LMOD_SYSTEM_DEFAULT_MODULES StdEnv',
+        '    setenv LMOD_AVAIL_STYLE system',
         'if ( -f  /apps/lmod/lmod/init/csh  ) then',
         '  source /apps/lmod/lmod/init/csh',
       ])
@@ -194,13 +196,29 @@ describe 'lmod::load' do
     end
   end
 
-  context "when default_module => false" do
-    let(:pre_condition) { "class { 'lmod': default_module => false }" }
+  context "when set_default_module => false" do
+    let(:pre_condition) { "class { 'lmod': set_default_module => false }" }
 
     it { should_not contain_file('/etc/profile.d/modules.sh').with_content(/export LMOD_SYSTEM_DEFAULT_MODULES/) }
     it { should_not contain_file('/etc/profile.d/modules.csh').with_content(/setenv LMOD_SYSTEM_DEFAULT_MODULES/) }
 
     it { should contain_file('/etc/profile.d/z00_StdEnv.sh').with_ensure('absent') }
     it { should contain_file('/etc/profile.d/z00_StdEnv.csh').with_ensure('absent') }
+  end
+
+  context "when avail_styles => ['grouped','system']" do
+    let(:pre_condition) { "class { 'lmod': avail_styles => ['grouped','system'] }" }
+
+    it "should set LMOD_AVAIL_STYLE=grouped:system" do
+      verify_contents(catalogue, '/etc/profile.d/modules.sh', [
+        '    export LMOD_AVAIL_STYLE=grouped:system',
+      ])
+    end
+
+    it "should set LMOD_AVAIL_STYLE grouped:system" do
+      verify_contents(catalogue, '/etc/profile.d/modules.csh', [
+        '    setenv LMOD_AVAIL_STYLE grouped:system',
+      ])
+    end
   end
 end

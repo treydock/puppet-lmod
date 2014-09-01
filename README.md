@@ -20,6 +20,12 @@ This is an example of how to configure package building nodes to use Lmod.
       manage_build_packages => true,
     }
 
+To customize the avail layout (since Lmod 5.7.5)
+
+    class { 'lmod':
+      avail_style => ['grouped', 'system'],
+    }
+
 ## Reference
 
 ### Classes
@@ -56,11 +62,25 @@ An Array of modulepaths to be defined in the module.sh and module.csh.  Default 
 
 Boolean that determines if the `LMOD_PACKAGE_PATH` environment variable should be set in modules.sh and modules.csh.  Default is true.
 
+#####`lmod_package_path`
+
+Value given to the `LMOD_PACKAGE_PATH` environment variable in modules.sh and modules.csh.  Default is '${MODULEPATH_ROOT}/Site'.
+
+#####`set_default_module`
+
+Boolean will disable the management of the files that define the default module.  Defaults to true.
+
 #####`default_module`
 
 The name of the default module to be loaded when users login.  Default is 'StdEnv'.
 
-A boolean value of false will disable the management of the files that define the default module.
+This will not be set if `set_default_module` is false.
+
+#####`avail_styles`
+
+An Array used to set the LMOD_AVAIL_STYLES environment variable.  An empty Array prevents this environment variable from being set.
+
+Default is ['system'].
 
 #####`manage_build_packages`
 
@@ -91,6 +111,6 @@ Run unit tests
 
 If you have Vagrant >= 1.2.0 installed you can run system tests
 
-    bundle exec rake acceptance
+    bundle exec rake beaker
 
 ## TODO

@@ -1,5 +1,7 @@
 # == Class: lmod::install
 #
+# Private
+#
 class lmod::install {
 
   include lmod
