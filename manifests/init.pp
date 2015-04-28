@@ -3,17 +3,17 @@
 # Public
 #
 class lmod (
-  $prefix = '/opt/apps',
-  $modulepath_root = 'UNSET',
-  $modulepaths = [ '$LMOD_sys', 'Core' ],
-  $set_lmod_package_path = true,
-  $lmod_package_path = '${MODULEPATH_ROOT}/Site',
-  $set_default_module = true,
-  $default_module = 'StdEnv',
-  $avail_styles = ['system'],
-  $manage_build_packages = false,
-  $modules_bash_template = 'lmod/modules.sh.erb',
-  $modules_csh_template = 'lmod/modules.csh.erb',
+  $prefix                 = $lmod::params::prefix,
+  $modulepath_root        = $lmod::params::modulepath_root,
+  $modulepaths            = $lmod::params::modulepaths,
+  $set_lmod_package_path  = $lmod::params::set_lmod_package_path,
+  $lmod_package_path      = $lmod::params::lmod_package_path,
+  $set_default_module     = $lmod::params::set_default_module,
+  $default_module         = $lmod::params::default_module,
+  $avail_styles           = $lmod::params::avail_styles,
+  $manage_build_packages  = $lmod::params::manage_build_packages,
+  $modules_bash_template  = $lmod::params::modules_bash_template,
+  $modules_csh_template   = $lmod::params::modules_csh_template,
 ) inherits lmod::params {
 
   validate_string($prefix)

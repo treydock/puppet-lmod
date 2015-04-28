@@ -5,6 +5,5 @@ fixtures:
       ref: 4.2.1
     epel:
       repo: git://github.com/stahnma/puppet-module-epel.git
-      ref: 0.0.6
   symlinks:
     lmod: "#{source_dir}"
