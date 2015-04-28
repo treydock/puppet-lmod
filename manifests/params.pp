@@ -13,6 +13,7 @@ class lmod::params {
   $set_default_module     = true
   $default_module         = 'StdEnv'
   $avail_styles           = ['system']
+  $lmod_admin_file        = undef
   $manage_build_packages  = false
   $modules_bash_template  = 'lmod/modules.sh.erb'
   $modules_csh_template   = 'lmod/modules.csh.erb'

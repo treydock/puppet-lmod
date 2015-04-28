@@ -21,6 +21,7 @@ describe 'lmod::load' do
       end
 
       it do
+        # Doesn't work exactly like I'd hope due to 'fi' at same indention level occurring more than once
         verify_contents(catalogue, '/etc/profile.d/modules.sh', [
           '    export MODULEPATH_ROOT="/opt/apps/modulefiles"',
           '    export MODULEPATH=$(/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/$LMOD_sys)',
@@ -28,6 +29,9 @@ describe 'lmod::load' do
           '    export MODULEPATH=$(/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH /opt/apps/lmod/lmod/modulefiles/Core)',
           '    export MODULESHOME=/opt/apps/lmod/lmod',
           '    export BASH_ENV=$MODULESHOME/init/bash',
+          '    if [ -z "$MANPATH" ]; then',
+          '      export MANPATH=:',
+          #'    fi',
           '    export MANPATH=$(/opt/apps/lmod/lmod/libexec/addto MANPATH /opt/apps/lmod/lmod/share/man)',
           '    export LMOD_PACKAGE_PATH=${MODULEPATH_ROOT}/Site',
           '    export LMOD_AVAIL_STYLE=system',
@@ -46,6 +50,7 @@ describe 'lmod::load' do
       end
 
       it do
+        # Doesn't work exactly like I'd hope due to 'endif' at same indention level occurring more than once
         verify_contents(catalogue, '/etc/profile.d/modules.csh', [
           '    setenv MODULEPATH_ROOT      "/opt/apps/modulefiles"',
           '    setenv MODULEPATH           `/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/$LMOD_sys`',
@@ -53,6 +58,10 @@ describe 'lmod::load' do
           '    setenv MODULEPATH           `/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH /opt/apps/lmod/lmod/modulefiles/Core`',
           '    setenv MODULESHOME          "/opt/apps/lmod/lmod"',
           '    setenv BASH_ENV             "$MODULESHOME/init/bash"',
+          '    if ( ! $?MANPATH ) then',
+          '      setenv MANPATH :',
+          #'    endif',
+          '    setenv MANPATH `/opt/apps/lmod/lmod/libexec/addto MANPATH /opt/apps/lmod/lmod/share/man`',
           '    setenv LMOD_PACKAGE_PATH    ${MODULEPATH_ROOT}/Site',
           '    setenv LMOD_AVAIL_STYLE system',
           'if ( -f  /opt/apps/lmod/lmod/init/csh  ) then',
@@ -115,6 +124,9 @@ describe 'lmod::load' do
             '    export MODULEPATH=$(/apps/lmod/lmod/libexec/addto --append MODULEPATH /apps/lmod/lmod/modulefiles/Core)',
             '    export MODULESHOME=/apps/lmod/lmod',
             '    export BASH_ENV=$MODULESHOME/init/bash',
+            '    if [ -z "$MANPATH" ]; then',
+            '      export MANPATH=:',
+            #'    fi',
             '    export MANPATH=$(/apps/lmod/lmod/libexec/addto MANPATH /apps/lmod/lmod/share/man)',
             '    export LMOD_PACKAGE_PATH=${MODULEPATH_ROOT}/Site',
             '    export LMOD_AVAIL_STYLE=system',
@@ -130,6 +142,10 @@ describe 'lmod::load' do
             '    setenv MODULEPATH           `/apps/lmod/lmod/libexec/addto --append MODULEPATH /apps/lmod/lmod/modulefiles/Core`',
             '    setenv MODULESHOME          "/apps/lmod/lmod"',
             '    setenv BASH_ENV             "$MODULESHOME/init/bash"',
+            '    if ( ! $?MANPATH ) then',
+            '      setenv MANPATH :',
+            #'    endif',
+            '    setenv MANPATH `/apps/lmod/lmod/libexec/addto MANPATH /apps/lmod/lmod/share/man`',
             '    setenv LMOD_PACKAGE_PATH    ${MODULEPATH_ROOT}/Site',
             '    setenv LMOD_AVAIL_STYLE system',
             'if ( -f  /apps/lmod/lmod/init/csh  ) then',
@@ -204,6 +220,26 @@ describe 'lmod::load' do
         it "should set LMOD_AVAIL_STYLE grouped:system" do
           verify_contents(catalogue, '/etc/profile.d/modules.csh', [
             '    setenv LMOD_AVAIL_STYLE grouped:system',
+          ])
+        end
+      end
+
+      context "when lmod_admin_file => /opt/apps/lmod/etc/admin.list" do
+        let(:pre_condition) { "class { 'lmod': lmod_admin_file => '/opt/apps/lmod/etc/admin.list' }" }
+
+        it do
+          verify_contents(catalogue, '/etc/profile.d/modules.sh', [
+            '    export LMOD_AVAIL_STYLE=system',
+            '    export LMOD_ADMIN_FILE=/opt/apps/lmod/etc/admin.list',
+            '  fi',
+          ])
+        end
+
+        it do
+          verify_contents(catalogue, '/etc/profile.d/modules.csh', [
+            '    setenv LMOD_AVAIL_STYLE system',
+            '    setenv LMOD_ADMIN_FILE /opt/apps/lmod/etc/admin.list',
+            'endif',
           ])
         end
       end

@@ -11,6 +11,7 @@ class lmod (
   $set_default_module     = $lmod::params::set_default_module,
   $default_module         = $lmod::params::default_module,
   $avail_styles           = $lmod::params::avail_styles,
+  $lmod_admin_file        = $lmod::params::lmod_admin_file,
   $manage_build_packages  = $lmod::params::manage_build_packages,
   $modules_bash_template  = $lmod::params::modules_bash_template,
   $modules_csh_template   = $lmod::params::modules_csh_template,

@@ -37,11 +37,23 @@ if ( ! $?MODULEPATH_ROOT ) then
     setenv MODULEPATH           `<%= @prefix %>/lmod/lmod/libexec/addto --append MODULEPATH <%= @prefix %>/lmod/lmod/modulefiles/Core`
     setenv MODULESHOME          "<%= @prefix %>/lmod/lmod"
     setenv BASH_ENV             "$MODULESHOME/init/bash"
+
+    #
+    # If MANPATH is empty, Lmod is adding a trailing ":" so that
+    # the system MANPATH will be found
+    if ( ! $?MANPATH ) then
+      setenv MANPATH :
+    endif
+    setenv MANPATH `<%= @prefix %>/lmod/lmod/libexec/addto MANPATH <%= @prefix %>/lmod/lmod/share/man`
+
 <% if @set_lmod_package_path -%>
     setenv LMOD_PACKAGE_PATH    <%= @lmod_package_path %>
 <% end -%>
 <% unless @avail_styles.empty? -%>
     setenv LMOD_AVAIL_STYLE <%= @avail_styles.join(':') %>
+<% end -%>
+<% if @lmod_admin_file -%>
+    setenv LMOD_ADMIN_FILE <%= @lmod_admin_file %>
 <% end -%>
 endif
 
