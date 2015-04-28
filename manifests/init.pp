@@ -15,6 +15,8 @@ class lmod (
   $manage_build_packages  = $lmod::params::manage_build_packages,
   $modules_bash_template  = $lmod::params::modules_bash_template,
   $modules_csh_template   = $lmod::params::modules_csh_template,
+  $stdenv_bash_template   = $lmod::params::stdenv_bash_template,
+  $stdenv_csh_template    = $lmod::params::stdenv_csh_template,
 ) inherits lmod::params {
 
   validate_string($prefix)
@@ -23,6 +25,7 @@ class lmod (
   validate_string($default_module)
   validate_string($modules_bash_template)
   validate_string($modules_csh_template)
+  validate_string($stdenv_bash_template, $stdenv_csh_template)
 
   validate_array($modulepaths)
   validate_array($avail_styles)

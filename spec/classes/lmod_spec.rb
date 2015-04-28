@@ -24,6 +24,8 @@ describe 'lmod' do
         :default_module,
         :modules_bash_template,
         :modules_csh_template,
+        :stdenv_bash_template,
+        :stdenv_csh_template,
       ].each do |param|
         context "with #{param} => ['foo']" do
           let(:params) {{ param.to_sym => ['foo'] }}

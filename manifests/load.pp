@@ -33,7 +33,7 @@ class lmod::load {
     file { '/etc/profile.d/z00_StdEnv.sh':
       ensure  => present,
       path    => '/etc/profile.d/z00_StdEnv.sh',
-      content => template('lmod/z00_StdEnv.sh.erb'),
+      content => template($lmod::stdenv_bash_template),
       owner   => 'root',
       group   => 'root',
       mode    => '0644',
@@ -42,7 +42,7 @@ class lmod::load {
     file { '/etc/profile.d/z00_StdEnv.csh':
       ensure  => present,
       path    => '/etc/profile.d/z00_StdEnv.csh',
-      content => template('lmod/z00_StdEnv.csh.erb'),
+      content => template($lmod::stdenv_csh_template),
       owner   => 'root',
       group   => 'root',
       mode    => '0644',
