@@ -11,6 +11,14 @@ class lmod::load {
     default => $lmod::modulepath_root,
   }
 
+  $prefix                 = $lmod::prefix
+  $modulepaths            = $lmod::modulepaths
+  $set_lmod_package_path  = $lmod::set_lmod_package_path
+  $lmod_package_path      = $lmod::lmod_package_path
+  $default_module         = $lmod::default_module
+  $avail_styles           = $lmod::avail_styles
+  $lmod_admin_file        = $lmod::lmod_admin_file
+
   file { '/etc/profile.d/modules.sh':
     ensure  => present,
     path    => '/etc/profile.d/modules.sh',
