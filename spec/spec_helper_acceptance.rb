@@ -6,7 +6,7 @@ Dir["#{dir}/acceptance/support/*.rb"].sort.each {|f| require f}
 hosts.each do |host|
   # Install Puppet
   #install_puppet unless ENV['BEAKER_provision'] == 'no'
-  if host['platform'] =~ /el-(5|6)/
+  if host['platform'] =~ /el-(6|7)/
     relver = $1
     on host, "rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-#{relver}.noarch.rpm", { :acceptable_exit_codes => [0,1] }
     on host, "yum install -y puppet", { :acceptable_exit_codes => [0,1] }
@@ -27,7 +27,7 @@ RSpec.configure do |c|
 
     hosts.each do |host|
       if fact('osfamily') == 'RedHat'
-        on host, puppet('module', 'install', 'stahnma-epel', '--version', '"0.x"'), { :acceptable_exit_codes => [0,1] }
+        on host, puppet('module', 'install', 'stahnma-epel', '--version', '"1.x"'), { :acceptable_exit_codes => [0,1] }
       end
       on host, puppet('module', 'install', 'puppetlabs-stdlib', '--version', '">=3.2.0 <5.0.0"'), { :acceptable_exit_codes => [0,1] }
     end
