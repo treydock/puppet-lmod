@@ -14,13 +14,13 @@ class lmod (
   $lmod_admin_file        = $lmod::params::lmod_admin_file,
   $manage_build_packages  = $lmod::params::manage_build_packages,
   $modules_bash_template  = $lmod::params::modules_bash_template,
-  $modules_bash_source    = undef,
+  $modules_bash_source    = $lmod::params::modules_bash_source,
   $modules_csh_template   = $lmod::params::modules_csh_template,
-  $modules_csh_source     = undef,
+  $modules_csh_source     = $lmod::params::modules_csh_source,
   $stdenv_bash_template   = $lmod::params::stdenv_bash_template,
-  $stdenv_bash_source     = undef,
+  $stdenv_bash_source     = $lmod::params::stdenv_bash_source,
   $stdenv_csh_template    = $lmod::params::stdenv_csh_template,
-  $stdenv_csh_source      = undef,
+  $stdenv_csh_source      = $lmod::params::stdenv_csh_source,
 ) inherits lmod::params {
 
   validate_string($prefix)

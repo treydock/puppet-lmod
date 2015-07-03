@@ -29,11 +29,11 @@ describe 'lmod::load' do
           '    export MODULEPATH=$(/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH /opt/apps/lmod/lmod/modulefiles/Core)',
           '    export MODULESHOME=/opt/apps/lmod/lmod',
           '    export BASH_ENV=$MODULESHOME/init/bash',
-          '    if [ -z "$MANPATH" ]; then',
+          '    if [ -z "${MANPATH:-}" ]; then',
           '      export MANPATH=:',
           #'    fi',
           '    export MANPATH=$(/opt/apps/lmod/lmod/libexec/addto MANPATH /opt/apps/lmod/lmod/share/man)',
-          '    export LMOD_PACKAGE_PATH=${MODULEPATH_ROOT}/Site',
+          '    export LMOD_PACKAGE_PATH=$MODULEPATH_ROOT/Site',
           '    export LMOD_AVAIL_STYLE=system',
           '  . /opt/apps/lmod/lmod/init/bash >/dev/null # Module Support',
         ])
@@ -62,7 +62,7 @@ describe 'lmod::load' do
           '      setenv MANPATH :',
           #'    endif',
           '    setenv MANPATH `/opt/apps/lmod/lmod/libexec/addto MANPATH /opt/apps/lmod/lmod/share/man`',
-          '    setenv LMOD_PACKAGE_PATH    ${MODULEPATH_ROOT}/Site',
+          '    setenv LMOD_PACKAGE_PATH $MODULEPATH_ROOT/Site',
           '    setenv LMOD_AVAIL_STYLE system',
           'if ( -f  /opt/apps/lmod/lmod/init/csh  ) then',
           '  source /opt/apps/lmod/lmod/init/csh',
@@ -81,12 +81,14 @@ describe 'lmod::load' do
 
       it do
         verify_contents(catalogue, '/etc/profile.d/z00_StdEnv.sh', [
-          'if [ -z "$__Init_Default_Modules" ]; then',
-          '  export __Init_Default_Modules=1',
-          '  export LMOD_SYSTEM_DEFAULT_MODULES="StdEnv"',
-          '  module --initial_load restore',
-          'else',
-          '  module refresh',
+          'if [ -z "${USER_IS_ROOT:-}" ]; then',
+          '  if [ -z "$__Init_Default_Modules" ]; then',
+          '    export __Init_Default_Modules=1',
+          '    export LMOD_SYSTEM_DEFAULT_MODULES="StdEnv"',
+          '    module --initial_load restore',
+          '  else',
+          '    module refresh',
+          '  fi',
           'fi',
         ])
       end
@@ -124,11 +126,11 @@ describe 'lmod::load' do
             '    export MODULEPATH=$(/apps/lmod/lmod/libexec/addto --append MODULEPATH /apps/lmod/lmod/modulefiles/Core)',
             '    export MODULESHOME=/apps/lmod/lmod',
             '    export BASH_ENV=$MODULESHOME/init/bash',
-            '    if [ -z "$MANPATH" ]; then',
+            '    if [ -z "${MANPATH:-}" ]; then',
             '      export MANPATH=:',
             #'    fi',
             '    export MANPATH=$(/apps/lmod/lmod/libexec/addto MANPATH /apps/lmod/lmod/share/man)',
-            '    export LMOD_PACKAGE_PATH=${MODULEPATH_ROOT}/Site',
+            '    export LMOD_PACKAGE_PATH=$MODULEPATH_ROOT/Site',
             '    export LMOD_AVAIL_STYLE=system',
             '  . /apps/lmod/lmod/init/bash >/dev/null # Module Support',
           ])
@@ -146,7 +148,7 @@ describe 'lmod::load' do
             '      setenv MANPATH :',
             #'    endif',
             '    setenv MANPATH `/apps/lmod/lmod/libexec/addto MANPATH /apps/lmod/lmod/share/man`',
-            '    setenv LMOD_PACKAGE_PATH    ${MODULEPATH_ROOT}/Site',
+            '    setenv LMOD_PACKAGE_PATH $MODULEPATH_ROOT/Site',
             '    setenv LMOD_AVAIL_STYLE system',
             'if ( -f  /apps/lmod/lmod/init/csh  ) then',
             '  source /apps/lmod/lmod/init/csh',
@@ -190,7 +192,7 @@ describe 'lmod::load' do
 
         it 'should export LMOD_SYSTEM_DEFAULT_MODULES="foo"' do
           verify_contents(catalogue, '/etc/profile.d/z00_StdEnv.sh', [
-            '  export LMOD_SYSTEM_DEFAULT_MODULES="foo"',
+            '    export LMOD_SYSTEM_DEFAULT_MODULES="foo"',
           ])
         end
 

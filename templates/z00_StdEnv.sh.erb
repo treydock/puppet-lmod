@@ -1,7 +1,9 @@
-if [ -z "$__Init_Default_Modules" ]; then
-  export __Init_Default_Modules=1
-  export LMOD_SYSTEM_DEFAULT_MODULES="<%= @default_module %>"
-  module --initial_load restore
-else
-  module refresh
+if [ -z "${USER_IS_ROOT:-}" ]; then
+  if [ -z "$__Init_Default_Modules" ]; then
+    export __Init_Default_Modules=1
+    export LMOD_SYSTEM_DEFAULT_MODULES="<%= @default_module %>"
+    module --initial_load restore
+  else
+    module refresh
+  fi
 fi
