@@ -14,9 +14,13 @@ class lmod (
   $lmod_admin_file        = $lmod::params::lmod_admin_file,
   $manage_build_packages  = $lmod::params::manage_build_packages,
   $modules_bash_template  = $lmod::params::modules_bash_template,
+  $modules_bash_source    = undef,
   $modules_csh_template   = $lmod::params::modules_csh_template,
+  $modules_csh_source     = undef,
   $stdenv_bash_template   = $lmod::params::stdenv_bash_template,
+  $stdenv_bash_source     = undef,
   $stdenv_csh_template    = $lmod::params::stdenv_csh_template,
+  $stdenv_csh_source      = undef,
 ) inherits lmod::params {
 
   validate_string($prefix)
@@ -33,6 +37,43 @@ class lmod (
   validate_bool($set_lmod_package_path)
   validate_bool($set_default_module)
   validate_bool($manage_build_packages)
+
+  $_modulepath_root = $modulepath_root ? {
+    'UNSET' => "${prefix}/modulefiles",
+    default => $modulepath_root,
+  }
+
+  if $modules_bash_source {
+    $_modules_bash_source   = $modules_bash_source
+    $_modules_bash_content  = undef
+  } else {
+    $_modules_bash_source   = undef
+    $_modules_bash_content  = template($modules_bash_template)
+  }
+
+  if $modules_csh_source {
+    $_modules_csh_source   = $modules_csh_source
+    $_modules_csh_content  = undef
+  } else {
+    $_modules_csh_source   = undef
+    $_modules_csh_content  = template($modules_csh_template)
+  }
+
+  if $stdenv_bash_source {
+    $_stdenv_bash_source   = $stdenv_bash_source
+    $_stdenv_bash_content  = undef
+  } else {
+    $_stdenv_bash_source   = undef
+    $_stdenv_bash_content  = template($stdenv_bash_template)
+  }
+
+  if $stdenv_csh_source {
+    $_stdenv_csh_source   = $stdenv_csh_source
+    $_stdenv_csh_content  = undef
+  } else {
+    $_stdenv_csh_source   = undef
+    $_stdenv_csh_content  = template($stdenv_csh_template)
+  }
 
   case $::osfamily {
     'RedHat': {
