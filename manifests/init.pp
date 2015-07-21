@@ -75,19 +75,9 @@ class lmod (
     $_stdenv_csh_content  = template($stdenv_csh_template)
   }
 
-  case $::osfamily {
-    'RedHat': {
-      include epel
+  anchor { 'lmod::start': }->
+  class { 'lmod::install': }->
+  class { 'lmod::load': }->
+  anchor { 'lmod::end': }
 
-      anchor { 'lmod::start': }->
-      Yumrepo['epel']->
-      class { 'lmod::install': }->
-      class { 'lmod::load': }->
-      anchor { 'lmod::end': }
-    }
-
-    default: {
-      # Do nothing
-    }
-  }
 }

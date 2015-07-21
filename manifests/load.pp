@@ -3,8 +3,9 @@
 # Private
 #
 class lmod::load {
-
-  include lmod
+  if $caller_module_name != $module_name {
+    fail("Use of private class ${name} by ${caller_module_name}")
+  }
 
   file { '/etc/profile.d/modules.sh':
     ensure  => present,
