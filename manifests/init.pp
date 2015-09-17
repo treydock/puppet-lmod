@@ -4,6 +4,7 @@
 #
 class lmod (
   $prefix                 = $lmod::params::prefix,
+  $lmod_package_from_repo = $lmod::params::lmod_package_from_repo,
   $modulepath_root        = $lmod::params::modulepath_root,
   $modulepaths            = $lmod::params::modulepaths,
   $set_lmod_package_path  = $lmod::params::set_lmod_package_path,
@@ -37,6 +38,7 @@ class lmod (
   validate_bool($set_lmod_package_path)
   validate_bool($set_default_module)
   validate_bool($manage_build_packages)
+  validate_bool($lmod_package_from_repo)
 
   $_modulepath_root = $modulepath_root ? {
     'UNSET' => "${prefix}/modulefiles",
