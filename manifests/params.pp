@@ -6,6 +6,7 @@
 #
 class lmod::params {
   $prefix                 = '/opt/apps'
+  $lmod_package_from_repo = false
   $modulepath_root        = 'UNSET'
   $modulepaths            = ['$LMOD_sys', 'Core']
   $set_lmod_package_path  = true
@@ -40,8 +41,14 @@ class lmod::params {
     }
 
     'Debian': {
-      $base_packages = []
-      $runtime_packages = [ 'lmod' ]
+      $base_packages = [
+        'lua-filesystem',
+        'lua-json',
+        'lua-posix',
+        'lua-term',
+        'zsh',
+      ]
+      $runtime_packages = [ 'lua5.2' ]
       $build_packages = [
                          'liblua5.2-dev',
                          'lua-filesystem-dev',
@@ -52,6 +59,11 @@ class lmod::params {
     default: {
       fail("Unsupported osfamily: ${::osfamily}, module ${module_name} only support osfamily RedHat")
     }
+  }
+
+  if $lmod_package_from_repo {
+    $base_packages = []
+    $runtime_packages = [ 'lmod' ]
   }
 
 }

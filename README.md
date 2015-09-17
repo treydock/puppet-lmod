@@ -48,6 +48,12 @@ To customize the avail layout (since Lmod 5.7.5)
 
 The prefix used when lmod was compiled.  Default is '/opt/apps'.
 
+#####`lmod_package_from_repo`
+
+Should the lmod package be installed from a apt/yum repository, or is
+it installed separately with only dependencies installed from package
+repos?
+
 #####`modulepath_root`
 
 The modulepath for your lmod installation.  Default is 'UNSET'.
@@ -91,6 +97,7 @@ Boolean that determines if the packages necessary to build lmod should be manage
 Tested using
 
 * CentOS 6.5
+* Ubuntu 14.04
 
 ## Development
 
