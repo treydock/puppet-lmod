@@ -39,6 +39,16 @@ class lmod::params {
       $build_packages = suffix($runtime_packages, '-devel')
     }
 
+    'Debian': {
+      $base_packages = []
+      $runtime_packages = [ 'lmod' ]
+      $build_packages = [
+                         'liblua5.2-dev',
+                         'lua-filesystem-dev',
+                         'lua-posix-dev'
+                         ]
+    }
+
     default: {
       fail("Unsupported osfamily: ${::osfamily}, module ${module_name} only support osfamily RedHat")
     }
