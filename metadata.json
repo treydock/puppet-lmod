@@ -20,10 +20,10 @@
     {
       "operatingsystem": "Scientific",
       "operatingsystemrelease": [ "6", "7" ]
-    }
+    },
     {
       "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": [ "14.04" ]
+      "operatingsystemrelease": [ "14.04", "14.10", "15.04" ]
     }
   ],
   "dependencies": [

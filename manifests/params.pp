@@ -50,10 +50,10 @@ class lmod::params {
       ]
       $runtime_packages = [ 'lua5.2' ]
       $build_packages = [
-                         'liblua5.2-dev',
-                         'lua-filesystem-dev',
-                         'lua-posix-dev'
-                         ]
+        'liblua5.2-dev',
+        'lua-filesystem-dev',
+        'lua-posix-dev'
+      ]
     }
 
     default: {
