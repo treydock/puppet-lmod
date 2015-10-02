@@ -15,20 +15,21 @@ describe 'lmod' do
 
       describe 'lmod::install' do
         base_packages = [
-          'lua-filesystem',
-          'lua-json',
-          'lua-posix',
-          'lua-term',
-          'zsh',
-        ]
-
-        runtime_packages = [
-          'lua',
-        ]
-
-        build_packages = [
-          'lua-devel',
-        ]
+                         'lua-filesystem',
+                         'lua-json',
+                         'lua-posix',
+                         'lua-term',
+                         'zsh',
+                        ]
+        if facts[:osfamily] == 'RedHat'
+          runtime_packages = [ 'lua' ]
+          build_packages = [ 'lua-devel' ]
+        elsif facts[:osfamily] == 'Debian'
+          runtime_packages = [ 'lua5.2' ]
+          build_packages = [ 'liblua5.2-dev',
+                             'lua-filesystem-dev',
+                             'lua-posix-dev' ]
+        end
 
         if facts[:osfamily] == 'RedHat'
           it { should contain_class('epel') }
@@ -342,6 +343,7 @@ describe 'lmod' do
         :set_lmod_package_path,
         :set_default_module,
         :manage_build_packages,
+        :lmod_package_from_repo,
       ].each do |param|
         context "with #{param} => 'foo'" do
           let(:params) {{ param.to_sym => 'foo' }}
