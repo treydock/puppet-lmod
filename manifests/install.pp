@@ -20,8 +20,16 @@ class lmod::install {
     }
   }
 
-  ensure_packages($lmod::params::base_packages, $_package_defaults)
-  ensure_packages($lmod::params::runtime_packages, $_package_defaults)
+  if $lmod::lmod_package_from_repo {
+    $_base_packages    = []
+    $_runtime_packages = [ 'lmod' ]
+  } else {
+    $_base_packages    = $lmod::params::base_packages
+    $_runtime_packages = $lmod::params::runtime_packages
+  }
+
+  ensure_packages($_base_packages, $_package_defaults)
+  ensure_packages($_runtime_packages, $_package_defaults)
   if $lmod::manage_build_packages { ensure_packages($lmod::params::build_packages, $_package_defaults) }
 
 }

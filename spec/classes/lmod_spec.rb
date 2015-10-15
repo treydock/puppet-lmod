@@ -66,6 +66,17 @@ describe 'lmod' do
             end
           end
         end
+
+        context "lmod_package_from_repo => true" do
+          let(:params) {{ :lmod_package_from_repo => true }}
+
+          it { should have_package_resource_count(1) }
+
+          it { should contain_package('lmod').with_ensure('present') }
+          if facts[:osfamily] == 'RedHat'
+            it { should contain_package('lmod').with_require('Yumrepo[epel]') }
+          end
+        end
       end
 
       describe 'lmod::load' do

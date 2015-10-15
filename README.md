@@ -26,6 +26,12 @@ To customize the avail layout (since Lmod 5.7.5)
       avail_style => ['grouped', 'system'],
     }
 
+To install Lmod from existing package repositories
+
+    class { 'lmod':
+      lmod_package_from_repo => true,
+    }
+
 ## Reference
 
 ### Classes

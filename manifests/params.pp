@@ -61,9 +61,4 @@ class lmod::params {
     }
   }
 
-  if $lmod_package_from_repo {
-    $base_packages = []
-    $runtime_packages = [ 'lmod' ]
-  }
-
 }
