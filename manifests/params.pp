@@ -5,6 +5,7 @@
 # Private
 #
 class lmod::params {
+  $ensure                 = 'present'
   $prefix                 = '/opt/apps'
   $lmod_package_from_repo = false
   $modulepath_root        = 'UNSET'

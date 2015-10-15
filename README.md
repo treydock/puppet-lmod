@@ -50,6 +50,12 @@ To install Lmod from existing package repositories
 
 #### lmod
 
+#####`ensure`
+
+The ensure parameter for this module.  If set to 'absent', managed files are removed.
+If `lmod_package_from_repo` is true and `ensure` is 'absent', then the lmod package is also removed.
+Default is `present`.
+
 #####`prefix`
 
 The prefix used when lmod was compiled.  Default is '/opt/apps'.

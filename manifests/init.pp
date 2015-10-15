@@ -3,6 +3,7 @@
 # Public
 #
 class lmod (
+  $ensure                 = $lmod::params::ensure,
   $prefix                 = $lmod::params::prefix,
   $lmod_package_from_repo = $lmod::params::lmod_package_from_repo,
   $modulepath_root        = $lmod::params::modulepath_root,
@@ -39,6 +40,18 @@ class lmod (
   validate_bool($set_default_module)
   validate_bool($manage_build_packages)
   validate_bool($lmod_package_from_repo)
+
+  case $ensure {
+    'present': {
+      $_file_ensure = 'present'
+    }
+    'absent': {
+      $_file_ensure = 'absent'
+    }
+    default: {
+      fail("Module ${module_name}, ensure must be 'present' or 'absent', ${ensure} given.")
+    }
+  }
 
   $_modulepath_root = $modulepath_root ? {
     'UNSET' => "${prefix}/modulefiles",

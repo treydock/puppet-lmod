@@ -77,6 +77,17 @@ describe 'lmod' do
             it { should contain_package('lmod').with_require('Yumrepo[epel]') }
           end
         end
+
+        context 'ensure => absent' do
+          let(:params) {{ :ensure => 'absent' }}
+          it { should have_package_resource_count(0) }
+        end
+
+        context 'ensure => absent and lmod_package_from_repo => true' do
+          let(:params) {{ :ensure => 'absent', :lmod_package_from_repo => true }}
+          it { should have_package_resource_count(1) }
+          it { should contain_package('lmod').with_ensure('absent') }
+        end
       end
 
       describe 'lmod::load' do
@@ -314,6 +325,21 @@ describe 'lmod' do
               'endif',
             ])
           end
+        end
+
+        context 'ensure => absent' do
+          let(:params) {{ :ensure => 'absent' }}
+          it { should contain_file('/etc/profile.d/modules.sh').with_ensure('absent') }
+          it { should contain_file('/etc/profile.d/modules.csh').with_ensure('absent') }
+          it { should contain_file('/etc/profile.d/z00_StdEnv.sh').with_ensure('absent') }
+          it { should contain_file('/etc/profile.d/z00_StdEnv.csh').with_ensure('absent') }
+        end
+      end
+
+      context 'when ensure => foo' do
+        let(:params) {{ :ensure => 'foo' }}
+        it "should raise error" do
+          expect { should compile }.to raise_error(/ensure must be 'present' or 'absent'/)
         end
       end
 

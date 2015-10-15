@@ -8,7 +8,7 @@ class lmod::load {
   }
 
   file { '/etc/profile.d/modules.sh':
-    ensure  => present,
+    ensure  => $lmod::_file_ensure,
     path    => '/etc/profile.d/modules.sh',
     content => $lmod::_modules_bash_content,
     source  => $lmod::_modules_bash_source,
@@ -18,7 +18,7 @@ class lmod::load {
   }
 
   file { '/etc/profile.d/modules.csh':
-    ensure  => present,
+    ensure  => $lmod::_file_ensure,
     path    => '/etc/profile.d/modules.csh',
     content => $lmod::_modules_csh_content,
     source  => $lmod::_modules_csh_source,
@@ -29,7 +29,7 @@ class lmod::load {
 
   if $lmod::set_default_module {
     file { '/etc/profile.d/z00_StdEnv.sh':
-      ensure  => present,
+      ensure  => $lmod::_file_ensure,
       path    => '/etc/profile.d/z00_StdEnv.sh',
       content => $lmod::_stdenv_bash_content,
       source  => $lmod::_stdenv_bash_source,
@@ -39,7 +39,7 @@ class lmod::load {
     }
 
     file { '/etc/profile.d/z00_StdEnv.csh':
-      ensure  => present,
+      ensure  => $lmod::_file_ensure,
       path    => '/etc/profile.d/z00_StdEnv.csh',
       content => $lmod::_stdenv_csh_content,
       source  => $lmod::_stdenv_csh_source,
