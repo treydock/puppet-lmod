@@ -1,17 +1,9 @@
 require 'beaker-rspec'
 
 dir = File.expand_path(File.dirname(__FILE__))
-Dir["#{dir}/acceptance/support/*.rb"].sort.each {|f| require f}
+Dir["#{dir}/acceptance/shared_examples/*.rb"].sort.each {|f| require f}
 
-hosts.each do |host|
-  # Install Puppet
-  #install_puppet unless ENV['BEAKER_provision'] == 'no'
-  if host['platform'] =~ /el-(6|7)/
-    relver = $1
-    on host, "rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-#{relver}.noarch.rpm", { :acceptable_exit_codes => [0,1] }
-    on host, "yum install -y puppet", { :acceptable_exit_codes => [0,1] }
-  end
-end
+install_puppet_agent_on hosts, {}
 
 RSpec.configure do |c|
   # Project root

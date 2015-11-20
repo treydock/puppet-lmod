@@ -1,23 +1,58 @@
 def base_packages
-  [
-    'lua-filesystem',
-    'lua-json',
-    'lua-posix',
-    'lua-term',
-    'zsh',
-  ]
+  case fact('osfamily')
+  when 'RedHat'
+    [
+      'lua-filesystem',
+      'lua-json',
+      'lua-posix',
+      'lua-term',
+      'tcl',
+      'zsh',
+    ]
+  when 'Debian'
+    [
+      'lua-filesystem',
+      'lua-json',
+      'lua-posix',
+      'lua-term',
+      'tcl',
+      'zsh',
+    ]
+  else
+    []
+  end
 end
 
 def runtime_packages
-  [
-    'lua',
-  ]
+  case fact('osfamily')
+  when 'RedHat'
+    [
+      'lua',
+    ]
+  when 'Debian'
+    [
+      'lua5.2'
+    ]
+  else
+    []
+  end
 end
 
 def build_packages
-  [
-    'lua-devel',
-  ]
+  case fact('osfamily')
+  when 'RedHat'
+    [
+      'lua-devel',
+    ]
+  when 'Debian'
+    [
+      'liblua5.2-dev',
+      'lua-filesystem-dev',
+      'lua-posix-dev'
+    ]
+  else
+    []
+  end
 end
 
 shared_examples_for 'lmod::install without build packages' do
