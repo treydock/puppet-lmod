@@ -19,6 +19,7 @@ describe 'lmod' do
                          'lua-json',
                          'lua-posix',
                          'lua-term',
+                         'tcl',
                          'zsh',
                         ]
         if facts[:osfamily] == 'RedHat'

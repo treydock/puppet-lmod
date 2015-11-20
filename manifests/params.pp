@@ -33,6 +33,7 @@ class lmod::params {
         'lua-json',
         'lua-posix',
         'lua-term',
+        'tcl',
         'zsh',
       ]
       $runtime_packages = [
@@ -47,6 +48,7 @@ class lmod::params {
         'lua-json',
         'lua-posix',
         'lua-term',
+        'tcl',
         'zsh',
       ]
       $runtime_packages = [ 'lua5.2' ]
