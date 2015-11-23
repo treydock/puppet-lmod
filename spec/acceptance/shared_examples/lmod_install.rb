@@ -1,23 +1,42 @@
 def base_packages
   case fact('osfamily')
   when 'RedHat'
-    [
-      'lua-filesystem',
-      'lua-json',
-      'lua-posix',
-      'lua-term',
-      'tcl',
-      'zsh',
-    ]
+    if fact('operatingsystemmajrelease') == '5'
+      [
+        'lua-filesystem',
+        'lua-posix',
+        'tcl',
+        'zsh',
+      ]
+    else
+      [
+        'lua-filesystem',
+        'lua-json',
+        'lua-posix',
+        'lua-term',
+        'tcl',
+        'zsh',
+      ]
+    end
   when 'Debian'
-    [
-      'lua-filesystem',
-      'lua-json',
-      'lua-posix',
-      'lua-term',
-      'tcl',
-      'zsh',
-    ]
+    if fact('operatingsystemmajrelease') == '14.04'
+      [
+        'lua-filesystem',
+        'lua-json',
+        'lua-posix',
+        'tcl',
+        'zsh',
+      ]
+    else
+      [
+        'lua-filesystem',
+        'lua-json',
+        'lua-posix',
+        'lua-term',
+        'tcl',
+        'zsh',
+      ]
+    end
   else
     []
   end

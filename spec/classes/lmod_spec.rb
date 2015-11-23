@@ -14,14 +14,31 @@ describe 'lmod' do
       it { should contain_anchor('lmod::end') }
 
       describe 'lmod::install' do
-        base_packages = [
-                         'lua-filesystem',
-                         'lua-json',
-                         'lua-posix',
-                         'lua-term',
-                         'tcl',
-                         'zsh',
-                        ]
+        if facts[:operatingsystemmajrelease] == '5'
+          base_packages = [
+                           'lua-filesystem',
+                           'lua-posix',
+                           'tcl',
+                           'zsh',
+                          ]
+        elsif facts[:operatingsystemmajrelease] == '14.04'
+          base_packages = [
+                           'lua-filesystem',
+                           'lua-json',
+                           'lua-posix',
+                           'tcl',
+                           'zsh',
+                          ]
+        else
+          base_packages = [
+                           'lua-filesystem',
+                           'lua-json',
+                           'lua-posix',
+                           'lua-term',
+                           'tcl',
+                           'zsh',
+                          ]
+        end
         if facts[:osfamily] == 'RedHat'
           runtime_packages = [ 'lua' ]
           build_packages = [ 'lua-devel' ]
