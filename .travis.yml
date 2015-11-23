@@ -48,12 +48,6 @@ matrix:
     - rvm: 2.1.5
       sudo: required
       services: docker
-      env: BEAKER_set="ubuntu-14.10-x64-docker"
-      bundler_args:
-      script: sudo service docker restart ; sleep 10 ; bundle exec rake beaker
-    - rvm: 2.1.5
-      sudo: required
-      services: docker
       env: BEAKER_set="ubuntu-15.04-x64-docker"
       bundler_args:
       script: sudo service docker restart ; sleep 10 ; bundle exec rake beaker

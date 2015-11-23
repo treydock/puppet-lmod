@@ -26,16 +26,28 @@ class lmod::params {
   $stdenv_csh_template    = 'lmod/z00_StdEnv.csh.erb'
   $stdenv_csh_source      = undef
 
+  
+
   case $::osfamily {
     'RedHat': {
-      $base_packages = [
-        'lua-filesystem',
-        'lua-json',
-        'lua-posix',
-        'lua-term',
-        'tcl',
-        'zsh',
-      ]
+      if $::operatingsystemmajrelease == '5' {
+        $base_packages = [
+          'lua-filesystem',
+          'lua-posix',
+          'tcl',
+          'zsh',
+        ]
+      } else {
+        $base_packages = [
+          'lua-filesystem',
+          'lua-json',
+          'lua-posix',
+          'lua-term',
+          'tcl',
+          'zsh',
+        ]
+      }
+
       $runtime_packages = [
         'lua',
       ]
@@ -43,14 +55,25 @@ class lmod::params {
     }
 
     'Debian': {
-      $base_packages = [
-        'lua-filesystem',
-        'lua-json',
-        'lua-posix',
-        'lua-term',
-        'tcl',
-        'zsh',
-      ]
+      if $::operatingsystemmajrelease == '14.04' {
+        $base_packages = [
+          'lua-filesystem',
+          'lua-json',
+          'lua-posix',
+          'tcl',
+          'zsh',
+        ]
+      } else {
+        $base_packages = [
+          'lua-filesystem',
+          'lua-json',
+          'lua-posix',
+          'lua-term',
+          'tcl',
+          'zsh',
+        ]
+      }
+
       $runtime_packages = [ 'lua5.2' ]
       $build_packages = [
         'liblua5.2-dev',

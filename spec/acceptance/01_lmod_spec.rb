@@ -2,6 +2,9 @@ require 'spec_helper_acceptance'
 
 describe 'lmod class:' do
   context 'default parameters' do
+    describe command("facter --puppet") do
+      its(:stdout) { should match // }
+    end
     it 'should run successfully' do
       pp =<<-EOS
         class { 'lmod': }
