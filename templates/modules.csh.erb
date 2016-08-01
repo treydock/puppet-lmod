@@ -8,7 +8,7 @@
 #
 ########################################################################
 
-set MY_NAME="<%= @prefix %>/lmod/lmod/init/cshrc"
+set MY_NAME="<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/init/cshrc"
 
 
 
@@ -30,12 +30,12 @@ if ( ! $?MODULEPATH_ROOT ) then
     setenv LMOD_SETTARG_CMD     :
     setenv LMOD_COLORIZE        yes
     setenv LMOD_PREPEND_BLOCK   normal
-    setenv MODULEPATH_ROOT      "<%= @_modulepath_root %>"
-<% @modulepaths.each do |modulepath| -%>
-    setenv MODULEPATH           `<%= @prefix %>/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/<%= modulepath %>`
+    setenv MODULEPATH_ROOT      "<%= scope.lookupvar('lmod::_modulepath_root') %>"
+<% scope.lookupvar('lmod::modulepaths').each do |modulepath| -%>
+    setenv MODULEPATH           `<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/<%= modulepath %>`
 <% end -%>
-    setenv MODULEPATH           `<%= @prefix %>/lmod/lmod/libexec/addto --append MODULEPATH <%= @prefix %>/lmod/lmod/modulefiles/Core`
-    setenv MODULESHOME          "<%= @prefix %>/lmod/lmod"
+    setenv MODULEPATH           `<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/libexec/addto --append MODULEPATH <%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/modulefiles/Core`
+    setenv MODULESHOME          "<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod"
     setenv BASH_ENV             "$MODULESHOME/init/bash"
 
     #
@@ -44,19 +44,19 @@ if ( ! $?MODULEPATH_ROOT ) then
     if ( ! $?MANPATH ) then
       setenv MANPATH :
     endif
-    setenv MANPATH `<%= @prefix %>/lmod/lmod/libexec/addto MANPATH <%= @prefix %>/lmod/lmod/share/man`
+    setenv MANPATH `<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/libexec/addto MANPATH <%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/share/man`
 
-<% if @set_lmod_package_path -%>
-    setenv LMOD_PACKAGE_PATH <%= @lmod_package_path %>
+<% if scope.lookupvar('lmod::set_lmod_package_path') -%>
+    setenv LMOD_PACKAGE_PATH <%= scope.lookupvar('lmod::lmod_package_path') %>
 <% end -%>
-<% unless @avail_styles.empty? -%>
-    setenv LMOD_AVAIL_STYLE <%= @avail_styles.join(':') %>
+<% unless scope.lookupvar('lmod::avail_styles').empty? -%>
+    setenv LMOD_AVAIL_STYLE <%= scope.lookupvar('lmod::avail_styles').join(':') %>
 <% end -%>
-<% if @lmod_admin_file -%>
-    setenv LMOD_ADMIN_FILE <%= @lmod_admin_file %>
+<% if scope.lookupvar('lmod::lmod_admin_file') -%>
+    setenv LMOD_ADMIN_FILE <%= scope.lookupvar('lmod::lmod_admin_file') %>
 <% end -%>
 endif
 
-if ( -f  <%= @prefix %>/lmod/lmod/init/csh  ) then
-  source <%= @prefix %>/lmod/lmod/init/csh
+if ( -f  <%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/init/csh  ) then
+  source <%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/init/csh
 endif

@@ -1,6 +1,6 @@
 if ( ! $?__Init_Default_Modules ) then
   setenv __Init_Default_Modules 1
-  setenv LMOD_SYSTEM_DEFAULT_MODULES "<%= @default_module %>"
+  setenv LMOD_SYSTEM_DEFAULT_MODULES "<%= scope.lookupvar('lmod::default_module') %>"
   module --initial_load restore
 else
   module refresh

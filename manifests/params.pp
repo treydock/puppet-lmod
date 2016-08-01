@@ -17,8 +17,10 @@ class lmod::params {
   $avail_styles           = ['system']
   $lmod_admin_file        = undef
   $manage_build_packages  = false
+  $module_bash_path       = '/etc/profile.d/modules.sh'
   $modules_bash_template  = 'lmod/modules.sh.erb'
   $modules_bash_source    = undef
+  $modules_csh_path       = '/etc/profile.d/modules.csh'
   $modules_csh_template   = 'lmod/modules.csh.erb'
   $modules_csh_source     = undef
   $stdenv_bash_template   = 'lmod/z00_StdEnv.sh.erb'
@@ -26,7 +28,9 @@ class lmod::params {
   $stdenv_csh_template    = 'lmod/z00_StdEnv.csh.erb'
   $stdenv_csh_source      = undef
 
-  
+  $ps_cmd       = '/bin/ps'
+  $expr_cmd     = '/bin/expr'
+  $basename_cmd = '/bin/basename'
 
   case $::osfamily {
     'RedHat': {

@@ -15,8 +15,10 @@ class lmod (
   $avail_styles           = $lmod::params::avail_styles,
   $lmod_admin_file        = $lmod::params::lmod_admin_file,
   $manage_build_packages  = $lmod::params::manage_build_packages,
+  $modules_bash_path      = $lmod::params::module_bash_path,
   $modules_bash_template  = $lmod::params::modules_bash_template,
   $modules_bash_source    = $lmod::params::modules_bash_source,
+  $modules_csh_path       = $lmod::params::modules_csh_path,
   $modules_csh_template   = $lmod::params::modules_csh_template,
   $modules_csh_source     = $lmod::params::modules_csh_source,
   $stdenv_bash_template   = $lmod::params::stdenv_bash_template,
@@ -29,7 +31,9 @@ class lmod (
   validate_string($modulepath_root)
   validate_string($lmod_package_path)
   validate_string($default_module)
+  validate_string($modules_bash_path)
   validate_string($modules_bash_template)
+  validate_string($modules_csh_path)
   validate_string($modules_csh_template)
   validate_string($stdenv_bash_template, $stdenv_csh_template)
 

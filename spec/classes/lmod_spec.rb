@@ -5,6 +5,7 @@ describe 'lmod' do
     context "on #{os}" do
       let(:facts) { facts }
 
+      it { should compile.with_all_deps }
       it { should create_class('lmod') }
       it { should contain_class('lmod::params') }
 
@@ -134,7 +135,6 @@ describe 'lmod' do
             '    export MANPATH=$(/opt/apps/lmod/lmod/libexec/addto MANPATH /opt/apps/lmod/lmod/share/man)',
             '    export LMOD_PACKAGE_PATH=$MODULEPATH_ROOT/Site',
             '    export LMOD_AVAIL_STYLE=system',
-            '  . /opt/apps/lmod/lmod/init/bash >/dev/null # Module Support',
           ])
         end
 
@@ -231,7 +231,6 @@ describe 'lmod' do
               '    export MANPATH=$(/apps/lmod/lmod/libexec/addto MANPATH /apps/lmod/lmod/share/man)',
               '    export LMOD_PACKAGE_PATH=$MODULEPATH_ROOT/Site',
               '    export LMOD_AVAIL_STYLE=system',
-              '  . /apps/lmod/lmod/init/bash >/dev/null # Module Support',
             ])
           end
 
