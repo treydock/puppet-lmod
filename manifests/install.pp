@@ -22,7 +22,7 @@ class lmod::install {
 
   if $lmod::lmod_package_from_repo {
     $_base_packages    = []
-    $_runtime_packages = [ 'lmod' ]
+    $_runtime_packages = [ $lmod::params::package_name ]
   } else {
     $_base_packages    = $lmod::params::base_packages
     $_runtime_packages = $lmod::params::runtime_packages

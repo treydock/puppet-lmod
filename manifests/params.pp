@@ -34,6 +34,7 @@ class lmod::params {
 
   case $::osfamily {
     'RedHat': {
+      $package_name = 'Lmod'
       if $::operatingsystemmajrelease == '5' {
         $base_packages = [
           'lua-filesystem',
@@ -59,6 +60,7 @@ class lmod::params {
     }
 
     'Debian': {
+      $package_name = 'lmod'
       if $::operatingsystemmajrelease == '14.04' {
         $base_packages = [
           'lua-filesystem',

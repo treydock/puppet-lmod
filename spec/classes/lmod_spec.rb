@@ -41,9 +41,11 @@ describe 'lmod' do
                           ]
         end
         if facts[:osfamily] == 'RedHat'
+          package_name = 'Lmod'
           runtime_packages = [ 'lua' ]
           build_packages = [ 'lua-devel' ]
         elsif facts[:osfamily] == 'Debian'
+          package_name = 'lmod'
           runtime_packages = [ 'lua5.2' ]
           build_packages = [ 'liblua5.2-dev',
                              'lua-filesystem-dev',
@@ -91,9 +93,9 @@ describe 'lmod' do
 
           it { should have_package_resource_count(1) }
 
-          it { should contain_package('lmod').with_ensure('present') }
+          it { should contain_package(package_name).with_ensure('present') }
           if facts[:osfamily] == 'RedHat'
-            it { should contain_package('lmod').with_require('Yumrepo[epel]') }
+            it { should contain_package(package_name).with_require('Yumrepo[epel]') }
           end
         end
 
@@ -105,7 +107,7 @@ describe 'lmod' do
         context 'ensure => absent and lmod_package_from_repo => true' do
           let(:params) {{ :ensure => 'absent', :lmod_package_from_repo => true }}
           it { should have_package_resource_count(1) }
-          it { should contain_package('lmod').with_ensure('absent') }
+          it { should contain_package(package_name).with_ensure('absent') }
         end
       end
 
