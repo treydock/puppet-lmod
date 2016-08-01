@@ -50,6 +50,9 @@ if [ -z "${USER_IS_ROOT:-}" ]; then
 <% if scope.lookupvar('lmod::lmod_admin_file') -%>
     export LMOD_ADMIN_FILE=<%= scope.lookupvar('lmod::lmod_admin_file') %>
 <% end -%>
+<% if scope.lookupvar('lmod::system_name') -%>
+    export LMOD_SYSTEM_NAME=<%= scope.lookupvar('lmod::system_name') %>
+<% end -%>
   fi
 
   my_shell=$(<%= scope.lookupvar('lmod::params::ps_cmd') %> -p $$ -ocomm=)

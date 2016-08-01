@@ -14,6 +14,7 @@ class lmod (
   $default_module         = $lmod::params::default_module,
   $avail_styles           = $lmod::params::avail_styles,
   $lmod_admin_file        = $lmod::params::lmod_admin_file,
+  $system_name            = $lmod::params::system_name,
   $manage_build_packages  = $lmod::params::manage_build_packages,
   $modules_bash_path      = $lmod::params::module_bash_path,
   $modules_bash_template  = $lmod::params::modules_bash_template,

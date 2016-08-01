@@ -346,6 +346,24 @@ describe 'lmod' do
           end
         end
 
+        context "when system_name => foo" do
+          let(:params) {{ :system_name => 'foo' }}
+
+          it do
+            verify_contents(catalogue, 'lmod-sh-load', [
+              '    export LMOD_SYSTEM_NAME=foo',
+              '  fi',
+            ])
+          end
+
+          it do
+            verify_contents(catalogue, 'lmod-csh-load', [
+              '    setenv LMOD_SYSTEM_NAME foo',
+              'endif',
+            ])
+          end
+        end
+
         context 'ensure => absent' do
           let(:params) {{ :ensure => 'absent' }}
           it { should contain_file('lmod-sh-load').with_ensure('absent') }

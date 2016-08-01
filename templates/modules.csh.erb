@@ -55,6 +55,9 @@ if ( ! $?MODULEPATH_ROOT ) then
 <% if scope.lookupvar('lmod::lmod_admin_file') -%>
     setenv LMOD_ADMIN_FILE <%= scope.lookupvar('lmod::lmod_admin_file') %>
 <% end -%>
+<% if scope.lookupvar('lmod::system_name') -%>
+    setenv LMOD_SYSTEM_NAME <%= scope.lookupvar('lmod::system_name') %>
+<% end -%>
 endif
 
 if ( -f  <%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/init/csh  ) then
