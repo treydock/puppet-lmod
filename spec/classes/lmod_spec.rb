@@ -113,7 +113,7 @@ describe 'lmod' do
 
       describe 'lmod::load' do
         it do
-          should contain_file('/etc/profile.d/modules.sh').with({
+          should contain_file('lmod-sh-load').with({
             :ensure  => 'present',
             :path    => '/etc/profile.d/modules.sh',
             :owner   => 'root',
@@ -124,7 +124,7 @@ describe 'lmod' do
 
         it do
           # Doesn't work exactly like I'd hope due to 'fi' at same indention level occurring more than once
-          verify_contents(catalogue, '/etc/profile.d/modules.sh', [
+          verify_contents(catalogue, 'lmod-sh-load', [
             '    export MODULEPATH_ROOT="/opt/apps/modulefiles"',
             '    export MODULEPATH=$(/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/$LMOD_sys)',
             '    export MODULEPATH=$(/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Core)',
@@ -141,7 +141,7 @@ describe 'lmod' do
         end
 
         it do
-          should contain_file('/etc/profile.d/modules.csh').with({
+          should contain_file('lmod-csh-load').with({
             :ensure  => 'present',
             :path    => '/etc/profile.d/modules.csh',
             :owner   => 'root',
@@ -152,7 +152,7 @@ describe 'lmod' do
 
         it do
           # Doesn't work exactly like I'd hope due to 'endif' at same indention level occurring more than once
-          verify_contents(catalogue, '/etc/profile.d/modules.csh', [
+          verify_contents(catalogue, 'lmod-csh-load', [
             '    setenv MODULEPATH_ROOT      "/opt/apps/modulefiles"',
             '    setenv MODULEPATH           `/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/$LMOD_sys`',
             '    setenv MODULEPATH           `/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Core`',
@@ -220,7 +220,7 @@ describe 'lmod' do
           let(:params) {{ :prefix => '/apps' }}
 
           it do
-            verify_contents(catalogue, '/etc/profile.d/modules.sh', [
+            verify_contents(catalogue, 'lmod-sh-load', [
               '    export MODULEPATH_ROOT="/apps/modulefiles"',
               '    export MODULEPATH=$(/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/$LMOD_sys)',
               '    export MODULEPATH=$(/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Core)',
@@ -237,7 +237,7 @@ describe 'lmod' do
           end
 
           it do
-            verify_contents(catalogue, '/etc/profile.d/modules.csh', [
+            verify_contents(catalogue, 'lmod-csh-load', [
               '    setenv MODULEPATH_ROOT      "/apps/modulefiles"',
               '    setenv MODULEPATH           `/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/$LMOD_sys`',
               '    setenv MODULEPATH           `/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Core`',
@@ -260,7 +260,7 @@ describe 'lmod' do
           let(:params) {{ :modulepaths => ['Linux','Core','Compiler','MPI'] }}
 
           it do
-            verify_contents(catalogue, '/etc/profile.d/modules.sh', [
+            verify_contents(catalogue, 'lmod-sh-load', [
               '    export MODULEPATH=$(/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Linux)',
               '    export MODULEPATH=$(/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Core)',
               '    export MODULEPATH=$(/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Compiler)',
@@ -270,7 +270,7 @@ describe 'lmod' do
           end
 
           it do
-            verify_contents(catalogue, '/etc/profile.d/modules.csh', [
+            verify_contents(catalogue, 'lmod-csh-load', [
               '    setenv MODULEPATH           `/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Linux`',
               '    setenv MODULEPATH           `/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Core`',
               '    setenv MODULEPATH           `/opt/apps/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Compiler`',
@@ -283,8 +283,8 @@ describe 'lmod' do
         context "when set_lmod_package_path => false" do
           let(:params) {{ :set_lmod_package_path => false }}
 
-          it { should_not contain_file('/etc/profile.d/modules.sh').with_content(/export LMOD_PACKAGE_PATH/) }
-          it { should_not contain_file('/etc/profile.d/modules.csh').with_content(/setenv LMOD_PACKAGE_PATH/) }
+          it { should_not contain_file('lmod-sh-load').with_content(/export LMOD_PACKAGE_PATH/) }
+          it { should_not contain_file('lmod-csh-load').with_content(/setenv LMOD_PACKAGE_PATH/) }
         end
 
         context "when default_module => 'foo'" do
@@ -314,13 +314,13 @@ describe 'lmod' do
           let(:params) {{ :avail_styles => ['grouped','system'] }}
 
           it "should set LMOD_AVAIL_STYLE=grouped:system" do
-            verify_contents(catalogue, '/etc/profile.d/modules.sh', [
+            verify_contents(catalogue, 'lmod-sh-load', [
               '    export LMOD_AVAIL_STYLE=grouped:system',
             ])
           end
 
           it "should set LMOD_AVAIL_STYLE grouped:system" do
-            verify_contents(catalogue, '/etc/profile.d/modules.csh', [
+            verify_contents(catalogue, 'lmod-csh-load', [
               '    setenv LMOD_AVAIL_STYLE grouped:system',
             ])
           end
@@ -330,7 +330,7 @@ describe 'lmod' do
           let(:params) {{ :lmod_admin_file => '/opt/apps/lmod/etc/admin.list' }}
 
           it do
-            verify_contents(catalogue, '/etc/profile.d/modules.sh', [
+            verify_contents(catalogue, 'lmod-sh-load', [
               '    export LMOD_AVAIL_STYLE=system',
               '    export LMOD_ADMIN_FILE=/opt/apps/lmod/etc/admin.list',
               '  fi',
@@ -338,7 +338,7 @@ describe 'lmod' do
           end
 
           it do
-            verify_contents(catalogue, '/etc/profile.d/modules.csh', [
+            verify_contents(catalogue, 'lmod-csh-load', [
               '    setenv LMOD_AVAIL_STYLE system',
               '    setenv LMOD_ADMIN_FILE /opt/apps/lmod/etc/admin.list',
               'endif',
@@ -348,8 +348,8 @@ describe 'lmod' do
 
         context 'ensure => absent' do
           let(:params) {{ :ensure => 'absent' }}
-          it { should contain_file('/etc/profile.d/modules.sh').with_ensure('absent') }
-          it { should contain_file('/etc/profile.d/modules.csh').with_ensure('absent') }
+          it { should contain_file('lmod-sh-load').with_ensure('absent') }
+          it { should contain_file('lmod-csh-load').with_ensure('absent') }
           it { should contain_file('/etc/profile.d/z00_StdEnv.sh').with_ensure('absent') }
           it { should contain_file('/etc/profile.d/z00_StdEnv.csh').with_ensure('absent') }
         end

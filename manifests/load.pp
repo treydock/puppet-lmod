@@ -17,9 +17,9 @@ class lmod::load {
   # - $ps_cmd
   # - $expr_cmd
   # - $basename_cmd
-  file { '/etc/profile.d/modules.sh':
+  file { 'lmod-sh-load':
     ensure  => $lmod::_file_ensure,
-    path    => $lmod::module_bash_path,
+    path    => $lmod::modules_bash_path,
     content => $lmod::_modules_bash_content,
     source  => $lmod::_modules_bash_source,
     owner   => 'root',
@@ -34,7 +34,7 @@ class lmod::load {
   # - $set_lmod_package_path
   # - $avail_styles
   # - $lmod_admin_file
-  file { '/etc/profile.d/modules.csh':
+  file { 'lmod-csh-load':
     ensure  => $lmod::_file_ensure,
     path    => $lmod::modules_csh_path,
     content => $lmod::_modules_csh_content,
