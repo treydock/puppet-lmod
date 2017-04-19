@@ -6,8 +6,8 @@ group :development, :test do
   else
     gem 'rake',                   :require => false
   end
-  gem 'rspec', '~>3.1.0',         :require => false
-  gem 'rspec-puppet', '~>2.x',    :require => false
+  gem 'rspec', '~>3.5',           :require => false
+  gem 'rspec-puppet', '~>2.5',    :require => false
   gem 'rspec-puppet-facts',       :require => false
   gem 'puppetlabs_spec_helper',   :require => false
   gem 'puppet-lint',              :require => false
