@@ -43,7 +43,7 @@ matrix:
       env: BEAKER_set="ubuntu-14.04-x64-docker"
       bundler_args:
       script: sudo service docker restart ; sleep 10 ; bundle exec rake beaker
-    - rvm: 2.2
+    - rvm: 2.1
       sudo: required
       services: docker
       env: BEAKER_set="ubuntu-16.04-x64-docker"
