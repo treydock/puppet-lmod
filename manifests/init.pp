@@ -95,9 +95,9 @@ class lmod (
     $_stdenv_csh_content  = template($stdenv_csh_template)
   }
 
-  anchor { 'lmod::start': }->
-  class { 'lmod::install': }->
-  class { 'lmod::load': }->
-  anchor { 'lmod::end': }
+  anchor { 'lmod::start': }
+  -> class { 'lmod::install': }
+  -> class { 'lmod::load': }
+  -> anchor { 'lmod::end': }
 
 }
