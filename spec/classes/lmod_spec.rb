@@ -54,6 +54,9 @@ describe 'lmod' do
           build_packages = [ 'liblua5.2-dev',
                              'lua-filesystem-dev',
                              'lua-posix-dev' ]
+        else
+          modules_csh_path = '/etc/profile.d/modules.csh'
+          stdenv_csh_path = '/etc/profile.d/z00_StdEnv.csh'
         end
 
         if facts[:osfamily] == 'RedHat'
