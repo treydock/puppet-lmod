@@ -109,7 +109,7 @@ Boolean that determines if the packages necessary to build lmod should be manage
 Tested using
 
 * CentOS 6.5
-* Ubuntu 14.04
+* Ubuntu 14.04, 16.04
 
 ## Development
 

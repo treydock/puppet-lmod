@@ -41,15 +41,22 @@ describe 'lmod' do
                           ]
         end
         if facts[:osfamily] == 'RedHat'
+          modules_csh_path = '/etc/profile.d/modules.csh'
+          stdenv_csh_path = '/etc/profile.d/z00_StdEnv.csh'
           package_name = 'Lmod'
           runtime_packages = [ 'lua' ]
           build_packages = [ 'lua-devel' ]
         elsif facts[:osfamily] == 'Debian'
+          modules_csh_path = '/etc/csh/login.d/modules.csh'
+          stdenv_csh_path = '/etc/csh/login.d/z00_StdEnv.csh'
           package_name = 'lmod'
           runtime_packages = [ 'lua5.2' ]
           build_packages = [ 'liblua5.2-dev',
                              'lua-filesystem-dev',
                              'lua-posix-dev' ]
+        else
+          modules_csh_path = '/etc/profile.d/modules.csh'
+          stdenv_csh_path = '/etc/profile.d/z00_StdEnv.csh'
         end
 
         if facts[:osfamily] == 'RedHat'
@@ -143,7 +150,7 @@ describe 'lmod' do
         it do
           should contain_file('lmod-csh-load').with({
             :ensure  => 'present',
-            :path    => '/etc/profile.d/modules.csh',
+            :path    => modules_csh_path,
             :owner   => 'root',
             :group   => 'root',
             :mode    => '0644',
@@ -195,9 +202,9 @@ describe 'lmod' do
         end
 
         it do
-          should contain_file('/etc/profile.d/z00_StdEnv.csh').with({
+          should contain_file('z00_StdEnv.csh').with({
             :ensure  => 'present',
-            :path    => '/etc/profile.d/z00_StdEnv.csh',
+            :path    => stdenv_csh_path,
             :owner   => 'root',
             :group   => 'root',
             :mode    => '0644',
@@ -205,7 +212,7 @@ describe 'lmod' do
         end
 
         it do
-          verify_contents(catalogue, '/etc/profile.d/z00_StdEnv.csh', [
+          verify_contents(catalogue, 'z00_StdEnv.csh', [
             'if ( ! $?__Init_Default_Modules ) then',
             '  setenv __Init_Default_Modules 1',
             '  setenv LMOD_SYSTEM_DEFAULT_MODULES "StdEnv"',
@@ -297,7 +304,7 @@ describe 'lmod' do
           end
 
           it 'should setenv LMOD_SYSTEM_DEFAULT_MODULES="foo"' do
-            verify_contents(catalogue, '/etc/profile.d/z00_StdEnv.csh', [
+            verify_contents(catalogue, 'z00_StdEnv.csh', [
               '  setenv LMOD_SYSTEM_DEFAULT_MODULES "foo"',
             ])
           end
@@ -307,7 +314,7 @@ describe 'lmod' do
           let(:params) {{ :set_default_module => false }}
 
           it { should contain_file('/etc/profile.d/z00_StdEnv.sh').with_ensure('absent') }
-          it { should contain_file('/etc/profile.d/z00_StdEnv.csh').with_ensure('absent') }
+          it { should contain_file('z00_StdEnv.csh').with_ensure('absent') }
         end
 
         context "when avail_styles => ['grouped','system']" do
@@ -369,7 +376,7 @@ describe 'lmod' do
           it { should contain_file('lmod-sh-load').with_ensure('absent') }
           it { should contain_file('lmod-csh-load').with_ensure('absent') }
           it { should contain_file('/etc/profile.d/z00_StdEnv.sh').with_ensure('absent') }
-          it { should contain_file('/etc/profile.d/z00_StdEnv.csh').with_ensure('absent') }
+          it { should contain_file('z00_StdEnv.csh').with_ensure('absent') }
         end
       end
 

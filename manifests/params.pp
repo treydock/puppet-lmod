@@ -21,7 +21,6 @@ class lmod::params {
   $module_bash_path       = '/etc/profile.d/modules.sh'
   $modules_bash_template  = 'lmod/modules.sh.erb'
   $modules_bash_source    = undef
-  $modules_csh_path       = '/etc/profile.d/modules.csh'
   $modules_csh_template   = 'lmod/modules.csh.erb'
   $modules_csh_source     = undef
   $stdenv_bash_template   = 'lmod/z00_StdEnv.sh.erb'
@@ -35,6 +34,8 @@ class lmod::params {
 
   case $::osfamily {
     'RedHat': {
+      $modules_csh_path = '/etc/profile.d/modules.csh'
+      $stdenv_csh_path = '/etc/profile.d/z00_StdEnv.csh'
       $package_name = 'Lmod'
       if $::operatingsystemmajrelease == '5' {
         $base_packages = [
@@ -61,6 +62,8 @@ class lmod::params {
     }
 
     'Debian': {
+      $modules_csh_path = '/etc/csh/login.d/modules.csh'
+      $stdenv_csh_path = '/etc/csh/login.d/z00_StdEnv.csh'
       $package_name = 'lmod'
       if $::operatingsystemmajrelease == '14.04' {
         $base_packages = [
@@ -90,7 +93,7 @@ class lmod::params {
     }
 
     default: {
-      fail("Unsupported osfamily: ${::osfamily}, module ${module_name} only support osfamily RedHat")
+      fail("Unsupported osfamily: ${::osfamily}, module ${module_name} only support osfamily RedHat or Debian")
     }
   }
 
