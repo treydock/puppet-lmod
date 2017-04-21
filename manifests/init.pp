@@ -24,6 +24,7 @@ class lmod (
   $modules_csh_source     = $lmod::params::modules_csh_source,
   $stdenv_bash_template   = $lmod::params::stdenv_bash_template,
   $stdenv_bash_source     = $lmod::params::stdenv_bash_source,
+  $stdenv_csh_path        = $lmod::params::stdenv_csh_path,
   $stdenv_csh_template    = $lmod::params::stdenv_csh_template,
   $stdenv_csh_source      = $lmod::params::stdenv_csh_source,
 ) inherits lmod::params {
@@ -37,6 +38,7 @@ class lmod (
   validate_string($modules_csh_path)
   validate_string($modules_csh_template)
   validate_string($stdenv_bash_template, $stdenv_csh_template)
+  validate_string($stdenv_csh_path)
 
   validate_array($modulepaths)
   validate_array($avail_styles)
