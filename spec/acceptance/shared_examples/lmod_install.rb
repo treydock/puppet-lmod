@@ -25,6 +25,7 @@ def base_packages
         'lua-json',
         'lua-posix',
         'tcl',
+        'tcsh',
         'zsh',
       ]
     else
@@ -34,6 +35,7 @@ def base_packages
         'lua-posix',
         'lua-term',
         'tcl',
+        'tcsh',
         'zsh',
       ]
     end
