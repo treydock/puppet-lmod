@@ -59,9 +59,9 @@ class lmod::load {
 
     # Template uses:
     # - $default_module
-    file { '/etc/profile.d/z00_StdEnv.csh':
+    file { 'z00_StdEnv.csh':
       ensure  => $lmod::_file_ensure,
-      path    => '/etc/profile.d/z00_StdEnv.csh',
+      path    => $lmod::stdenv_csh_path,
       content => $lmod::_stdenv_csh_content,
       source  => $lmod::_stdenv_csh_source,
       owner   => 'root',
@@ -73,8 +73,9 @@ class lmod::load {
       ensure  => absent,
     }
 
-    file { '/etc/profile.d/z00_StdEnv.csh':
-      ensure  => absent,
+    file { 'z00_StdEnv.csh':
+      ensure => absent,
+      path   => $lmod::stdenv_csh_path,
     }
   }
 
