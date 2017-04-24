@@ -28,9 +28,9 @@ class lmod::params {
   $stdenv_csh_template    = 'lmod/z00_StdEnv.csh.erb'
   $stdenv_csh_source      = undef
 
-  $ps_cmd       = '/bin/ps'
-  $expr_cmd     = '/bin/expr'
-  $basename_cmd = '/bin/basename'
+  $ps_cmd       = 'ps'
+  $expr_cmd     = 'expr'
+  $basename_cmd = 'basename'
 
   case $::osfamily {
     'RedHat': {
