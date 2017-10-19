@@ -8,7 +8,7 @@ class lmod::params {
   $ensure                 = 'present'
   $prefix                 = '/opt/apps'
   $lmod_package_from_repo = false
-  $modulepath_root        = 'UNSET'
+  $modulepath_root        = undef
   $modulepaths            = ['$LMOD_sys', 'Core']
   $set_lmod_package_path  = true
   $lmod_package_path      = '$MODULEPATH_ROOT/Site'
