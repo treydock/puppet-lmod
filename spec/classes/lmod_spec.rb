@@ -95,6 +95,18 @@ describe 'lmod' do
           it { should_not contain_package(package) }
         end
 
+        context "package_ensure => 'foo'" do
+          let(:params) {{ :package_ensure => 'foo' }}
+
+          base_packages.each do |package|
+            it { should contain_package(package).with_ensure('present') }
+          end
+
+          runtime_packages.each do |package|
+            it { should contain_package(package).with_ensure('present') }
+          end
+        end
+
         context "manage_build_packages => true" do
           let(:params) {{ :manage_build_packages => true }}
 
@@ -116,6 +128,11 @@ describe 'lmod' do
           it { should contain_package(package_name).with_ensure('present') }
           if facts[:osfamily] == 'RedHat'
             it { should contain_package(package_name).with_require('Yumrepo[epel]') }
+          end
+
+          context "package_ensure => 'foo'" do
+            let(:params) {{ :lmod_package_from_repo => true, :package_ensure => 'foo' }}
+            it { should contain_package(package_name).with_ensure('foo') }
           end
         end
 
