@@ -392,60 +392,6 @@ describe 'lmod' do
           it { should contain_file('z00_StdEnv.csh').with_ensure('absent') }
         end
       end
-
-      context 'when ensure => foo' do
-        let(:params) {{ :ensure => 'foo' }}
-        it "should raise error" do
-          expect { should compile }.to raise_error(/ensure must be 'present' or 'absent'/)
-        end
-      end
-
-      # Test validate_string parameters
-      [
-        :prefix,
-        :modulepath_root,
-        :lmod_package_path,
-        :default_module,
-        :modules_bash_template,
-        :modules_csh_template,
-        :stdenv_bash_template,
-        :stdenv_csh_template,
-      ].each do |param|
-        context "with #{param} => ['foo']" do
-          let(:params) {{ param.to_sym => ['foo'] }}
-          it "should raise error" do
-            expect { should compile }.to raise_error(/is not a string/)
-          end
-        end
-      end
-
-      # Test validate_array parameters
-      [
-        :modulepaths,
-        :avail_styles,
-      ].each do |param|
-        context "with #{param} => 'foo'" do
-          let(:params) {{ param.to_sym => 'foo' }}
-          it "should raise error" do
-            expect { should compile }.to raise_error(/is not an Array/)
-          end
-        end
-      end
-
-      # Test validate_bool parameters
-      [
-        :set_lmod_package_path,
-        :set_default_module,
-        :manage_build_packages,
-        :lmod_package_from_repo,
-      ].each do |param|
-        context "with #{param} => 'foo'" do
-          let(:params) {{ param.to_sym => 'foo' }}
-          it "should raise error" do
-            expect { should compile }.to raise_error(/is not a boolean/)
-          end
-        end
-      end
     end
   end
 end

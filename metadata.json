@@ -1,5 +1,5 @@
 {
-  "name": "treydock-puppet-lmod",
+  "name": "treydock-lmod",
   "version": "0.0.1",
   "author": "treydock",
   "summary": "Lmod Puppet module",
@@ -11,15 +11,15 @@
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
-      "operatingsystemrelease": [ "5", "6", "7" ]
+      "operatingsystemrelease": [ "6", "7" ]
     },
     {
       "operatingsystem": "CentOS",
-      "operatingsystemrelease": [ "5", "6", "7" ]
+      "operatingsystemrelease": [ "6", "7" ]
     },
     {
       "operatingsystem": "Scientific",
-      "operatingsystemrelease": [ "5", "6", "7" ]
+      "operatingsystemrelease": [ "6", "7" ]
     },
     {
       "operatingsystem": "Ubuntu",
@@ -27,7 +27,7 @@
     }
   ],
   "dependencies": [
-    { "name": "puppetlabs-stdlib", "version_requirement": ">= 3.2.0 <5.0.0" },
-    { "name": "stahnma-epel", "version_requirement": ">= 0.0.6 <2.0.0" }
+    { "name": "puppetlabs/stdlib", "version_requirement": ">= 4.13.0 <5.0.0" },
+    { "name": "stahnma/epel", "version_requirement": ">= 0.0.6 <2.0.0" }
   ]
 }
