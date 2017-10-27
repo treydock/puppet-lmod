@@ -37,23 +37,14 @@ class lmod::params {
       $modules_csh_path = '/etc/profile.d/modules.csh'
       $stdenv_csh_path = '/etc/profile.d/z00_StdEnv.csh'
       $package_name = 'Lmod'
-      if $::operatingsystemmajrelease == '5' {
-        $base_packages = [
-          'lua-filesystem',
-          'lua-posix',
-          'tcl',
-          'zsh',
-        ]
-      } else {
-        $base_packages = [
-          'lua-filesystem',
-          'lua-json',
-          'lua-posix',
-          'lua-term',
-          'tcl',
-          'zsh',
-        ]
-      }
+      $base_packages = [
+        'lua-filesystem',
+        'lua-json',
+        'lua-posix',
+        'lua-term',
+        'tcl',
+        'zsh',
+      ]
 
       $runtime_packages = [
         'lua',
