@@ -1,5 +1,6 @@
 # puppet-lmod
 
+[![Puppet Forge](http://img.shields.io/puppetforge/v/treydock/lmod.svg)](https://forge.puppetlabs.com/treydock/lmod)
 [![Build Status](https://travis-ci.org/treydock/puppet-lmod.png)](https://travis-ci.org/treydock/puppet-lmod)
 
 ## Overview
@@ -50,57 +51,69 @@ To install Lmod from existing package repositories
 
 #### lmod
 
-#####`ensure`
+##### `ensure`
 
 The ensure parameter for this module.  If set to 'absent', managed files are removed.
 If `lmod_package_from_repo` is true and `ensure` is 'absent', then the lmod package is also removed.
 Default is `present`.
 
-#####`prefix`
+##### `package_ensure`
+
+The ensure value for Lmod package.  Only applies when `lmod_package_from_repo` is true.  Default is `present`.
+
+##### `prefix`
 
 The prefix used when lmod was compiled.  Default is '/opt/apps'.
 
-#####`lmod_package_from_repo`
+##### `lmod_package_from_repo`
 
 Should the lmod package be installed from a apt/yum repository, or is
 it installed separately with only dependencies installed from package
 repos?
 
-#####`modulepath_root`
+##### `modulepath_root`
 
 The modulepath for your lmod installation.  Default is 'UNSET'.
 
 If the value is 'UNSET' then the path `$prefix/modulefiles` is used.
 
-#####`modulepaths`
+##### `modulepaths`
 
 An Array of modulepaths to be defined in the module.sh and module.csh.  Default is ['$LMOD_sys','Core'].
 
-#####`set_lmod_package_path`
+##### `set_lmod_package_path`
 
 Boolean that determines if the `LMOD_PACKAGE_PATH` environment variable should be set in modules.sh and modules.csh.  Default is true.
 
-#####`lmod_package_path`
+##### `lmod_package_path`
 
 Value given to the `LMOD_PACKAGE_PATH` environment variable in modules.sh and modules.csh.  Default is '${MODULEPATH_ROOT}/Site'.
 
-#####`set_default_module`
+##### `set_default_module`
 
 Boolean will disable the management of the files that define the default module.  Defaults to true.
 
-#####`default_module`
+##### `default_module`
 
 The name of the default module to be loaded when users login.  Default is 'StdEnv'.
 
 This will not be set if `set_default_module` is false.
 
-#####`avail_styles`
+##### `avail_styles`
 
 An Array used to set the LMOD_AVAIL_STYLES environment variable.  An empty Array prevents this environment variable from being set.
 
 Default is ['system'].
 
-#####`manage_build_packages`
+##### `lmod_admin_file`
+
+Defines path used for `LMOD_ADMIN_FILE`.  Default is `undef`.
+
+##### `system_name`
+
+Value used for `LMOD_SYSTEM_NAME`.  Default is `undef`.
+
+##### `manage_build_packages`
 
 Boolean that determines if the packages necessary to build lmod should be managed.  Default is false.
 
@@ -108,7 +121,7 @@ Boolean that determines if the packages necessary to build lmod should be manage
 
 Tested using
 
-* CentOS 6.5
+* CentOS/RedHat 6, 7
 * Ubuntu 14.04, 16.04
 
 ## Development
