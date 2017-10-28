@@ -5,7 +5,7 @@
 
 ## Overview
 
-The lmod module handles the configuration of a system to use Lmod.  Additional details regarding Lmod can be found at https://www.tacc.utexas.edu/tacc-projects/lmod.
+The lmod module handles the configuration of a system to use Lmod.  Additional details regarding Lmod can be found at http://lmod.readthedocs.io/en/latest/index.html.
 
 ## Usage
 
