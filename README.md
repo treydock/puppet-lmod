@@ -33,6 +33,16 @@ To install Lmod from existing package repositories
       lmod_package_from_repo => true,
     }
 
+Below is an example that adds several paths to default MODULEPATH, sets a default module, sets LMOD\_PACKAGE\_PATH and sets LMOD\_SYSTEM\_NAME.
+
+    class { 'lmod':
+      lmod_package_from_repo => true,
+      modulepaths            => ['$LMOD_sys', 'Core'],
+      set_lmod_package_path  => true,
+      set_default_module     => true,
+      default_module         => 'mycluster',
+    }
+
 ## Reference
 
 ### Classes
