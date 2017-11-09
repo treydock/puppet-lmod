@@ -2,6 +2,18 @@
 
 Release notes for the treydock-lmod module.
 
+## [1.0.2](https://github.com/treydock/puppet-lmod/tree/1.0.2) (2017-11-09)
+[Full Changelog](https://github.com/treydock/puppet-lmod/compare/1.0.1...1.0.2)
+
+**Fixed bugs:**
+
+- Fix bash module load file syntax error [\#14](https://github.com/treydock/puppet-lmod/pull/14) ([treydock](https://github.com/treydock))
+
+**Merged pull requests:**
+
+- Use release\_checks rake task [\#13](https://github.com/treydock/puppet-lmod/pull/13) ([treydock](https://github.com/treydock))
+- Add another usage example to README [\#12](https://github.com/treydock/puppet-lmod/pull/12) ([treydock](https://github.com/treydock))
+
 ## [1.0.0](https://github.com/treydock/puppet-lmod/tree/1.0.0) (2017-10-27)
 [Full Changelog](https://github.com/treydock/puppet-lmod/compare/0.0.1...1.0.0)
 
