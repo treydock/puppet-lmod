@@ -40,7 +40,6 @@ if [ -z "${USER_IS_ROOT:-}" ]; then
       export MANPATH=:
     fi
     export MANPATH=$(<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/libexec/addto MANPATH <%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/share/man)
-  fi
 
 <% if scope.lookupvar('lmod::set_lmod_package_path') -%>
     export LMOD_PACKAGE_PATH=<%= scope.lookupvar('lmod::lmod_package_path') %>
