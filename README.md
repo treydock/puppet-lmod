@@ -123,6 +123,10 @@ Defines path used for `LMOD_ADMIN_FILE`.  Default is `undef`.
 
 Value used for `LMOD_SYSTEM_NAME`.  Default is `undef`.
 
+##### `cached_loads`
+
+Value used for `LMOD_CACHED_LOADS`.  Default is `undef`, valid values are `undef`, `true` or `false`
+
 ##### `manage_build_packages`
 
 Boolean that determines if the packages necessary to build lmod should be managed.  Default is false.
