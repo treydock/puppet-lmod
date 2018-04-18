@@ -401,6 +401,24 @@ describe 'lmod' do
           end
         end
 
+        context "when cached_loads => true" do
+          let(:params) {{ :cached_loads => true }}
+
+          it do
+            verify_contents(catalogue, 'lmod-sh-load', [
+              '    export LMOD_CACHED_LOADS=yes',
+              '  fi',
+            ])
+          end
+
+          it do
+            verify_contents(catalogue, 'lmod-csh-load', [
+              '    setenv LMOD_CACHED_LOADS yes',
+              'endif',
+            ])
+          end
+        end
+
         context 'ensure => absent' do
           let(:params) {{ :ensure => 'absent' }}
           it { should contain_file('lmod-sh-load').with_ensure('absent') }

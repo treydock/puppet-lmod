@@ -53,6 +53,9 @@ if [ -z "${USER_IS_ROOT:-}" ]; then
 <% if scope.lookupvar('lmod::system_name') -%>
     export LMOD_SYSTEM_NAME=<%= scope.lookupvar('lmod::system_name') %>
 <% end -%>
+<% if scope.lookupvar('lmod::cached_loads') -%>
+    export LMOD_CACHED_LOADS=<%= scope.lookupvar('lmod::cached_loads') ? 'yes' : 'no' %>
+<% end -%>
   fi
 
   PS_CMD=/usr/bin/ps
