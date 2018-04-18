@@ -2,6 +2,13 @@
 
 Release notes for the treydock-lmod module.
 
+## [1.1.0](https://github.com/treydock/puppet-lmod/tree/1.1.0) (2018-04-18)
+[Full Changelog](https://github.com/treydock/puppet-lmod/compare/1.0.2...1.1.0)
+
+**Implemented enhancements:**
+
+- Support setting LMOD\_CACHED\_LOADS via cached\_loads parameter [\#15](https://github.com/treydock/puppet-lmod/pull/15) ([treydock](https://github.com/treydock))
+
 ## [1.0.2](https://github.com/treydock/puppet-lmod/tree/1.0.2) (2017-11-09)
 [Full Changelog](https://github.com/treydock/puppet-lmod/compare/1.0.1...1.0.2)
 
