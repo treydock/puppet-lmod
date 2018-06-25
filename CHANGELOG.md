@@ -2,6 +2,13 @@
 
 Release notes for the treydock-lmod module.
 
+## [1.2.0](https://github.com/treydock/puppet-lmod/tree/1.2.0) (2018-06-25)
+[Full Changelog](https://github.com/treydock/puppet-lmod/compare/1.1.0...1.2.0)
+
+**Implemented enhancements:**
+
+- Allow LMOD\_SITE\_NAME to be set [\#16](https://github.com/treydock/puppet-lmod/pull/16) ([treydock](https://github.com/treydock))
+
 ## [1.1.0](https://github.com/treydock/puppet-lmod/tree/1.1.0) (2018-04-18)
 [Full Changelog](https://github.com/treydock/puppet-lmod/compare/1.0.2...1.1.0)
 
