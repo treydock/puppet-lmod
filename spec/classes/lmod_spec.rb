@@ -401,6 +401,24 @@ describe 'lmod' do
           end
         end
 
+        context "when site_name => foo" do
+          let(:params) {{ :site_name => 'foo' }}
+
+          it do
+            verify_contents(catalogue, 'lmod-sh-load', [
+              '    export LMOD_SITE_NAME=foo',
+              '  fi',
+            ])
+          end
+
+          it do
+            verify_contents(catalogue, 'lmod-csh-load', [
+              '    setenv LMOD_SITE_NAME foo',
+              'endif',
+            ])
+          end
+        end
+
         context "when cached_loads => true" do
           let(:params) {{ :cached_loads => true }}
 

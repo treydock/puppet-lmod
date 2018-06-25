@@ -17,6 +17,7 @@ class lmod::params {
   $avail_styles           = ['system']
   $lmod_admin_file        = undef
   $system_name            = undef
+  $site_name              = undef
   $manage_build_packages  = false
   $module_bash_path       = '/etc/profile.d/modules.sh'
   $modules_bash_template  = 'lmod/modules.sh.erb'

@@ -58,6 +58,9 @@ if ( ! $?MODULEPATH_ROOT ) then
 <% if scope.lookupvar('lmod::system_name') -%>
     setenv LMOD_SYSTEM_NAME <%= scope.lookupvar('lmod::system_name') %>
 <% end -%>
+<% if scope.lookupvar('lmod::site_name') -%>
+    setenv LMOD_SITE_NAME <%= scope.lookupvar('lmod::site_name') %>
+<% end -%>
 <% if scope.lookupvar('lmod::cached_loads') -%>
     setenv LMOD_CACHED_LOADS <%= scope.lookupvar('lmod::cached_loads') ? 'yes' : 'no' %>
 <% end -%>
