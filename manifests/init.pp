@@ -16,6 +16,7 @@ class lmod (
   Array $avail_styles                               = $lmod::params::avail_styles,
   Optional[Stdlib::Absolutepath] $lmod_admin_file   = $lmod::params::lmod_admin_file,
   Optional[String] $system_name                     = $lmod::params::system_name,
+  Optional[String] $site_name                       = $lmod::params::site_name,
   Optional[Boolean] $cached_loads                   = undef,
   Boolean $manage_build_packages                    = $lmod::params::manage_build_packages,
   Stdlib::Absolutepath $modules_bash_path           = $lmod::params::module_bash_path,
