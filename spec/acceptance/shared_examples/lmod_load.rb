@@ -20,10 +20,10 @@ end
 shared_examples_for 'lmod::load' do
   shell_paths.each do |file|
     describe file(file) do
-      it { should be_file }
-      it { should be_mode 644 }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
+      it { is_expected.to be_file }
+      it { is_expected.to be_mode 644 }
+      it { is_expected.to be_owned_by 'root' }
+      it { is_expected.to be_grouped_into 'root' }
     end
   end
 end

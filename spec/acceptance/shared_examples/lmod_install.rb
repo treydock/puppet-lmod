@@ -52,7 +52,7 @@ def runtime_packages
     ]
   when 'Debian'
     [
-      'lua5.2'
+      'lua5.2',
     ]
   else
     []
@@ -69,7 +69,7 @@ def build_packages
     [
       'liblua5.2-dev',
       'lua-filesystem-dev',
-      'lua-posix-dev'
+      'lua-posix-dev',
     ]
   else
     []
@@ -79,19 +79,19 @@ end
 shared_examples_for 'lmod::install without build packages' do
   base_packages.each do |package|
     describe package(package) do
-      it { should be_installed }
+      it { is_expected.to be_installed }
     end
   end
 
   runtime_packages.each do |package|
     describe package(package) do
-      it { should be_installed }
+      it { is_expected.to be_installed }
     end
   end
 
   build_packages.each do |package|
     describe package(package) do
-      it { should_not be_installed }
+      it { is_expected.not_to be_installed }
     end
   end
 end
@@ -99,19 +99,19 @@ end
 shared_examples_for 'lmod::install with build packages' do
   base_packages.each do |package|
     describe package(package) do
-      it { should be_installed }
+      it { is_expected.to be_installed }
     end
   end
 
   runtime_packages.each do |package|
     describe package(package) do
-      it { should be_installed }
+      it { is_expected.to be_installed }
     end
   end
 
   build_packages.each do |package|
     describe package(package) do
-      it { should be_installed }
+      it { is_expected.to be_installed }
     end
   end
 end
