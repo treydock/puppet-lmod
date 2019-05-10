@@ -1,6 +1,57 @@
-# == Class: lmod
+# @summary Manage Lmod
 #
-# Public
+# @example To install Lmod from existing package repositories
+#   class { 'lmod':
+#      lmod_package_from_repo => true,
+#    }
+#
+# @param ensure
+#   The ensure parameter for this module.  If set to 'absent', managed files are removed.
+#   If lmod_package_from_repo is true and ensure is 'absent', then the lmod package is also removed.
+# @param package_ensure
+#   The ensure value for Lmod package.  Only applies when lmod_package_from_repo is true.
+# @param prefix
+#   The prefix used when lmod was compiled.
+# @param lmod_package_from_repo
+#   Should the lmod package be installed from a apt/yum repository, or is
+#   it installed separately with only dependencies installed from package repos?
+# @param manage_epel
+#   Boolean that determines if EPEL should be mananged by this module for systems installing Lmod via yum.
+# @param package_name
+#   Lmod package name if lmod_package_from_repo is true.
+# @param base_packages
+#   Packages necessary to build and use Lmod, only installed if lmod_package_from_repo is false
+# @param runtime_packages
+#   Lmod runtime package dependencies, only installed if lmod_package_from_repo is false
+# @param build_packages
+#   Lmod runtime devel package dependencies, only installed if manage_build_packages is true
+# @param modulepath_root
+#   The modulepath for your lmod installation.  Default is 'UNSET'.
+#   If the value is 'UNSET' then the path $prefix/modulefiles is used.
+# @param modulepaths
+#   An Array of modulepaths to be defined in the module.sh and module.csh.
+# @param set_lmod_package_path
+#   Boolean that determines if the LMOD_PACKAGE_PATH environment variable should be set in modules.sh and modules.csh.
+# @param lmod_package_path
+#   Value given to the LMOD_PACKAGE_PATH environment variable in modules.sh and modules.csh.
+# @param set_default_module
+#   Boolean will disable the management of the files that define the default module.
+# @param default_module
+#   The name of the default module to be loaded when users login.
+#   This will not be set if set_default_module is false.
+# @param avail_styles
+#   An Array used to set the LMOD_AVAIL_STYLES environment variable.
+#   An empty Array prevents this environment variable from being set.
+# @param lmod_admin_file
+#   Defines path used for LMOD_ADMIN_FILE.
+# @param system_name
+#   Value used for LMOD_SYSTEM_NAME.
+# @param site_name
+#   Value used for LMOD_SITE_NAME.
+# @param cached_loads
+#   Value used for LMOD_CACHED_LOADS.
+# @param manage_build_packages
+#   Boolean that determines if the packages necessary to build lmod should be managed.
 #
 class lmod (
   Enum['present','absent'] $ensure                  = 'present',

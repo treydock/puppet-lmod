@@ -1,11 +1,7 @@
-# == Class: lmod::install
-#
-# Private
-#
+# @summary Install Lmod package and dependencies
+# @api private
 class lmod::install {
-  if $caller_module_name != $module_name {
-    fail("Use of private class ${name} by ${caller_module_name}")
-  }
+  assert_private()
 
   if $lmod::lmod_package_from_repo {
     $package_ensure = $lmod::package_ensure

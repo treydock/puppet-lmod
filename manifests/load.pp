@@ -1,11 +1,7 @@
-# == Class: lmod::load
-#
-# Private
-#
+# @summary Manage Lmod load config files
+# @api private
 class lmod::load {
-  if $caller_module_name != $module_name {
-    fail("Use of private class ${name} by ${caller_module_name}")
-  }
+  assert_private()
 
   # Template uses:
   # - $_modulepath_root
