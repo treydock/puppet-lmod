@@ -76,7 +76,7 @@ if [ -z "${USER_IS_ROOT:-}" ]; then
       elif [ -x /bin/expr ]; then
           EXPR_CMD=/bin/expr
       fi
-   fi
+  fi
   BASENAME_CMD=/usr/bin/basename
   if [ ! -x $BASENAME_CMD ]; then
       if   [ -x /bin/basename ]; then
