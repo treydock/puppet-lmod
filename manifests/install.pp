@@ -15,11 +15,16 @@ class lmod::install {
 
   case $::osfamily {
     'RedHat': {
-      include epel
+      if $lmod::manage_epel {
+        include epel
+        $package_require = Yumrepo['epel']
+      } else {
+        $package_require = undef
+      }
 
       $_package_defaults = {
         'ensure'  => $package_ensure,
-        'require' => 'Yumrepo[epel]',
+        'require' => $package_require,
       }
     }
     default: {

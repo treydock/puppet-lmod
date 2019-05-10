@@ -7,6 +7,7 @@ class lmod (
   String $package_ensure                            = 'present',
   Stdlib::Absolutepath $prefix                      = $lmod::params::prefix,
   Boolean $lmod_package_from_repo                   = $lmod::params::lmod_package_from_repo,
+  Boolean $manage_epel                              = true,
   Optional[Stdlib::Absolutepath] $modulepath_root   = $lmod::params::modulepath_root,
   Array $modulepaths                                = $lmod::params::modulepaths,
   Boolean $set_lmod_package_path                    = $lmod::params::set_lmod_package_path,
