@@ -1,7 +1,7 @@
 HOSTS:
-  ubuntu-1604-x64:
+  ubuntu1604:
     roles:
-      - master
+      - agent
     platform: ubuntu-16.04-amd64
     hypervisor : docker
     image: ubuntu:16.04
@@ -10,6 +10,11 @@ HOSTS:
     docker_image_commands:
       - 'apt-get install -y -q net-tools wget locales'
       - 'locale-gen en_US.UTF-8'
+    docker_container_name: 'lmod-ubuntu1604'
 CONFIG:
-  type: aio
   log_level: debug
+  type: foss
+ssh:
+  password: root
+  auth_methods: ["password"]
+
