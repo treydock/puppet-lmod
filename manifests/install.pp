@@ -7,8 +7,6 @@ class lmod::install {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  include lmod::params
-
   if $lmod::lmod_package_from_repo {
     $package_ensure = $lmod::package_ensure
   } else {
@@ -38,17 +36,17 @@ class lmod::install {
 
   if $lmod::lmod_package_from_repo {
     $_base_packages    = []
-    $_runtime_packages = [ $lmod::params::package_name ]
+    $_runtime_packages = [ $lmod::package_name ]
   } else {
-    $_base_packages    = $lmod::params::base_packages
-    $_runtime_packages = $lmod::params::runtime_packages
+    $_base_packages    = $lmod::base_packages
+    $_runtime_packages = $lmod::runtime_packages
   }
 
   if $lmod::ensure == 'present' {
     ensure_packages($_base_packages, delete_undef_values($_package_defaults))
     ensure_packages($_runtime_packages, delete_undef_values($_package_defaults))
     if $lmod::manage_build_packages {
-      ensure_packages($lmod::params::build_packages, delete_undef_values($_package_defaults))
+      ensure_packages($lmod::build_packages, delete_undef_values($_package_defaults))
     }
   } elsif $lmod::ensure == 'absent' and $lmod::lmod_package_from_repo {
     ensure_packages($_runtime_packages, {'ensure' => 'absent'})
