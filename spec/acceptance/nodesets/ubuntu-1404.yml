@@ -1,7 +1,7 @@
 HOSTS:
-  ubuntu-1404-x64:
+  ubuntu1404:
     roles:
-      - master
+      - agent
     platform: ubuntu-14.04-amd64
     hypervisor : docker
     image: ubuntu:14.04
@@ -12,6 +12,11 @@ HOSTS:
       - 'rm /sbin/initctl; dpkg-divert --rename --remove /sbin/initctl'
       - 'apt-get install -y -q net-tools wget'
       - 'locale-gen en_US.UTF-8'
+    docker_container_name: 'lmod-ubuntu1404'
 CONFIG:
-  type: aio
   log_level: debug
+  type: foss
+ssh:
+  password: root
+  auth_methods: ["password"]
+

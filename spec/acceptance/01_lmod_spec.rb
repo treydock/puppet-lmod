@@ -2,13 +2,13 @@ require 'spec_helper_acceptance'
 
 describe 'lmod class:' do
   context 'default parameters' do
-    it 'should run successfully' do
-      pp =<<-EOS
+    it 'runs successfully' do
+      pp = <<-EOS
         class { 'lmod': }
       EOS
 
-      apply_manifest(pp, :catch_failures => true)
-      apply_manifest(pp, :catch_changes => true)
+      apply_manifest(pp, catch_failures: true)
+      apply_manifest(pp, catch_changes: true)
     end
 
     it_behaves_like 'lmod::install without build packages'
@@ -16,13 +16,13 @@ describe 'lmod class:' do
   end
 
   context 'when manage_build_packages => true' do
-    it 'should run successfully' do
-      pp =<<-EOS
+    it 'runs successfully' do
+      pp = <<-EOS
         class { 'lmod': manage_build_packages => true }
       EOS
 
-      apply_manifest(pp, :catch_failures => true)
-      apply_manifest(pp, :catch_changes => true)
+      apply_manifest(pp, catch_failures: true)
+      apply_manifest(pp, catch_changes: true)
     end
 
     it_behaves_like 'lmod::install with build packages'

@@ -5,32 +5,60 @@
   "summary": "Lmod Puppet module",
   "license": "Apache-2.0",
   "source": "https://github.com/treydock/puppet-lmod",
-  "issues_url": "https://github.com/treydock/puppet-lmod/issues",
   "project_page": "https://github.com/treydock/puppet-lmod",
-  "tags": [ "environment", "hpc", "modules" ],
+  "issues_url": "https://github.com/treydock/puppet-lmod/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.13.0 <6.0.0"
+    },
+    {
+      "name": "stahnma/epel",
+      "version_requirement": ">= 0.0.6 <2.0.0"
+    }
+  ],
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
-      "operatingsystemrelease": [ "6", "7" ]
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
     },
     {
       "operatingsystem": "CentOS",
-      "operatingsystemrelease": [ "6", "7" ]
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
     },
     {
       "operatingsystem": "Scientific",
-      "operatingsystemrelease": [ "6", "7" ]
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
     },
     {
       "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": [ "14.04", "16.04" ]
+      "operatingsystemrelease": [
+        "14.04",
+        "16.04"
+      ]
     }
   ],
-  "dependencies": [
-    { "name": "puppetlabs/stdlib", "version_requirement": ">= 4.13.0 <6.0.0" },
-    { "name": "stahnma/epel", "version_requirement": ">= 0.0.6 <2.0.0" }
-  ],
   "requirements": [
-    {"name": "puppet", "version_requirement": ">= 5.0.0 < 7.0.0" }
-  ]
+    {
+      "name": "puppet",
+      "version_requirement": ">= 5.0.0 < 7.0.0"
+    }
+  ],
+  "tags": [
+    "environment",
+    "hpc",
+    "modules"
+  ],
+  "pdk-version": "1.10.0",
+  "template-url": "https://github.com/treydock/pdk-templates.git#master",
+  "template-ref": "heads/master-0-geb096e5"
 }
