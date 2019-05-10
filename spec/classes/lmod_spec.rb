@@ -15,7 +15,6 @@ describe 'lmod' do
 
       it { is_expected.to compile.with_all_deps }
       it { is_expected.to create_class('lmod') }
-      it { is_expected.to contain_class('lmod::params') }
 
       it { is_expected.to contain_anchor('lmod::start').that_comes_before('Class[lmod::install]') }
       it { is_expected.to contain_class('lmod::install').that_comes_before('Class[lmod::load]') }

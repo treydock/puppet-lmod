@@ -1,0 +1,18 @@
+---
+lmod::modules_csh_path: '/etc/csh/login.d/modules.csh'
+lmod::stdenv_csh_path: '/etc/csh/login.d/z00_StdEnv.csh'
+lmod::package_name: 'lmod'
+lmod::base_packages:
+  - 'lua-filesystem'
+  - 'lua-json'
+  - 'lua-posix'
+  - 'lua-term'
+  - 'tcl'
+  - 'tcsh'
+  - 'zsh'
+lmod::runtime_packages:
+  - 'lua5.2'
+lmod::build_packages:
+  - 'liblua5.2-dev'
+  - 'lua-filesystem-dev'
+  - 'lua-posix-dev'
