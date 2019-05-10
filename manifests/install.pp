@@ -7,13 +7,15 @@ class lmod::install {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
+  include lmod::params
+
   if $lmod::lmod_package_from_repo {
     $package_ensure = $lmod::package_ensure
   } else {
-    $package_ensure = undef
+    $package_ensure = 'present'
   }
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       include epel
 
