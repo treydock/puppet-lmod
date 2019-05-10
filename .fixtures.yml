@@ -5,5 +5,8 @@ fixtures:
       ref: 4.13.0
     epel:
       repo: git://github.com/stahnma/puppet-module-epel.git
+    yumrepo_core:
+      repo: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
+      puppet_version: ">= 6.0.0"
   symlinks:
     lmod: "#{source_dir}"

@@ -29,7 +29,7 @@ class lmod::params {
   $stdenv_csh_template    = 'lmod/z00_StdEnv.csh.erb'
   $stdenv_csh_source      = undef
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $modules_csh_path = '/etc/profile.d/modules.csh'
       $stdenv_csh_path = '/etc/profile.d/z00_StdEnv.csh'
