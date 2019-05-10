@@ -25,23 +25,14 @@ describe 'lmod' do
       describe 'lmod::install' do
         if facts[:osfamily] == 'RedHat'
           package_require = 'Yumrepo[epel]'
-          base_packages = if facts[:operatingsystemmajrelease] == '5'
-                            [
-                              'lua-filesystem',
-                              'lua-posix',
-                              'tcl',
-                              'zsh',
-                            ]
-                          else
-                            [
-                              'lua-filesystem',
-                              'lua-json',
-                              'lua-posix',
-                              'lua-term',
-                              'tcl',
-                              'zsh',
-                            ]
-                          end
+          base_packages = [
+            'lua-filesystem',
+            'lua-json',
+            'lua-posix',
+            'lua-term',
+            'tcl',
+            'zsh',
+          ]
           package_name = 'Lmod'
           runtime_packages = ['lua']
           build_packages = ['lua-devel']
