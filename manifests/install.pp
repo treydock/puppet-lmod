@@ -3,12 +3,6 @@
 class lmod::install {
   assert_private()
 
-  if $lmod::lmod_package_from_repo {
-    $package_ensure = $lmod::package_ensure
-  } else {
-    $package_ensure = 'present'
-  }
-
   case $facts['os']['family'] {
     'RedHat': {
       if $lmod::manage_epel {
@@ -17,35 +11,46 @@ class lmod::install {
       } else {
         $package_require = undef
       }
+    }
+    default: {
+      $package_require = undef
+    }
+  }
 
-      $_package_defaults = {
-        'ensure'  => $package_ensure,
-        'require' => $package_require,
+  case $lmod::install_method {
+    'package': {
+      $package_ensure = $lmod::ensure ? {
+        'absent' => 'absent',
+        default  => $lmod::package_ensure,
+      }
+      package { $lmod::package_name:
+        ensure  => $package_ensure,
+        require => $package_require,
+      }
+    }
+    'source','none': {
+      if $lmod::install_method == 'source' {
+        include lmod::install::source
+        Class['lmod::install'] -> Class['lmod::install::source']
+      }
+      if $lmod::ensure == 'present' {
+        ensure_packages($lmod::runtime_packages, {'require' => $package_require})
+        ensure_packages($lmod::build_packages, {'require' => $package_require})
       }
     }
     default: {
-      $_package_defaults = {
-        'ensure'  => $package_ensure,
-      }
+      # Do nothing
     }
   }
 
-  if $lmod::lmod_package_from_repo {
-    $_base_packages    = []
-    $_runtime_packages = [ $lmod::package_name ]
-  } else {
-    $_base_packages    = $lmod::base_packages
-    $_runtime_packages = $lmod::runtime_packages
-  }
-
-  if $lmod::ensure == 'present' {
-    ensure_packages($_base_packages, delete_undef_values($_package_defaults))
-    ensure_packages($_runtime_packages, delete_undef_values($_package_defaults))
-    if $lmod::manage_build_packages {
-      ensure_packages($lmod::build_packages, delete_undef_values($_package_defaults))
+  # Fix for Ubuntu 18.04 - https://bugs.launchpad.net/ubuntu/+source/lua-posix/+bug/1752082
+  if $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '18.04' and $lmod::ensure == 'present' {
+    file { '/usr/lib/x86_64-linux-gnu/lua/5.2/posix.so':
+      ensure => 'link',
+      target => '/usr/lib/x86_64-linux-gnu/lua/5.2/posix_c.so',
     }
-  } elsif $lmod::ensure == 'absent' and $lmod::lmod_package_from_repo {
-    ensure_packages($_runtime_packages, {'ensure' => 'absent'})
+    if 'lua-posix' in $lmod::runtime_packages and $lmod::install_method != 'package' {
+      Package['lua-posix'] -> File['/usr/lib/x86_64-linux-gnu/lua/5.2/posix.so']
+    }
   }
-
 }

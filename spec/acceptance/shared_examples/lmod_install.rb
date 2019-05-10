@@ -1,46 +1,8 @@
-def base_packages
-  case fact('osfamily')
-  when 'RedHat'
-    if fact('operatingsystemmajrelease') == '5'
-      [
-        'lua-filesystem',
-        'lua-posix',
-        'tcl',
-        'zsh',
-      ]
-    else
-      [
-        'lua-filesystem',
-        'lua-json',
-        'lua-posix',
-        'lua-term',
-        'tcl',
-        'zsh',
-      ]
-    end
-  when 'Debian'
-    if fact('operatingsystemmajrelease') == '14.04'
-      [
-        'lua-filesystem',
-        'lua-json',
-        'lua-posix',
-        'tcl',
-        'tcsh',
-        'zsh',
-      ]
-    else
-      [
-        'lua-filesystem',
-        'lua-json',
-        'lua-posix',
-        'lua-term',
-        'tcl',
-        'tcsh',
-        'zsh',
-      ]
-    end
+def package_name
+  if fact('osfamily') == 'RedHat'
+    'Lmod'
   else
-    []
+    'lmod'
   end
 end
 
@@ -49,10 +11,23 @@ def runtime_packages
   when 'RedHat'
     [
       'lua',
+      'lua-filesystem',
+      'lua-json',
+      'lua-posix',
+      'lua-term',
+      'tcl',
+      'zsh',
     ]
   when 'Debian'
     [
       'lua5.2',
+      'lua-filesystem',
+      'lua-json',
+      'lua-posix',
+      'lua-term',
+      'tcl',
+      'tcsh',
+      'zsh',
     ]
   else
     []
@@ -63,10 +38,18 @@ def build_packages
   case fact('osfamily')
   when 'RedHat'
     [
+      'gcc',
+      'gcc-c++',
+      'make',
+      'tcl-devel',
       'lua-devel',
     ]
   when 'Debian'
     [
+      'gcc',
+      'g++',
+      'make',
+      'tcl-dev',
       'liblua5.2-dev',
       'lua-filesystem-dev',
       'lua-posix-dev',
@@ -76,33 +59,13 @@ def build_packages
   end
 end
 
-shared_examples_for 'lmod::install without build packages' do
-  base_packages.each do |package|
-    describe package(package) do
-      it { is_expected.to be_installed }
-    end
-  end
-
-  runtime_packages.each do |package|
-    describe package(package) do
-      it { is_expected.to be_installed }
-    end
-  end
-
-  build_packages.each do |package|
-    describe package(package) do
-      it { is_expected.not_to be_installed }
-    end
+shared_examples_for 'lmod::install package' do
+  describe package(package_name) do
+    it { is_expected.to be_installed }
   end
 end
 
-shared_examples_for 'lmod::install with build packages' do
-  base_packages.each do |package|
-    describe package(package) do
-      it { is_expected.to be_installed }
-    end
-  end
-
+shared_examples_for 'lmod::install dependencies' do
   runtime_packages.each do |package|
     describe package(package) do
       it { is_expected.to be_installed }

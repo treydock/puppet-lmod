@@ -11,37 +11,55 @@ The lmod module handles the configuration of a system to use Lmod.  Additional d
 
 ### lmod
 
-The default parameter values are suitable for compute nodes using Lmod.
+Install Lmod through package repositories:
 
-    class { 'lmod': }
+```puppet
+class { 'lmod': }
+```
 
-This is an example of how to configure package building nodes to use Lmod.
+This is an example install Lmod from source.
 
-    class { 'lmod':
-      manage_build_packages => true,
-    }
+```puppet
+class { 'lmod':
+  prefix            => '/apps',
+  moduleroot_path   => '/apps/modulefiles',
+  version           => '8.4.26',
+  install_method    => 'source',
+  source_with_flags => {
+    'spiderCacheDir' => '/apps/lmodcache/cacheDir',
+    'updateSystemFn' => '/apps/lmodcache/system.txt',
+  },
+}
+```
+
+If you wish to manage the Lmod install outside Puppet:
+
+```puppet
+class { 'lmod':
+  prefix            => '/apps',
+  moduleroot_path   => '/apps/modulefiles',
+  install_method    => 'none',
+}
+```
 
 To customize the avail layout (since Lmod 5.7.5)
 
-    class { 'lmod':
-      avail_style => ['grouped', 'system'],
-    }
-
-To install Lmod from existing package repositories
-
-    class { 'lmod':
-      lmod_package_from_repo => true,
-    }
+```puppet
+class { 'lmod':
+  avail_style => ['grouped', 'system'],
+}
+```
 
 Below is an example that adds several paths to default MODULEPATH, sets a default module, sets LMOD\_PACKAGE\_PATH and sets LMOD\_SYSTEM\_NAME.
 
-    class { 'lmod':
-      lmod_package_from_repo => true,
-      modulepaths            => ['$LMOD_sys', 'Core'],
-      set_lmod_package_path  => true,
-      set_default_module     => true,
-      default_module         => 'mycluster',
-    }
+```puppet
+class { 'lmod':
+  modulepaths            => ['$LMOD_sys', 'Core'],
+  set_lmod_package_path  => true,
+  set_default_module     => true,
+  default_module         => 'mycluster',
+}
+```
 
 ## Reference
 
@@ -51,28 +69,6 @@ Below is an example that adds several paths to default MODULEPATH, sets a defaul
 
 Tested using
 
-* CentOS/RedHat 6, 7
-* Ubuntu 14.04, 16.04
-
-## Development
-
-### Testing
-
-Testing requires the following dependencies:
-
-* rake
-* bundler
-
-Install gem dependencies
-
-    bundle install
-
-Run unit tests
-
-    bundle exec rake test
-
-If you have Vagrant >= 1.2.0 installed you can run system tests
-
-    bundle exec rake beaker
-
-## TODO
+* CentOS/RedHat 7, 8
+* Ubuntu 16.04, 18.04, 20.04
+* Debian 9, 10

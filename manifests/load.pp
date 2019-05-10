@@ -3,8 +3,24 @@
 class lmod::load {
   assert_private()
 
+  # Remove files installed by OS where path maybe different
+  if $facts['os']['family'] == 'RedHat' {
+    if $lmod::modules_bash_path != '/etc/profile.d/00-modulepath.sh' {
+      file { '/etc/profile.d/00-modulepath.sh': ensure => 'absent' }
+    }
+    if $lmod::modules_csh_path != '/etc/profile.d/00-modulepath.csh' {
+      file { '/etc/profile.d/00-modulepath.csh': ensure => 'absent' }
+    }
+    if $lmod::modules_bash_path != '/etc/profile.d/z00_lmod.sh' {
+      file { '/etc/profile.d/z00_lmod.sh': ensure => 'absent' }
+    }
+    if $lmod::modules_csh_path != '/etc/profile.d/z00_lmod.csh' {
+      file { '/etc/profile.d/z00_lmod.csh': ensure => 'absent' }
+    }
+  }
+
   # Template uses:
-  # - $_modulepath_root
+  # - $modulepath_root
   # - $modulepaths
   # - $prefix
   # - $set_lmod_package_path
@@ -24,7 +40,7 @@ class lmod::load {
   }
 
   # Template uses:
-  # - $_modulepath_root
+  # - $modulepath_root
   # - $modulepaths
   # - $prefix
   # - $set_lmod_package_path
@@ -66,7 +82,8 @@ class lmod::load {
     }
   } else {
     file { '/etc/profile.d/z00_StdEnv.sh':
-      ensure  => absent,
+      ensure => absent,
+      path   => $lmod::stdenv_bash_path,
     }
 
     file { 'z00_StdEnv.csh':

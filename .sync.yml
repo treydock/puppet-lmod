@@ -9,9 +9,6 @@
       - ubuntu-1604
       - ubuntu-1804
       - ubuntu-2004
-  acceptance_excludes:
-    - set: ubuntu-2004
-      puppet: puppet5
 .gitlab-ci.yml:
   delete: true
 appveyor.yml:

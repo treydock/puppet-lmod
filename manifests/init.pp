@@ -2,25 +2,28 @@
 #
 # @example To install Lmod from existing package repositories
 #   class { 'lmod':
-#      lmod_package_from_repo => true,
+#      install_method => 'package',
 #    }
 #
 # @param ensure
 #   The ensure parameter for this module.  If set to 'absent', managed files are removed.
 #   If lmod_package_from_repo is true and ensure is 'absent', then the lmod package is also removed.
+# @param version
+#   Version of Lmod to install when installing from source
 # @param package_ensure
 #   The ensure value for Lmod package.  Only applies when lmod_package_from_repo is true.
 # @param prefix
 #   The prefix used when lmod was compiled.
-# @param lmod_package_from_repo
-#   Should the lmod package be installed from a apt/yum repository, or is
-#   it installed separately with only dependencies installed from package repos?
+# @param install_method
+#   How Lmod should be installed
 # @param manage_epel
 #   Boolean that determines if EPEL should be mananged by this module for systems installing Lmod via yum.
+# @param source_dir
+#   Directory to store Lmod source
+# @param source_with_flags
+#   Key/value pair of flags to turn into --with-<key>=<value> passed to configure when installing from source
 # @param package_name
 #   Lmod package name if lmod_package_from_repo is true.
-# @param base_packages
-#   Packages necessary to build and use Lmod, only installed if lmod_package_from_repo is false
 # @param runtime_packages
 #   Lmod runtime package dependencies, only installed if lmod_package_from_repo is false
 # @param build_packages
@@ -50,8 +53,6 @@
 #   Value used for LMOD_SITE_NAME.
 # @param cached_loads
 #   Value used for LMOD_CACHED_LOADS.
-# @param manage_build_packages
-#   Boolean that determines if the packages necessary to build lmod should be managed.
 # @param modules_bash_path
 #   Path to script to load bash modules environment
 # @param modules_bash_template
@@ -79,26 +80,27 @@
 #
 class lmod (
   Enum['present','absent'] $ensure                  = 'present',
+  String $version                                   = '8.4.26',
   String $package_ensure                            = 'present',
-  Stdlib::Absolutepath $prefix                      = '/opt/apps',
-  Boolean $lmod_package_from_repo                   = false,
+  Stdlib::Absolutepath $prefix                      = '/usr/share',
+  Enum['package','source','none'] $install_method   = 'package',
   Boolean $manage_epel                              = true,
+  Stdlib::Absolutepath $source_dir                  = '/usr/src',
+  Hash $source_with_flags                           = {},
   String $package_name                              = 'Lmod',
-  Array $base_packages                              = [],
   Array $runtime_packages                           = [],
   Array $build_packages                             = [],
   Optional[Stdlib::Absolutepath] $modulepath_root   = undef,
   Array $modulepaths                                = ['$LMOD_sys', 'Core'],
-  Boolean $set_lmod_package_path                    = true,
+  Boolean $set_lmod_package_path                    = false,
   String $lmod_package_path                         = '$MODULEPATH_ROOT/Site',
-  Boolean $set_default_module                       = true,
+  Boolean $set_default_module                       = false,
   String $default_module                            = 'StdEnv',
   Array $avail_styles                               = ['system'],
   Optional[Stdlib::Absolutepath] $lmod_admin_file   = undef,
   Optional[String] $system_name                     = undef,
   Optional[String] $site_name                       = undef,
   Optional[Boolean] $cached_loads                   = undef,
-  Boolean $manage_build_packages                    = false,
   Stdlib::Absolutepath $modules_bash_path           = '/etc/profile.d/modules.sh',
   String $modules_bash_template                     = 'lmod/modules.sh.erb',
   Optional[String] $modules_bash_source             = undef,
@@ -115,7 +117,7 @@ class lmod (
 
   case $ensure {
     'present': {
-      $_file_ensure = 'present'
+      $_file_ensure = 'file'
     }
     'absent': {
       $_file_ensure = 'absent'
@@ -123,11 +125,6 @@ class lmod (
     default: {
       # Do nothing
     }
-  }
-
-  $_modulepath_root = $modulepath_root ? {
-    Undef   => "${prefix}/modulefiles",
-    default => $modulepath_root,
   }
 
   if $modules_bash_source {
@@ -162,9 +159,10 @@ class lmod (
     $_stdenv_csh_content  = template($stdenv_csh_template)
   }
 
-  anchor { 'lmod::start': }
-  -> class { 'lmod::install': }
-  -> class { 'lmod::load': }
-  -> anchor { 'lmod::end': }
+  contain 'lmod::install'
+  contain 'lmod::load'
+
+  Class['lmod::install']
+  -> Class['lmod::load']
 
 }

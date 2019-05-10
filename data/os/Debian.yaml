@@ -1,8 +1,13 @@
 ---
-lmod::modules_csh_path: '/etc/csh/login.d/modules.csh'
+lmod::prefix: /usr/share
+lmod::modulepath_root: /usr/modulefiles
+lmod::modules_bash_path: /etc/profile.d/lmod.sh
+lmod::modules_csh_path: '/etc/csh/login.d/lmod.csh'
+lmod::stdenv_bash_path: /etc/profile.d/z00_StdEnv.sh
 lmod::stdenv_csh_path: '/etc/csh/login.d/z00_StdEnv.csh'
 lmod::package_name: 'lmod'
-lmod::base_packages:
+lmod::runtime_packages:
+  - 'lua5.2'
   - 'lua-filesystem'
   - 'lua-json'
   - 'lua-posix'
@@ -10,9 +15,11 @@ lmod::base_packages:
   - 'tcl'
   - 'tcsh'
   - 'zsh'
-lmod::runtime_packages:
-  - 'lua5.2'
 lmod::build_packages:
+  - 'gcc'
+  - 'g++'
+  - 'make'
+  - 'tcl-dev'
   - 'liblua5.2-dev'
   - 'lua-filesystem-dev'
   - 'lua-posix-dev'
