@@ -1,8 +1,0 @@
----
-lmod::base_packages:
-  - 'lua-filesystem'
-  - 'lua-json'
-  - 'lua-posix'
-  - 'tcl'
-  - 'tcsh'
-  - 'zsh'
