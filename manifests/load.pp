@@ -45,7 +45,7 @@ class lmod::load {
     # - $default_module
     file { '/etc/profile.d/z00_StdEnv.sh':
       ensure  => $lmod::_file_ensure,
-      path    => '/etc/profile.d/z00_StdEnv.sh',
+      path    => $lmod::stdenv_bash_path,
       content => $lmod::_stdenv_bash_content,
       source  => $lmod::_stdenv_bash_source,
       owner   => 'root',

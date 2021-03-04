@@ -52,6 +52,30 @@
 #   Value used for LMOD_CACHED_LOADS.
 # @param manage_build_packages
 #   Boolean that determines if the packages necessary to build lmod should be managed.
+# @param modules_bash_path
+#   Path to script to load bash modules environment
+# @param modules_bash_template
+#   Module bash load template
+# @param modules_bash_source
+#   Module bash load source
+# @param modules_csh_path
+#   Path to script to load csh modules environment
+# @param modules_csh_template
+#   Module csh load template
+# @param modules_csh_source
+#   Module csh load source
+# @param stdenv_bash_path
+#   Path to bash script that loads default modules
+# @param stdenv_bash_template
+#   Default module bash load template
+# @param stdenv_bash_source
+#   Default module bash load source
+# @param stdenv_csh_path
+#   Path to csh script that loads default modules
+# @param stdenv_csh_template
+#   Default module csh load template
+# @param stdenv_csh_source
+#   Default module bash load source
 #
 class lmod (
   Enum['present','absent'] $ensure                  = 'present',
@@ -81,6 +105,7 @@ class lmod (
   Stdlib::Absolutepath $modules_csh_path            = '/etc/profile.d/modules.csh',
   String $modules_csh_template                      = 'lmod/modules.csh.erb',
   Optional[String] $modules_csh_source              = undef,
+  Stdlib::Absolutepath $stdenv_bash_path            = '/etc/profile.d/z00_StdEnv.sh',
   String $stdenv_bash_template                      = 'lmod/z00_StdEnv.sh.erb',
   Optional[String] $stdenv_bash_source              = undef,
   Stdlib::Absolutepath $stdenv_csh_path             = '/etc/profile.d/z00_StdEnv.csh',
