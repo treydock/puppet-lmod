@@ -52,13 +52,19 @@ jobs:
       matrix:
         set:
           - "centos-7"
+          - "centos-8"
           - "debian-9"
+          - "debian-10"
           - "ubuntu-1604"
           - "ubuntu-1804"
+          - "ubuntu-2004"
         puppet:
           - "puppet5"
           - "puppet6"
           - "puppet7"
+        exclude:
+          - set: "ubuntu-2004"
+            puppet: "puppet5"
     env:
       BUNDLE_WITHOUT: development:release
       BEAKER_debug: true
