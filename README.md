@@ -1,7 +1,7 @@
 # puppet-lmod
 
 [![Puppet Forge](http://img.shields.io/puppetforge/v/treydock/lmod.svg)](https://forge.puppetlabs.com/treydock/lmod)
-[![Build Status](https://travis-ci.org/treydock/puppet-lmod.png)](https://travis-ci.org/treydock/puppet-lmod)
+[![CI Status](https://github.com/treydock/puppet-lmod/workflows/CI/badge.svg?branch=master)](https://github.com/treydock/puppet-lmod/actions?query=workflow%3ACI)
 
 ## Overview
 
