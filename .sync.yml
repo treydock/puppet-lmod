@@ -3,15 +3,15 @@
   acceptance_matrix:
     set:
       - centos-7
-      - ---centos-8
+      - centos-8
       - debian-9
-      #- debian-10
+      - debian-10
       - ubuntu-1604
       - ubuntu-1804
-      #- ubuntu-2004
-  #acceptance_excludes:
-  #  - set: ubuntu-2004
-  #    puppet: puppet5
+      - ubuntu-2004
+  acceptance_excludes:
+    - set: ubuntu-2004
+      puppet: puppet5
 .gitlab-ci.yml:
   delete: true
 appveyor.yml:
