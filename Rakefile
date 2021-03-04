@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+require 'puppet_litmus/rake_tasks' if Bundler.rubygems.find_name('puppet_litmus').any?
 require 'puppetlabs_spec_helper/rake_tasks'
 require 'puppet-syntax/tasks/puppet-syntax'
 require 'puppet_blacksmith/rake_tasks' if Bundler.rubygems.find_name('puppet-blacksmith').any?
@@ -5,7 +8,7 @@ require 'github_changelog_generator/task' if Bundler.rubygems.find_name('github_
 require 'puppet-strings/tasks' if Bundler.rubygems.find_name('puppet-strings').any?
 
 def changelog_user
-  return unless Rake.application.top_level_tasks.include? "changelog"
+  return unless (Rake.application.top_level_tasks.include?("changelog") || Rake.application.top_level_tasks.include?("release"))
   returnVal = nil || JSON.load(File.read('metadata.json'))['author']
   raise "unable to find the changelog_user in .sync.yml, or the author in metadata.json" if returnVal.nil?
   puts "GitHubChangelogGenerator user:#{returnVal}"
@@ -13,15 +16,23 @@ def changelog_user
 end
 
 def changelog_project
-  return unless Rake.application.top_level_tasks.include? "changelog"
-  returnVal = nil || JSON.load(File.read('metadata.json'))['source'].match(%r{.*/([^/]*)})[1]
-  raise "unable to find the changelog_project in .sync.yml or the name in metadata.json" if returnVal.nil?
+  return unless (Rake.application.top_level_tasks.include?("changelog") || Rake.application.top_level_tasks.include?("release"))
+  returnVal = nil
+  returnVal ||= begin
+    metadata_source = JSON.load(File.read('metadata.json'))['source']
+    metadata_source_match = metadata_source && metadata_source.match(%r{.*\/([^\/]*?)(?:\.git)?\Z})
+
+    metadata_source_match && metadata_source_match[1]
+  end
+
+  raise "unable to find the changelog_project in .sync.yml or calculate it from the source in metadata.json" if returnVal.nil?
+
   puts "GitHubChangelogGenerator project:#{returnVal}"
   returnVal
 end
 
 def changelog_future_release
-  return unless Rake.application.top_level_tasks.include? "changelog"
+  return unless (Rake.application.top_level_tasks.include?("changelog") || Rake.application.top_level_tasks.include?("release"))
   returnVal = "v%s" % JSON.load(File.read('metadata.json'))['version']
   raise "unable to find the future_release (version) in metadata.json" if returnVal.nil?
   puts "GitHubChangelogGenerator future_release:#{returnVal}"
@@ -29,6 +40,7 @@ def changelog_future_release
 end
 
 PuppetLint.configuration.send('disable_relative')
+PuppetLint.configuration.send('fail_on_warnings')
 
 if Bundler.rubygems.find_name('github_changelog_generator').any?
   GitHubChangelogGenerator::RakeTask.new :changelog do |config|
@@ -73,4 +85,15 @@ Gemfile:
 EOM
   end
 end
+
+namespace :release do
+  desc "Release commit"
+  task :commit do
+    sh "git add CHANGELOG.md REFERENCE.md metadata.json"
+    sh "git commit -m 'Release #{changelog_future_release}'"
+  end
+end
+
+desc "Release new module version (changelog, reference, commit, tag, gh pages)"
+task :release => [:changelog, "strings:generate:reference", "release:commit", "module:tag"]
 
