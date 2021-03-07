@@ -15,10 +15,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - ruby: 2.4.9
-            puppet: 5
-            fixtures: .fixtures.yml
-            allow_failure: false
           - ruby: 2.5.7
             puppet: 6
             fixtures: .fixtures.yml
@@ -59,12 +55,8 @@ jobs:
           - "ubuntu-1804"
           - "ubuntu-2004"
         puppet:
-          - "puppet5"
           - "puppet6"
           - "puppet7"
-        exclude:
-          - set: "ubuntu-2004"
-            puppet: "puppet5"
     env:
       BUNDLE_WITHOUT: development:release
       BEAKER_debug: true
