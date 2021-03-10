@@ -6,15 +6,15 @@
 <title>
   Puppet Class: lmod::install
   
-    &mdash; Documentation by YARD 0.9.19
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "puppet_classes::lmod::install";
   relpath = '../';
 </script>
@@ -85,6 +85,7 @@
 <div class="tags">
   
 
+
 </div><div class="method_details_list">
   <table class="source_code">
     <tr>
@@ -140,19 +141,18 @@
 48
 49
 50
-51</pre>
+51
+52
+53
+54
+55
+56</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/install.pp', line 3</span>
 
 class lmod::install {
   assert_private()
-
-  if $lmod::lmod_package_from_repo {
-    $package_ensure = $lmod::package_ensure
-  } else {
-    $package_ensure = &#39;present&#39;
-  }
 
   case $facts[&#39;os&#39;][&#39;family&#39;] {
     &#39;RedHat&#39;: {
@@ -162,37 +162,48 @@ class lmod::install {
       } else {
         $package_require = undef
       }
+    }
+    default: {
+      $package_require = undef
+    }
+  }
 
-      $_package_defaults = {
-        &#39;ensure&#39;  =&gt; $package_ensure,
-        &#39;require&#39; =&gt; $package_require,
+  case $lmod::install_method {
+    &#39;package&#39;: {
+      $package_ensure = $lmod::ensure ? {
+        &#39;absent&#39; =&gt; &#39;absent&#39;,
+        default  =&gt; $lmod::package_ensure,
+      }
+      package { $lmod::package_name:
+        ensure  =&gt; $package_ensure,
+        require =&gt; $package_require,
+      }
+    }
+    &#39;source&#39;,&#39;none&#39;: {
+      if $lmod::install_method == &#39;source&#39; {
+        include lmod::install::source
+        Class[&#39;lmod::install&#39;] -&gt; Class[&#39;lmod::install::source&#39;]
+      }
+      if $lmod::ensure == &#39;present&#39; {
+        ensure_packages($lmod::runtime_packages, {&#39;require&#39; =&gt; $package_require})
+        ensure_packages($lmod::build_packages, {&#39;require&#39; =&gt; $package_require})
       }
     }
     default: {
-      $_package_defaults = {
-        &#39;ensure&#39;  =&gt; $package_ensure,
-      }
+      # Do nothing
     }
   }
 
-  if $lmod::lmod_package_from_repo {
-    $_base_packages    = []
-    $_runtime_packages = [ $lmod::package_name ]
-  } else {
-    $_base_packages    = $lmod::base_packages
-    $_runtime_packages = $lmod::runtime_packages
-  }
-
-  if $lmod::ensure == &#39;present&#39; {
-    ensure_packages($_base_packages, delete_undef_values($_package_defaults))
-    ensure_packages($_runtime_packages, delete_undef_values($_package_defaults))
-    if $lmod::manage_build_packages {
-      ensure_packages($lmod::build_packages, delete_undef_values($_package_defaults))
+  # Fix for Ubuntu 18.04 - https://bugs.launchpad.net/ubuntu/+source/lua-posix/+bug/1752082
+  if $facts[&#39;os&#39;][&#39;name&#39;] == &#39;Ubuntu&#39; and $facts[&#39;os&#39;][&#39;release&#39;][&#39;major&#39;] == &#39;18.04&#39; and $lmod::ensure == &#39;present&#39; {
+    file { &#39;/usr/lib/x86_64-linux-gnu/lua/5.2/posix.so&#39;:
+      ensure =&gt; &#39;link&#39;,
+      target =&gt; &#39;/usr/lib/x86_64-linux-gnu/lua/5.2/posix_c.so&#39;,
     }
-  } elsif $lmod::ensure == &#39;absent&#39; and $lmod::lmod_package_from_repo {
-    ensure_packages($_runtime_packages, {&#39;ensure&#39; =&gt; &#39;absent&#39;})
+    if &#39;lua-posix&#39; in $lmod::runtime_packages and $lmod::install_method != &#39;package&#39; {
+      Package[&#39;lua-posix&#39;] -&gt; File[&#39;/usr/lib/x86_64-linux-gnu/lua/5.2/posix.so&#39;]
+    }
   }
-
 }</pre>
       </td>
     </tr>

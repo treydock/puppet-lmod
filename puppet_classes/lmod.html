@@ -6,15 +6,15 @@
 <title>
   Puppet Class: lmod
   
-    &mdash; Documentation by YARD 0.9.19
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "puppet_classes::lmod";
   relpath = '../';
 </script>
@@ -93,7 +93,7 @@
 </div></p>
       
       <pre class="example code"><code>class { &#39;lmod&#39;:
-   lmod_package_from_repo =&gt; true,
+   install_method =&gt; &#39;package&#39;,
  }</code></pre>
     
   </div>
@@ -116,6 +116,24 @@
 <p>The ensure parameter for this module. If set to &#39;absent&#39;, managed
 files are removed. If lmod_package_from_repo is true and ensure is
 &#39;absent&#39;, then the lmod package is also removed.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>version</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;8.4.26&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Version of Lmod to install when installing from source</p>
 </div>
       
     </li>
@@ -147,7 +165,7 @@ is true.</p>
         <span class='type'>(<tt>Stdlib::Absolutepath</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>&#39;/opt/apps&#39;</tt>)</em>
+        <em class="default">(defaults to: <tt>&#39;/usr/share&#39;</tt>)</em>
       
       
         &mdash;
@@ -159,19 +177,18 @@ is true.</p>
   
     <li>
       
-        <span class='name'>lmod_package_from_repo</span>
+        <span class='name'>install_method</span>
       
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
+        <span class='type'>(<tt>Enum['package','source','none']</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>false</tt>)</em>
+        <em class="default">(defaults to: <tt>&#39;package&#39;</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>Should the lmod package be installed from a apt/yum repository, or is it
-installed separately with only dependencies installed from package repos?</p>
+<p>How Lmod should be installed</p>
 </div>
       
     </li>
@@ -197,6 +214,43 @@ systems installing Lmod via yum.</p>
   
     <li>
       
+        <span class='name'>source_dir</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Absolutepath</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;/usr/src&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Directory to store Lmod source</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>source_with_flags</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Key/value pair of flags to turn into –with-&lt;key&gt;=&lt;value&gt; passed
+to configure when installing from source</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>package_name</span>
       
       
@@ -209,25 +263,6 @@ systems installing Lmod via yum.</p>
         &mdash;
         <div class='inline'>
 <p>Lmod package name if lmod_package_from_repo is true.</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>base_packages</span>
-      
-      
-        <span class='type'>(<tt>Array</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>[]</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Packages necessary to build and use Lmod, only installed if
-lmod_package_from_repo is false</p>
 </div>
       
     </li>
@@ -315,7 +350,7 @@ the value is &#39;UNSET&#39; then the path $prefix/modulefiles is used.</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>true</tt>)</em>
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -353,7 +388,7 @@ modules.csh.</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>true</tt>)</em>
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -476,25 +511,6 @@ Array prevents this environment variable from being set.</p>
   
     <li>
       
-        <span class='name'>manage_build_packages</span>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>false</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Boolean that determines if the packages necessary to build lmod should be
-managed.</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
         <span class='name'>modules_bash_path</span>
       
       
@@ -503,6 +519,11 @@ managed.</p>
       
         <em class="default">(defaults to: <tt>&#39;/etc/profile.d/modules.sh&#39;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>Path to script to load bash modules environment</p>
+</div>
       
     </li>
   
@@ -517,6 +538,11 @@ managed.</p>
         <em class="default">(defaults to: <tt>&#39;lmod/modules.sh.erb&#39;</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Module bash load template</p>
+</div>
+      
     </li>
   
     <li>
@@ -529,6 +555,11 @@ managed.</p>
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>Module bash load source</p>
+</div>
       
     </li>
   
@@ -543,6 +574,11 @@ managed.</p>
         <em class="default">(defaults to: <tt>&#39;/etc/profile.d/modules.csh&#39;</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Path to script to load csh modules environment</p>
+</div>
+      
     </li>
   
     <li>
@@ -555,6 +591,11 @@ managed.</p>
       
         <em class="default">(defaults to: <tt>&#39;lmod/modules.csh.erb&#39;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>Module csh load template</p>
+</div>
       
     </li>
   
@@ -569,6 +610,29 @@ managed.</p>
         <em class="default">(defaults to: <tt>undef</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Module csh load source</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>stdenv_bash_path</span>
+      
+      
+        <span class='type'>(<tt>Stdlib::Absolutepath</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&#39;/etc/profile.d/z00_StdEnv.sh&#39;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Path to bash script that loads default modules</p>
+</div>
+      
     </li>
   
     <li>
@@ -581,6 +645,11 @@ managed.</p>
       
         <em class="default">(defaults to: <tt>&#39;lmod/z00_StdEnv.sh.erb&#39;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>Default module bash load template</p>
+</div>
       
     </li>
   
@@ -595,6 +664,11 @@ managed.</p>
         <em class="default">(defaults to: <tt>undef</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Default module bash load source</p>
+</div>
+      
     </li>
   
     <li>
@@ -607,6 +681,11 @@ managed.</p>
       
         <em class="default">(defaults to: <tt>&#39;/etc/profile.d/z00_StdEnv.csh&#39;</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>Path to csh script that loads default modules</p>
+</div>
       
     </li>
   
@@ -621,6 +700,11 @@ managed.</p>
         <em class="default">(defaults to: <tt>&#39;lmod/z00_StdEnv.csh.erb&#39;</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Default module csh load template</p>
+</div>
+      
     </li>
   
     <li>
@@ -634,9 +718,15 @@ managed.</p>
         <em class="default">(defaults to: <tt>undef</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Default module bash load source</p>
+</div>
+      
     </li>
   
 </ul>
+
 
 
 </div><div class="method_details_list">
@@ -646,31 +736,6 @@ managed.</p>
         <pre class="lines">
 
 
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
 81
 82
 83
@@ -735,39 +800,64 @@ managed.</p>
 142
 143
 144
-145</pre>
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 56</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 81</span>
 
 class lmod (
   Enum[&#39;present&#39;,&#39;absent&#39;] $ensure                  = &#39;present&#39;,
+  String $version                                   = &#39;8.4.26&#39;,
   String $package_ensure                            = &#39;present&#39;,
-  Stdlib::Absolutepath $prefix                      = &#39;/opt/apps&#39;,
-  Boolean $lmod_package_from_repo                   = false,
+  Stdlib::Absolutepath $prefix                      = &#39;/usr/share&#39;,
+  Enum[&#39;package&#39;,&#39;source&#39;,&#39;none&#39;] $install_method   = &#39;package&#39;,
   Boolean $manage_epel                              = true,
+  Stdlib::Absolutepath $source_dir                  = &#39;/usr/src&#39;,
+  Hash $source_with_flags                           = {},
   String $package_name                              = &#39;Lmod&#39;,
-  Array $base_packages                              = [],
   Array $runtime_packages                           = [],
   Array $build_packages                             = [],
   Optional[Stdlib::Absolutepath] $modulepath_root   = undef,
   Array $modulepaths                                = [&#39;$LMOD_sys&#39;, &#39;Core&#39;],
-  Boolean $set_lmod_package_path                    = true,
+  Boolean $set_lmod_package_path                    = false,
   String $lmod_package_path                         = &#39;$MODULEPATH_ROOT/Site&#39;,
-  Boolean $set_default_module                       = true,
+  Boolean $set_default_module                       = false,
   String $default_module                            = &#39;StdEnv&#39;,
   Array $avail_styles                               = [&#39;system&#39;],
   Optional[Stdlib::Absolutepath] $lmod_admin_file   = undef,
   Optional[String] $system_name                     = undef,
   Optional[String] $site_name                       = undef,
   Optional[Boolean] $cached_loads                   = undef,
-  Boolean $manage_build_packages                    = false,
   Stdlib::Absolutepath $modules_bash_path           = &#39;/etc/profile.d/modules.sh&#39;,
   String $modules_bash_template                     = &#39;lmod/modules.sh.erb&#39;,
   Optional[String] $modules_bash_source             = undef,
   Stdlib::Absolutepath $modules_csh_path            = &#39;/etc/profile.d/modules.csh&#39;,
   String $modules_csh_template                      = &#39;lmod/modules.csh.erb&#39;,
   Optional[String] $modules_csh_source              = undef,
+  Stdlib::Absolutepath $stdenv_bash_path            = &#39;/etc/profile.d/z00_StdEnv.sh&#39;,
   String $stdenv_bash_template                      = &#39;lmod/z00_StdEnv.sh.erb&#39;,
   Optional[String] $stdenv_bash_source              = undef,
   Stdlib::Absolutepath $stdenv_csh_path             = &#39;/etc/profile.d/z00_StdEnv.csh&#39;,
@@ -777,7 +867,7 @@ class lmod (
 
   case $ensure {
     &#39;present&#39;: {
-      $_file_ensure = &#39;present&#39;
+      $_file_ensure = &#39;file&#39;
     }
     &#39;absent&#39;: {
       $_file_ensure = &#39;absent&#39;
@@ -785,11 +875,6 @@ class lmod (
     default: {
       # Do nothing
     }
-  }
-
-  $_modulepath_root = $modulepath_root ? {
-    Undef   =&gt; &quot;${prefix}/modulefiles&quot;,
-    default =&gt; $modulepath_root,
   }
 
   if $modules_bash_source {
@@ -824,10 +909,11 @@ class lmod (
     $_stdenv_csh_content  = template($stdenv_csh_template)
   }
 
-  anchor { &#39;lmod::start&#39;: }
-  -&gt; class { &#39;lmod::install&#39;: }
-  -&gt; class { &#39;lmod::load&#39;: }
-  -&gt; anchor { &#39;lmod::end&#39;: }
+  contain &#39;lmod::install&#39;
+  contain &#39;lmod::load&#39;
+
+  Class[&#39;lmod::install&#39;]
+  -&gt; Class[&#39;lmod::load&#39;]
 
 }</pre>
       </td>

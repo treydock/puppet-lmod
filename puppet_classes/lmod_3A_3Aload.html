@@ -6,15 +6,15 @@
 <title>
   Puppet Class: lmod::load
   
-    &mdash; Documentation by YARD 0.9.19
+    &mdash; Documentation by YARD 0.9.26
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "puppet_classes::lmod::load";
   relpath = '../';
 </script>
@@ -84,6 +84,7 @@
 
 <div class="tags">
   
+
 
 </div><div class="method_details_list">
   <table class="source_code">
@@ -167,7 +168,24 @@
 75
 76
 77
-78</pre>
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/load.pp', line 3</span>
@@ -175,8 +193,24 @@
 class lmod::load {
   assert_private()
 
+  # Remove files installed by OS where path maybe different
+  if $facts[&#39;os&#39;][&#39;family&#39;] == &#39;RedHat&#39; {
+    if $lmod::modules_bash_path != &#39;/etc/profile.d/00-modulepath.sh&#39; {
+      file { &#39;/etc/profile.d/00-modulepath.sh&#39;: ensure =&gt; &#39;absent&#39; }
+    }
+    if $lmod::modules_csh_path != &#39;/etc/profile.d/00-modulepath.csh&#39; {
+      file { &#39;/etc/profile.d/00-modulepath.csh&#39;: ensure =&gt; &#39;absent&#39; }
+    }
+    if $lmod::modules_bash_path != &#39;/etc/profile.d/z00_lmod.sh&#39; {
+      file { &#39;/etc/profile.d/z00_lmod.sh&#39;: ensure =&gt; &#39;absent&#39; }
+    }
+    if $lmod::modules_csh_path != &#39;/etc/profile.d/z00_lmod.csh&#39; {
+      file { &#39;/etc/profile.d/z00_lmod.csh&#39;: ensure =&gt; &#39;absent&#39; }
+    }
+  }
+
   # Template uses:
-  # - $_modulepath_root
+  # - $modulepath_root
   # - $modulepaths
   # - $prefix
   # - $set_lmod_package_path
@@ -196,7 +230,7 @@ class lmod::load {
   }
 
   # Template uses:
-  # - $_modulepath_root
+  # - $modulepath_root
   # - $modulepaths
   # - $prefix
   # - $set_lmod_package_path
@@ -217,7 +251,7 @@ class lmod::load {
     # - $default_module
     file { &#39;/etc/profile.d/z00_StdEnv.sh&#39;:
       ensure  =&gt; $lmod::_file_ensure,
-      path    =&gt; &#39;/etc/profile.d/z00_StdEnv.sh&#39;,
+      path    =&gt; $lmod::stdenv_bash_path,
       content =&gt; $lmod::_stdenv_bash_content,
       source  =&gt; $lmod::_stdenv_bash_source,
       owner   =&gt; &#39;root&#39;,
@@ -238,7 +272,8 @@ class lmod::load {
     }
   } else {
     file { &#39;/etc/profile.d/z00_StdEnv.sh&#39;:
-      ensure  =&gt; absent,
+      ensure =&gt; absent,
+      path   =&gt; $lmod::stdenv_bash_path,
     }
 
     file { &#39;z00_StdEnv.csh&#39;:
