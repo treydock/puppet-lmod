@@ -1,15 +1,22 @@
 ---
+lmod::prefix: /usr/share
+lmod::modulepath_root: /usr/share/modulefiles
+lmod::modules_bash_path: /etc/profile.d/modules.sh
 lmod::modules_csh_path: '/etc/profile.d/modules.csh'
+lmod::stdenv_bash_path: '/etc/profile.d/z00_StdEnv.sh'
 lmod::stdenv_csh_path: '/etc/profile.d/z00_StdEnv.csh'
 lmod::package_name: 'Lmod'
-lmod::base_packages:
+lmod::runtime_packages:
+  - 'lua'
   - 'lua-filesystem'
   - 'lua-json'
   - 'lua-posix'
   - 'lua-term'
   - 'tcl'
   - 'zsh'
-lmod::runtime_packages:
-  - 'lua'
 lmod::build_packages:
+  - 'gcc'
+  - 'gcc-c++'
+  - 'make'
+  - 'tcl-devel'
   - 'lua-devel'

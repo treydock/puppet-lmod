@@ -1,17 +1,14 @@
 ---
 lmod::ensure: 'present'
-lmod::prefix: '/opt/apps'
-lmod::lmod_package_from_repo: false
 lmod::modulepaths:
   - '$LMOD_sys'
   - 'Core'
-lmod::set_lmod_package_path: true
+lmod::set_lmod_package_path: false
 lmod::lmod_package_path: '$MODULEPATH_ROOT/Site'
-lmod::set_default_module: true
+lmod::set_default_module: false
 lmod::default_module: 'StdEnv'
 lmod::avail_styles:
   - 'system'
-lmod::manage_build_packages: false
 lmod::module_bash_path: '/etc/profile.d/modules.sh'
 lmod::modules_bash_template: 'lmod/modules.sh.erb'
 lmod::modules_csh_template: 'lmod/modules.csh.erb'

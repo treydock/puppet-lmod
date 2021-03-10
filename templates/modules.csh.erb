@@ -30,7 +30,7 @@ if ( ! $?MODULEPATH_ROOT ) then
     setenv LMOD_SETTARG_CMD     :
     setenv LMOD_COLORIZE        yes
     setenv LMOD_PREPEND_BLOCK   normal
-    setenv MODULEPATH_ROOT      "<%= scope.lookupvar('lmod::_modulepath_root') %>"
+    setenv MODULEPATH_ROOT      "<%= scope.lookupvar('lmod::modulepath_root') %>"
 <% scope.lookupvar('lmod::modulepaths').each do |modulepath| -%>
     setenv MODULEPATH           `<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/<%= modulepath %>`
 <% end -%>

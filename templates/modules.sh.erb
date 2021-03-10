@@ -20,7 +20,7 @@ if [ -z "${USER_IS_ROOT:-}" ]; then
     fi
     export LMOD_arch
 
-    export MODULEPATH_ROOT="<%= scope.lookupvar('lmod::_modulepath_root') %>"
+    export MODULEPATH_ROOT="<%= scope.lookupvar('lmod::modulepath_root') %>"
     export LMOD_SETTARG_CMD=":"
     export LMOD_FULL_SETTARG_SUPPORT=no
     export LMOD_COLORIZE=yes
