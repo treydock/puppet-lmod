@@ -84,7 +84,7 @@ href="http://lmod.readthedocs.io/en/latest/index.html">lmod.readthedocs.io/en/la
 
 <pre class="code ruby"><code class="ruby">class { &#39;lmod&#39;:
   prefix            =&gt; &#39;/apps&#39;,
-  moduleroot_path   =&gt; &#39;/apps/modulefiles&#39;,
+  modulepath_root   =&gt; &#39;/apps/modulefiles&#39;,
   version           =&gt; &#39;8.4.26&#39;,
   install_method    =&gt; &#39;source&#39;,
   source_with_flags =&gt; {
@@ -98,7 +98,7 @@ href="http://lmod.readthedocs.io/en/latest/index.html">lmod.readthedocs.io/en/la
 
 <pre class="code ruby"><code class="ruby">class { &#39;lmod&#39;:
   prefix            =&gt; &#39;/apps&#39;,
-  moduleroot_path   =&gt; &#39;/apps/modulefiles&#39;,
+  modulepath_root   =&gt; &#39;/apps/modulefiles&#39;,
   install_method    =&gt; &#39;none&#39;,
 }
 </code></pre>
@@ -106,7 +106,7 @@ href="http://lmod.readthedocs.io/en/latest/index.html">lmod.readthedocs.io/en/la
 <p>To customize the avail layout (since Lmod 5.7.5)</p>
 
 <pre class="code ruby"><code class="ruby">class { &#39;lmod&#39;:
-  avail_style =&gt; [&#39;grouped&#39;, &#39;system&#39;],
+  avail_styles =&gt; [&#39;grouped&#39;, &#39;system&#39;],
 }
 </code></pre>
 
@@ -132,7 +132,7 @@ href="http://treydock.github.io/puppet-lmod/">treydock.github.io/puppet-lmod/</a
 <ul><li>
 <p>CentOS/RedHat 7, 8</p>
 </li><li>
-<p>Ubuntu 16.04, 18.04, 20.04</p>
+<p>Ubuntu 18.04, 20.04</p>
 </li><li>
 <p>Debian 9, 10</p>
 </li></ul>
