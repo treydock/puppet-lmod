@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v3.0.0](https://github.com/treydock/puppet-lmod/tree/v3.0.0) (2021-09-08)
+
+[Full Changelog](https://github.com/treydock/puppet-lmod/compare/v2.0.0...v3.0.0)
+
+### Changed
+
+- Remove support for Ubuntu 16.04 [\#30](https://github.com/treydock/puppet-lmod/pull/30) ([treydock](https://github.com/treydock))
+
+### Added
+
+- Update module dependency ranges [\#31](https://github.com/treydock/puppet-lmod/pull/31) ([treydock](https://github.com/treydock))
+
 ## [v2.0.0](https://github.com/treydock/puppet-lmod/tree/v2.0.0) (2021-03-10)
 
 [Full Changelog](https://github.com/treydock/puppet-lmod/compare/v1.3.0...v2.0.0)
