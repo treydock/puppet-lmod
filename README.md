@@ -22,7 +22,7 @@ This is an example install Lmod from source.
 ```puppet
 class { 'lmod':
   prefix            => '/apps',
-  moduleroot_path   => '/apps/modulefiles',
+  modulepath_root   => '/apps/modulefiles',
   version           => '8.4.26',
   install_method    => 'source',
   source_with_flags => {
@@ -37,7 +37,7 @@ If you wish to manage the Lmod install outside Puppet:
 ```puppet
 class { 'lmod':
   prefix            => '/apps',
-  moduleroot_path   => '/apps/modulefiles',
+  modulepath_root   => '/apps/modulefiles',
   install_method    => 'none',
 }
 ```
@@ -46,7 +46,7 @@ To customize the avail layout (since Lmod 5.7.5)
 
 ```puppet
 class { 'lmod':
-  avail_style => ['grouped', 'system'],
+  avail_styles => ['grouped', 'system'],
 }
 ```
 
