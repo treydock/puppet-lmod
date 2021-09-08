@@ -46,7 +46,6 @@
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "16.04",
         "18.04",
         "20.04"
       ]
@@ -65,5 +64,5 @@
   ],
   "pdk-version": "1.17.0",
   "template-url": "https://github.com/treydock/pdk-templates.git#master",
-  "template-ref": "heads/master-0-gc21ae9d"
+  "template-ref": "heads/master-0-gad5f473"
 }

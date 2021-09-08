@@ -77,7 +77,7 @@ describe 'lmod' do
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to have_package_resource_count(runtime_packages.size + build_packages.size) }
           (runtime_packages + build_packages).each do |package|
-            it { is_expected.to contain_package(package).with_ensure('present').with_require(package_require) }
+            it { is_expected.to contain_package(package).with_ensure('installed').with_require(package_require) }
           end
 
           it do
