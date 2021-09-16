@@ -13,6 +13,7 @@ lmod::runtime_packages:
   - 'lua-posix'
   - 'lua-term'
   - 'tcl'
+  - 'csh'
   - 'tcsh'
   - 'zsh'
 lmod::build_packages:

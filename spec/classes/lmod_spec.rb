@@ -46,6 +46,7 @@ describe 'lmod' do
             'lua-posix',
             'lua-term',
             'tcl',
+            'csh',
             'tcsh',
             'zsh',
           ]
