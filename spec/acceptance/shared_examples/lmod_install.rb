@@ -26,6 +26,7 @@ def runtime_packages
       'lua-posix',
       'lua-term',
       'tcl',
+      'csh',
       'tcsh',
       'zsh',
     ]
