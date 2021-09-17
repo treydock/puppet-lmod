@@ -92,4 +92,13 @@ class lmod::load {
     }
   }
 
+  if $facts['os']['name'] == 'Ubuntu' {
+    $bashrc_line = 'if ! shopt -q login_shell; then if [ -d /etc/profile.d ]; then for i in /etc/profile.d/*.sh; do if [ -r $i ]; then . $i; fi; done; fi; fi'
+    file_line { 'lmod-ubuntu-bashrc':
+      ensure => 'present',
+      path   => '/etc/bash.bashrc',
+      line   => $bashrc_line,
+      match  => '^if.*(login_shell|profile\.d).*fi$',
+    }
+  }
 }

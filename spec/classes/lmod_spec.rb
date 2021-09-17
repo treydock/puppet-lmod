@@ -162,6 +162,12 @@ describe 'lmod' do
         it { is_expected.to contain_file('/etc/profile.d/z00_StdEnv.sh').with_ensure('absent') }
         it { is_expected.to contain_file('z00_StdEnv.csh').with_ensure('absent') }
 
+        if facts[:os]['name'] == 'Ubuntu'
+          it { is_expected.to contain_file_line('lmod-ubuntu-bashrc') }
+        else
+          it { is_expected.not_to contain_file_line('lmod-ubuntu-bashrc') }
+        end
+
         context "when prefix => '/apps'" do
           let(:params) { { prefix: '/apps' } }
 
