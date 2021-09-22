@@ -54,6 +54,19 @@ class lmod::install {
       Package['lua5.3'] -> Alternatives['lua-compiler']
       Package['lua5.3'] -> Alternatives['lua-interpreter']
     }
+    alternative_entry { '/usr/bin/tclsh8.6':
+      ensure   => 'present',
+      altlink  => '/usr/bin/tclsh',
+      altname  => 'tclsh',
+      priority => 10,
+      before   => Alternatives['tclsh'],
+    }
+    alternatives { 'tclsh':
+      path => '/usr/bin/tclsh8.6',
+    }
+    if 'tcl8.6' in $lmod::runtime_packages {
+      Package['tcl8.6'] -> Alternative_entry['/usr/bin/tclsh8.6']
+    }
   }
 
   # Fix for Ubuntu 18.04 - https://bugs.launchpad.net/ubuntu/+source/lua-posix/+bug/1752082
