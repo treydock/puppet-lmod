@@ -43,7 +43,9 @@ class lmod::install {
     }
   }
 
-  if $facts['os']['family'] == 'Debian' and $facts['os']['release']['major'] != '9' and $lmod::ensure == 'present' and $lmod::install_method != 'package' {
+  if $lmod::manage_alternatives and
+      $facts['os']['family'] == 'Debian' and $facts['os']['release']['major'] != '9' and
+      $lmod::ensure == 'present' and $lmod::install_method != 'package' {
     alternatives { 'lua-compiler':
       path => '/usr/bin/luac5.3',
     }

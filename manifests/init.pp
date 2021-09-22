@@ -28,6 +28,9 @@
 #   Lmod runtime package dependencies, only installed if lmod_package_from_repo is false
 # @param build_packages
 #   Lmod runtime devel package dependencies, only installed if manage_build_packages is true
+# @param manage_alternatives
+#   Sets whether alternatives are managed by this module
+#   Only used for Debian and Ubuntu systems
 # @param modulepath_root
 #   The modulepath for your lmod installation.  Default is 'UNSET'.
 #   If the value is 'UNSET' then the path $prefix/modulefiles is used.
@@ -90,6 +93,7 @@ class lmod (
   String $package_name                              = 'Lmod',
   Array $runtime_packages                           = [],
   Array $build_packages                             = [],
+  Boolean $manage_alternatives                      = true,
   Optional[Stdlib::Absolutepath] $modulepath_root   = undef,
   Array $modulepaths                                = ['$LMOD_sys', 'Core'],
   Boolean $set_lmod_package_path                    = false,
