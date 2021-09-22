@@ -1,0 +1,19 @@
+---
+lmod::runtime_packages:
+  - 'lua5.2'
+  - 'lua-filesystem'
+  - 'lua-json'
+  - 'lua-posix'
+  - 'lua-term'
+  - 'tcl'
+  - 'csh'
+  - 'tcsh'
+  - 'zsh'
+lmod::build_packages:
+  - 'gcc'
+  - 'g++'
+  - 'make'
+  - 'tcl-dev'
+  - 'liblua5.2-dev'
+  - 'lua-filesystem-dev'
+  - 'lua-posix-dev'

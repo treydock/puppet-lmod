@@ -43,14 +43,27 @@ class lmod::install {
     }
   }
 
+  if $facts['os']['family'] == 'Debian' and $facts['os']['release']['major'] != '9' and $lmod::ensure == 'present' and $lmod::install_method != 'package' {
+    alternatives { 'lua-compiler':
+      path => '/usr/bin/luac5.3',
+    }
+    alternatives { 'lua-interpreter':
+      path => '/usr/bin/lua5.3',
+    }
+    if 'lua5.3' in $lmod::runtime_packages {
+      Package['lua5.3'] -> Alternatives['lua-compiler']
+      Package['lua5.3'] -> Alternatives['lua-interpreter']
+    }
+  }
+
   # Fix for Ubuntu 18.04 - https://bugs.launchpad.net/ubuntu/+source/lua-posix/+bug/1752082
   if $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '18.04' and $lmod::ensure == 'present' {
-    file { '/usr/lib/x86_64-linux-gnu/lua/5.2/posix.so':
+    file { '/usr/lib/x86_64-linux-gnu/lua/5.3/posix.so':
       ensure => 'link',
-      target => '/usr/lib/x86_64-linux-gnu/lua/5.2/posix_c.so',
+      target => '/usr/lib/x86_64-linux-gnu/lua/5.3/posix_c.so',
     }
     if 'lua-posix' in $lmod::runtime_packages and $lmod::install_method != 'package' {
-      Package['lua-posix'] -> File['/usr/lib/x86_64-linux-gnu/lua/5.2/posix.so']
+      Package['lua-posix'] -> File['/usr/lib/x86_64-linux-gnu/lua/5.3/posix.so']
     }
   }
 }
