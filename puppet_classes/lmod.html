@@ -307,6 +307,25 @@ manage_build_packages is true</p>
   
     <li>
       
+        <span class='name'>manage_alternatives</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Sets whether alternatives are managed by this module Only used for Debian
+and Ubuntu systems</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>modulepath_root</span>
       
       
@@ -736,9 +755,6 @@ Array prevents this environment variable from being set.</p>
         <pre class="lines">
 
 
-81
-82
-83
 84
 85
 86
@@ -823,10 +839,14 @@ Array prevents this environment variable from being set.</p>
 165
 166
 167
-168</pre>
+168
+169
+170
+171
+172</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 81</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 84</span>
 
 class lmod (
   Enum[&#39;present&#39;,&#39;absent&#39;] $ensure                  = &#39;present&#39;,
@@ -840,6 +860,7 @@ class lmod (
   String $package_name                              = &#39;Lmod&#39;,
   Array $runtime_packages                           = [],
   Array $build_packages                             = [],
+  Boolean $manage_alternatives                      = true,
   Optional[Stdlib::Absolutepath] $modulepath_root   = undef,
   Array $modulepaths                                = [&#39;$LMOD_sys&#39;, &#39;Core&#39;],
   Boolean $set_lmod_package_path                    = false,

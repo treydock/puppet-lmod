@@ -146,7 +146,58 @@
 53
 54
 55
-56</pre>
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/install.pp', line 3</span>
@@ -194,14 +245,65 @@ class lmod::install {
     }
   }
 
+  if $lmod::manage_alternatives and
+      $facts[&#39;os&#39;][&#39;family&#39;] == &#39;Debian&#39; and $facts[&#39;os&#39;][&#39;release&#39;][&#39;major&#39;] != &#39;9&#39; and
+      $lmod::ensure == &#39;present&#39; and $lmod::install_method != &#39;package&#39; {
+    if $facts[&#39;os&#39;][&#39;release&#39;][&#39;major&#39;] == &#39;18.04&#39; {
+      alternative_entry { &#39;/usr/bin/luac5.3&#39;:
+        ensure   =&gt; &#39;present&#39;,
+        altlink  =&gt; &#39;/usr/bin/luac&#39;,
+        altname  =&gt; &#39;lua-compiler&#39;,
+        priority =&gt; 10,
+        before   =&gt; Alternatives[&#39;lua-compiler&#39;],
+      }
+      alternative_entry { &#39;/usr/bin/lua5.3&#39;:
+        ensure   =&gt; &#39;present&#39;,
+        altlink  =&gt; &#39;/usr/bin/lua&#39;,
+        altname  =&gt; &#39;lua-interpreter&#39;,
+        priority =&gt; 10,
+        before   =&gt; Alternatives[&#39;lua-interpreter&#39;],
+      }
+    }
+    alternatives { &#39;lua-compiler&#39;:
+      path =&gt; &#39;/usr/bin/luac5.3&#39;,
+    }
+    alternatives { &#39;lua-interpreter&#39;:
+      path =&gt; &#39;/usr/bin/lua5.3&#39;,
+    }
+    if &#39;lua5.3&#39; in $lmod::runtime_packages {
+      Package[&#39;lua5.3&#39;] -&gt; Alternatives[&#39;lua-compiler&#39;]
+      Package[&#39;lua5.3&#39;] -&gt; Alternatives[&#39;lua-interpreter&#39;]
+    }
+    alternative_entry { &#39;/usr/bin/tclsh8.6&#39;:
+      ensure   =&gt; &#39;present&#39;,
+      altlink  =&gt; &#39;/usr/bin/tclsh&#39;,
+      altname  =&gt; &#39;tclsh&#39;,
+      priority =&gt; 10,
+      before   =&gt; Alternatives[&#39;tclsh&#39;],
+    }
+    alternatives { &#39;tclsh&#39;:
+      path =&gt; &#39;/usr/bin/tclsh8.6&#39;,
+    }
+    if &#39;tcl8.6&#39; in $lmod::runtime_packages {
+      Package[&#39;tcl8.6&#39;] -&gt; Alternative_entry[&#39;/usr/bin/tclsh8.6&#39;]
+    }
+  }
+
   # Fix for Ubuntu 18.04 - https://bugs.launchpad.net/ubuntu/+source/lua-posix/+bug/1752082
   if $facts[&#39;os&#39;][&#39;name&#39;] == &#39;Ubuntu&#39; and $facts[&#39;os&#39;][&#39;release&#39;][&#39;major&#39;] == &#39;18.04&#39; and $lmod::ensure == &#39;present&#39; {
-    file { &#39;/usr/lib/x86_64-linux-gnu/lua/5.2/posix.so&#39;:
-      ensure =&gt; &#39;link&#39;,
-      target =&gt; &#39;/usr/lib/x86_64-linux-gnu/lua/5.2/posix_c.so&#39;,
+    if $lmod::install_method == &#39;package&#39; {
+      file { &#39;/usr/lib/x86_64-linux-gnu/lua/5.2/posix.so&#39;:
+        ensure =&gt; &#39;link&#39;,
+        target =&gt; &#39;/usr/lib/x86_64-linux-gnu/lua/5.2/posix_c.so&#39;,
+      }
+    } else {
+      file { &#39;/usr/lib/x86_64-linux-gnu/lua/5.3/posix.so&#39;:
+        ensure =&gt; &#39;link&#39;,
+        target =&gt; &#39;/usr/lib/x86_64-linux-gnu/lua/5.3/posix_c.so&#39;,
+      }
     }
     if &#39;lua-posix&#39; in $lmod::runtime_packages and $lmod::install_method != &#39;package&#39; {
-      Package[&#39;lua-posix&#39;] -&gt; File[&#39;/usr/lib/x86_64-linux-gnu/lua/5.2/posix.so&#39;]
+      Package[&#39;lua-posix&#39;] -&gt; File[&#39;/usr/lib/x86_64-linux-gnu/lua/5.3/posix.so&#39;]
     }
   }
 }</pre>
