@@ -39,25 +39,46 @@ describe 'lmod' do
           build_packages = ['lua-devel', 'tcl-devel', 'gcc', 'gcc-c++', 'make']
         elsif facts[:osfamily] == 'Debian'
           package_require = nil
-          runtime_packages = [
-            'lua5.2',
-            'lua-filesystem',
-            'lua-json',
-            'lua-posix',
-            'lua-term',
-            'tcl',
-            'csh',
-            'tcsh',
-            'zsh',
-          ]
           package_name = 'lmod'
-          build_packages = ['liblua5.2-dev',
-                            'lua-filesystem-dev',
-                            'lua-posix-dev',
-                            'tcl-dev',
-                            'gcc',
-                            'g++',
-                            'make']
+          if facts[:os]['release']['major'] == '9'
+            runtime_packages = [
+              'lua5.2',
+              'lua-filesystem',
+              'lua-json',
+              'lua-posix',
+              'lua-term',
+              'tcl',
+              'csh',
+              'tcsh',
+              'zsh',
+            ]
+            build_packages = ['liblua5.2-dev',
+                              'lua-filesystem-dev',
+                              'lua-posix-dev',
+                              'tcl-dev',
+                              'gcc',
+                              'g++',
+                              'make']
+          else
+            runtime_packages = [
+              'lua5.3',
+              'lua-filesystem',
+              'lua-json',
+              'lua-posix',
+              'lua-term',
+              'tcl8.6',
+              'csh',
+              'tcsh',
+              'zsh',
+            ]
+            build_packages = ['liblua5.3-dev',
+                              'lua-filesystem-dev',
+                              'lua-posix-dev',
+                              'tcl8.6-dev',
+                              'gcc',
+                              'g++',
+                              'make']
+          end
         end
 
         if facts[:osfamily] == 'RedHat'

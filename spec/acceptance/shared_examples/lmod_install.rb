@@ -19,17 +19,31 @@ def runtime_packages
       'zsh',
     ]
   when 'Debian'
-    [
-      'lua5.2',
-      'lua-filesystem',
-      'lua-json',
-      'lua-posix',
-      'lua-term',
-      'tcl',
-      'csh',
-      'tcsh',
-      'zsh',
-    ]
+    if fact('os.release.major') == '9'
+      [
+        'lua5.2',
+        'lua-filesystem',
+        'lua-json',
+        'lua-posix',
+        'lua-term',
+        'tcl',
+        'csh',
+        'tcsh',
+        'zsh',
+      ]
+    else
+      [
+        'lua5.3',
+        'lua-filesystem',
+        'lua-json',
+        'lua-posix',
+        'lua-term',
+        'tcl8.6',
+        'csh',
+        'tcsh',
+        'zsh',
+      ]
+    end
   else
     []
   end
@@ -46,15 +60,27 @@ def build_packages
       'lua-devel',
     ]
   when 'Debian'
-    [
-      'gcc',
-      'g++',
-      'make',
-      'tcl-dev',
-      'liblua5.2-dev',
-      'lua-filesystem-dev',
-      'lua-posix-dev',
-    ]
+    if fact('os.release.major') == '9'
+      [
+        'gcc',
+        'g++',
+        'make',
+        'tcl-dev',
+        'liblua5.2-dev',
+        'lua-filesystem-dev',
+        'lua-posix-dev',
+      ]
+    else
+      [
+        'gcc',
+        'g++',
+        'make',
+        'tcl8.6-dev',
+        'liblua5.3-dev',
+        'lua-filesystem-dev',
+        'lua-posix-dev',
+      ]
+    end
   else
     []
   end
