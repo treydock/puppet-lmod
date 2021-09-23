@@ -47,6 +47,7 @@ The following parameters are available in the `lmod` class:
 * [`package_name`](#package_name)
 * [`runtime_packages`](#runtime_packages)
 * [`build_packages`](#build_packages)
+* [`manage_alternatives`](#manage_alternatives)
 * [`modulepath_root`](#modulepath_root)
 * [`modulepaths`](#modulepaths)
 * [`set_lmod_package_path`](#set_lmod_package_path)
@@ -159,6 +160,15 @@ Data type: `Array`
 Lmod runtime devel package dependencies, only installed if manage_build_packages is true
 
 Default value: `[]`
+
+##### <a name="manage_alternatives"></a>`manage_alternatives`
+
+Data type: `Boolean`
+
+Sets whether alternatives are managed by this module
+Only used for Debian and Ubuntu systems
+
+Default value: ``true``
 
 ##### <a name="modulepath_root"></a>`modulepath_root`
 
