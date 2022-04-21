@@ -43,6 +43,11 @@ class lmod::install {
     }
   }
 
+  # The 'lmod' package does not appear to pull in tcsh
+  if $lmod::ensure =='present' and $lmod::install_method == 'package' and $facts['os']['family'] == 'Debian' {
+    ensure_packages(['tcsh'])
+  }
+
   if $lmod::manage_alternatives and
       $facts['os']['family'] == 'Debian' and $facts['os']['release']['major'] != '9' and
       $lmod::ensure == 'present' and $lmod::install_method != 'package' {
