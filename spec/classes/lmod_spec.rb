@@ -83,8 +83,11 @@ describe 'lmod' do
 
         if facts[:osfamily] == 'RedHat'
           it { is_expected.to contain_class('epel') }
+          it { is_expected.to have_package_resource_count(1) }
+        elsif facts[:osfamily] == 'Debian'
+          it { is_expected.to have_package_resource_count(2) }
+          it { is_expected.to contain_package('tcsh') }
         end
-        it { is_expected.to have_package_resource_count(1) }
         it { is_expected.to contain_package(package_name).with_ensure('present').with_require(package_require) }
 
         context "package_ensure => 'latest'" do

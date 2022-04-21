@@ -1,12 +1,33 @@
 require 'spec_helper_acceptance'
 
 describe 'lmod class:' do
+  context 'with defaults' do
+    it 'runs successfully' do
+      pp = <<-EOS
+        class { 'lmod': }
+      EOS
+
+      apply_manifest(pp, catch_failures: true)
+      apply_manifest(pp, catch_changes: true)
+    end
+
+    it_behaves_like 'lmod::load'
+    describe command('/bin/bash -l -c "type module"') do
+      its(:stdout) { is_expected.to match %r{LMOD_CMD} }
+    end
+    describe command('/bin/bash -l -c "module load lmod ; which lmod"') do
+      its(:exit_status) { is_expected.to eq(0) }
+    end
+  end
+
   context 'when install_method => "source"' do
     it 'runs successfully' do
       pp = <<-EOS
         class { 'lmod': install_method => 'source' }
       EOS
 
+      on hosts, 'puppet resource package lmod ensure=absent'
+      on hosts, 'puppet resource package Lmod ensure=absent'
       apply_manifest(pp, catch_failures: true)
       apply_manifest(pp, catch_changes: true)
     end
