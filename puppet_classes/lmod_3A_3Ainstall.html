@@ -197,7 +197,12 @@
 104
 105
 106
-107</pre>
+107
+108
+109
+110
+111
+112</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/install.pp', line 3</span>
@@ -243,6 +248,11 @@ class lmod::install {
     default: {
       # Do nothing
     }
+  }
+
+  # The &#39;lmod&#39; package does not appear to pull in tcsh
+  if $lmod::ensure ==&#39;present&#39; and $lmod::install_method == &#39;package&#39; and $facts[&#39;os&#39;][&#39;family&#39;] == &#39;Debian&#39; {
+    ensure_packages([&#39;tcsh&#39;])
   }
 
   if $lmod::manage_alternatives and
