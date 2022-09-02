@@ -32,7 +32,11 @@ if ( ! $?MODULEPATH_ROOT ) then
     setenv LMOD_PREPEND_BLOCK   normal
     setenv MODULEPATH_ROOT      "<%= scope.lookupvar('lmod::modulepath_root') %>"
 <% scope.lookupvar('lmod::modulepaths').each do |modulepath| -%>
+  <%- if modulepath =~ %r{^/} -%>
+    setenv MODULEPATH           `<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/libexec/addto --append MODULEPATH <%= modulepath %>`
+  <%- else -%>
     setenv MODULEPATH           `<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/<%= modulepath %>`
+  <%- end -%>
 <% end -%>
     setenv MODULEPATH           `<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/libexec/addto --append MODULEPATH <%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/modulefiles/Core`
     setenv MODULESHOME          "<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod"
