@@ -244,6 +244,7 @@ describe 'lmod' do
                               '    setenv MODULEPATH           `/usr/share/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Core`',
                               '    setenv MODULEPATH           `/usr/share/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Compiler`',
                               '    setenv MODULEPATH           `/usr/share/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/MPI`',
+                              '    setenv MODULEPATH           `/usr/share/lmod/lmod/libexec/addto --append MODULEPATH /foo`',
                               '    setenv MODULEPATH           `/usr/share/lmod/lmod/libexec/addto --append MODULEPATH /usr/share/lmod/lmod/modulefiles/Core`',
                             ])
           end
