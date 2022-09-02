@@ -225,7 +225,7 @@ describe 'lmod' do
         end
 
         context "when modulepaths => ['Linux','Core','Compiler','MPI']" do
-          let(:params) { { modulepaths: ['Linux', 'Core', 'Compiler', 'MPI'] } }
+          let(:params) { { modulepaths: ['Linux', 'Core', 'Compiler', 'MPI', '/foo'] } }
 
           it do
             verify_contents(catalogue, 'lmod-sh-load', [
@@ -233,6 +233,7 @@ describe 'lmod' do
                               '    export MODULEPATH=$(/usr/share/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Core)',
                               '    export MODULEPATH=$(/usr/share/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Compiler)',
                               '    export MODULEPATH=$(/usr/share/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/MPI)',
+                              '    export MODULEPATH=$(/usr/share/lmod/lmod/libexec/addto --append MODULEPATH /foo)',
                               '    export MODULEPATH=$(/usr/share/lmod/lmod/libexec/addto --append MODULEPATH /usr/share/lmod/lmod/modulefiles/Core)',
                             ])
           end

@@ -26,7 +26,11 @@ if [ -z "${USER_IS_ROOT:-}" ]; then
     export LMOD_COLORIZE=yes
     export LMOD_PREPEND_BLOCK=normal
 <% scope.lookupvar('lmod::modulepaths').each do |modulepath| -%>
+  <%- if modulepath =~ %r{^/} %>
+    export MODULEPATH=$(<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/libexec/addto --append MODULEPATH <%= modulepath %>)
+  <%- else %>
     export MODULEPATH=$(<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/<%= modulepath %>)
+  <%- end %>
 <% end -%>
     export MODULEPATH=$(<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/libexec/addto --append MODULEPATH <%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/modulefiles/Core)
     export MODULESHOME=<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod
