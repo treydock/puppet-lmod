@@ -1,0 +1,11 @@
+#!/usr/bin/env fish
+
+if test -z "$USER_IS_ROOT"
+  if test -z "$MODULEPATH_ROOT"
+    set -gx __Init_Default_Modules 1
+    set -gx LMOD_SYSTEM_DEFAULT_MODULES "<%= scope.lookupvar('lmod::default_module') %>"
+    module --initial_load restore
+  else
+    module refresh
+  end
+end

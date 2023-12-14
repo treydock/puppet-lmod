@@ -90,6 +90,7 @@ describe 'lmod' do
           it { is_expected.to have_package_resource_count(2) }
           it { is_expected.to contain_package('tcsh') }
         end
+        it { is_expected.not_to contain_package('fish') }
         it { is_expected.to contain_package(package_name).with_ensure('present').with_require(package_require) }
 
         context "when package_ensure => 'latest'" do
@@ -188,6 +189,9 @@ describe 'lmod' do
 
         it { is_expected.to contain_file('/etc/profile.d/z00_StdEnv.sh').with_ensure('absent') }
         it { is_expected.to contain_file('z00_StdEnv.csh').with_ensure('absent') }
+
+        it { is_expected.to contain_file('lmod-fish-load').with_ensure('absent') }
+        it { is_expected.to contain_file('z00_StdEnv.fish').with_ensure('absent') }
 
         context "when when prefix => '/apps'" do
           let(:params) { { prefix: '/apps' } }
@@ -432,6 +436,20 @@ describe 'lmod' do
           it { is_expected.to contain_file('lmod-csh-load').with_ensure('absent') }
           it { is_expected.to contain_file('/etc/profile.d/z00_StdEnv.sh').with_ensure('absent') }
           it { is_expected.to contain_file('z00_StdEnv.csh').with_ensure('absent') }
+        end
+
+        context 'when with_fish => true' do
+          let(:params) { { with_fish: true } }
+
+          it { is_expected.to contain_package('fish') }
+          it { is_expected.to contain_file('lmod-fish-load').with_ensure('file') }
+          it { is_expected.to contain_file('z00_StdEnv.fish').with_ensure('absent') }
+
+          context 'when set_default_module => true' do
+            let(:params) { { with_fish: true, set_default_module: true } }
+
+            it { is_expected.to contain_file('z00_StdEnv.fish').with_ensure('file') }
+          end
         end
       end
     end

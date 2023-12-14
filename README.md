@@ -64,11 +64,3 @@ class { 'lmod':
 ## Reference
 
 [http://treydock.github.io/puppet-lmod/](http://treydock.github.io/puppet-lmod/)
-
-## Compatibility
-
-Tested using
-
-* CentOS/RedHat 7, 8
-* Ubuntu 18.04, 20.04
-* Debian 9, 10

@@ -3,8 +3,10 @@ lmod::prefix: /usr/share
 lmod::modulepath_root: /usr/modulefiles
 lmod::modules_bash_path: /etc/profile.d/lmod.sh
 lmod::modules_csh_path: '/etc/csh/login.d/lmod.csh'
+lmod::modules_fish_path: /etc/fish/conf.d/lmod.fish
 lmod::stdenv_bash_path: /etc/profile.d/z00_StdEnv.sh
 lmod::stdenv_csh_path: '/etc/csh/login.d/z00_StdEnv.csh'
+lmod::stdenv_fish_path: /etc/fish/conf.d/z00_StdEnv.fish
 lmod::package_name: 'lmod'
 lmod::runtime_packages:
   - 'lua5.3'

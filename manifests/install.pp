@@ -48,6 +48,10 @@ class lmod::install {
     ensure_packages(['tcsh'])
   }
 
+  if $lmod::ensure =='present' and $lmod::with_fish {
+    ensure_packages(['fish'], { 'require' => $package_require })
+  }
+
   if $lmod::manage_alternatives and
   $facts['os']['family'] == 'Debian' and $facts['os']['release']['major'] != '9' and
   $lmod::ensure == 'present' and $lmod::install_method != 'package' {

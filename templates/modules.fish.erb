@@ -1,0 +1,64 @@
+#!/usr/bin/env fish
+# -*- fish-shell-script -*-
+########################################################################
+#  This file is managed by Puppet, do not modify!
+#
+#  This is the system wide source file for setting up
+#  modules in Fish:
+#
+########################################################################
+
+if test -z "$USER_IS_ROOT"
+  if test -z "$MODULEPATH_ROOT"
+    if test -n "$USER"
+      set -gx USER "$LOGNAME"  # make sure $USER is set
+    end
+    set -gx LMOD_sys (uname)
+
+    set -gx MODULEPATH_ROOT "<%= scope.lookupvar('lmod::modulepath_root') %>"
+    set -gx LMOD_SETTARG_CMD ":"
+    set -gx LMOD_FULL_SETTARG_SUPPORT "no"
+    set -gx LMOD_COLORIZE "yes"
+    set -gx LMOD_PREPEND_BLOCK "normal"
+<% scope.lookupvar('lmod::modulepaths').each do |modulepath| -%>
+  <%- if modulepath =~ %r{^/} -%>
+    set -gx MODULEPATH (<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/libexec/addto --append MODULEPATH <%= modulepath %>)
+  <%- else -%>
+    set -gx MODULEPATH (<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/<%= modulepath %>)
+  <%- end -%>
+<% end -%>
+    set -gx MODULEPATH (<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/libexec/addto --append MODULEPATH <%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/modulefiles/Core)
+    set -gx MODULESHOME "<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod"
+
+    set -xg FISH_ENV "$MODULESHOME/init/fish"
+
+    #
+    # If MANPATH is empty, Lmod is adding a trailing ":" so that
+    # the system MANPATH will be found
+    if test -z "$MANPATH"
+        set -xg MANPATH ":"
+    end
+    set -gx MANPATH (<%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/libexec/addto MANPATH <%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/share/man)
+
+<% if scope.lookupvar('lmod::set_lmod_package_path') -%>
+    set -gx LMOD_PACKAGE_PATH "<%= scope.lookupvar('lmod::lmod_package_path') %>"
+<% end -%>
+<% unless scope.lookupvar('lmod::avail_styles').empty? -%>
+    set -gx LMOD_AVAIL_STYLE "<%= scope.lookupvar('lmod::avail_styles').join(':') %>"
+<% end -%>
+<% if scope.lookupvar('lmod::lmod_admin_file') -%>
+    set -gx LMOD_ADMIN_FILE "<%= scope.lookupvar('lmod::lmod_admin_file') %>"
+<% end -%>
+<% if scope.lookupvar('lmod::system_name') -%>
+    set -gx LMOD_SYSTEM_NAME "<%= scope.lookupvar('lmod::system_name') %>"
+<% end -%>
+<% if scope.lookupvar('lmod::site_name') -%>
+    set -gx LMOD_SITE_NAME "<%= scope.lookupvar('lmod::site_name') %>"
+<% end -%>
+<% if scope.lookupvar('lmod::cached_loads') -%>
+    set -gx LMOD_CACHED_LOADS "<%= scope.lookupvar('lmod::cached_loads') ? 'yes' : 'no' %>"
+<% end -%>
+  end
+
+  source <%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/init/fish >/dev/null # Module Support
+end
