@@ -80,6 +80,20 @@
 #   Default module csh load template
 # @param stdenv_csh_source
 #   Default module bash load source
+# @param with_fish
+#   Enable fish support
+# @param modules_fish_path
+#   Path to script to load fish modules environment
+# @param modules_fish_template
+#   Module fish load template
+# @param modules_fish_source
+#   Module fish load source
+# @param stdenv_fish_path
+#   Path to fish script that loads default modules
+# @param stdenv_fish_template
+#   Default module fish load template
+# @param stdenv_fish_source
+#   Default module bash load source
 #
 class lmod (
   Enum['present','absent'] $ensure                  = 'present',
@@ -117,13 +131,26 @@ class lmod (
   Stdlib::Absolutepath $stdenv_csh_path             = '/etc/profile.d/z00_StdEnv.csh',
   String $stdenv_csh_template                       = 'lmod/z00_StdEnv.csh.erb',
   Optional[String] $stdenv_csh_source               = undef,
+  Boolean $with_fish                                = false,
+  Stdlib::Absolutepath $modules_fish_path           = '/etc/fish/conf.d/modules.fish',
+  String $modules_fish_template                     = 'lmod/modules.fish.erb',
+  Optional[String] $modules_fish_source             = undef,
+  Stdlib::Absolutepath $stdenv_fish_path            = '/etc/fish/conf.d/z00_StdEnv.fish',
+  String $stdenv_fish_template                      = 'lmod/z00_StdEnv.fish.erb',
+  Optional[String] $stdenv_fish_source              = undef,
 ) {
   case $ensure {
     'present': {
       $_file_ensure = 'file'
+      if $with_fish {
+        $fish_ensure = 'file'
+      } else {
+        $fish_ensure = 'absent'
+      }
     }
     'absent': {
       $_file_ensure = 'absent'
+      $fish_ensure = 'absent'
     }
     default: {
       # Do nothing
@@ -160,6 +187,22 @@ class lmod (
   } else {
     $_stdenv_csh_source   = undef
     $_stdenv_csh_content  = template($stdenv_csh_template)
+  }
+
+  if $modules_fish_source {
+    $_modules_fish_source   = $modules_fish_source
+    $_modules_fish_content  = undef
+  } else {
+    $_modules_fish_source   = undef
+    $_modules_fish_content  = template($modules_fish_template)
+  }
+
+  if $stdenv_fish_source {
+    $_stdenv_fish_source   = $stdenv_fish_source
+    $_stdenv_fish_content  = undef
+  } else {
+    $_stdenv_fish_source   = undef
+    $_stdenv_fish_content  = template($stdenv_fish_template)
   }
 
   contain 'lmod::install'

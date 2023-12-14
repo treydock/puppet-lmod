@@ -26,7 +26,10 @@ describe 'lmod class:' do
   context 'when install_method => "source"' do
     it 'runs successfully' do
       pp = <<-PP
-        class { 'lmod': install_method => 'source' }
+        class { 'lmod':
+          install_method => 'source',
+          with_fish      => true,
+        }
       PP
 
       on hosts, 'puppet resource package lmod ensure=absent'
@@ -41,9 +44,15 @@ describe 'lmod class:' do
       its(:stdout) { is_expected.to match %r{LMOD_CMD} }
     end
 
+    # rubocop:disable RSpec/RepeatedExampleGroupBody
     describe command('/bin/bash -l -c "module load lmod ; which lmod"') do
       its(:exit_status) { is_expected.to eq(0) }
     end
+
+    describe command('/usr/bin/fish -l -c "module load lmod ; which lmod"') do
+      its(:exit_status) { is_expected.to eq(0) }
+    end
+    # rubocop:enable RSpec/RepeatedExampleGroupBody
   end
 
   context 'with default parameters' do

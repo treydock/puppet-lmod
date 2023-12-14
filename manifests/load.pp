@@ -56,6 +56,23 @@ class lmod::load {
     mode    => '0644',
   }
 
+  # Template uses:
+  # - $modulepath_root
+  # - $modulepaths
+  # - $prefix
+  # - $set_lmod_package_path
+  # - $avail_styles
+  # - $lmod_admin_file
+  file { 'lmod-fish-load':
+    ensure  => $lmod::fish_ensure,
+    path    => $lmod::modules_fish_path,
+    content => $lmod::_modules_fish_content,
+    source  => $lmod::_modules_fish_source,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+  }
+
   if $lmod::set_default_module {
     # Template uses:
     # - $default_module
@@ -80,6 +97,18 @@ class lmod::load {
       group   => 'root',
       mode    => '0644',
     }
+
+    # Template uses:
+    # - $default_module
+    file { 'z00_StdEnv.fish':
+      ensure  => $lmod::fish_ensure,
+      path    => $lmod::stdenv_fish_path,
+      content => $lmod::_stdenv_fish_content,
+      source  => $lmod::_stdenv_fish_source,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+    }
   } else {
     file { '/etc/profile.d/z00_StdEnv.sh':
       ensure => absent,
@@ -89,6 +118,11 @@ class lmod::load {
     file { 'z00_StdEnv.csh':
       ensure => absent,
       path   => $lmod::stdenv_csh_path,
+    }
+
+    file { 'z00_StdEnv.fish':
+      ensure => absent,
+      path   => $lmod::stdenv_fish_path,
     }
   }
 }
