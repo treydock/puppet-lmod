@@ -34,8 +34,8 @@ class lmod::install {
         Class['lmod::install'] -> Class['lmod::install::source']
       }
       if $lmod::ensure == 'present' {
-        ensure_packages($lmod::runtime_packages, {'require' => $package_require})
-        ensure_packages($lmod::build_packages, {'require' => $package_require})
+        ensure_packages($lmod::runtime_packages, { 'require' => $package_require })
+        ensure_packages($lmod::build_packages, { 'require' => $package_require })
       }
     }
     default: {
@@ -49,8 +49,8 @@ class lmod::install {
   }
 
   if $lmod::manage_alternatives and
-      $facts['os']['family'] == 'Debian' and $facts['os']['release']['major'] != '9' and
-      $lmod::ensure == 'present' and $lmod::install_method != 'package' {
+  $facts['os']['family'] == 'Debian' and $facts['os']['release']['major'] != '9' and
+  $lmod::ensure == 'present' and $lmod::install_method != 'package' {
     if $facts['os']['release']['major'] == '18.04' {
       alternative_entry { '/usr/bin/luac5.3':
         ensure   => 'present',

@@ -2,12 +2,12 @@
 .github/workflows/ci.yaml:
   acceptance_matrix:
     set:
-      - centos-7
-      - rocky-8
-      - debian-9
-      - debian-10
-      - ubuntu-1804
+      - el7
+      - el8
+      - el9
+      - debian-11
       - ubuntu-2004
+      - ubuntu-2204
 .gitlab-ci.yml:
   delete: true
 appveyor.yml:

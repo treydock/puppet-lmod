@@ -22,8 +22,8 @@ class lmod::install::source {
   }
 
   $default_with = delete_undef_values({
-    'siteName' => $lmod::site_name,
-    'module-root-path' => $lmod::modulepath_root,
+      'siteName' => $lmod::site_name,
+      'module-root-path' => $lmod::modulepath_root,
   })
   $with_flags = ($default_with + $lmod::source_with_flags).map |$key, $value| { "--with-${key}='${value}'" }
   $with = join($with_flags, ' ')
@@ -35,10 +35,10 @@ class lmod::install::source {
     group   => 'root',
     mode    => '0755',
     content => join([
-      '#!/bin/bash',
-      '# File managed by Puppet, do not edit',
-      "./configure --prefix=${lmod::prefix} ${with}",
-      '',
+        '#!/bin/bash',
+        '# File managed by Puppet, do not edit',
+        "./configure --prefix=${lmod::prefix} ${with}",
+        '',
     ], "\n"),
   }
   ~> exec { 'lmod-configure':

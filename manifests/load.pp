@@ -91,5 +91,4 @@ class lmod::load {
       path   => $lmod::stdenv_csh_path,
     }
   }
-
 }
