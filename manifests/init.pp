@@ -118,7 +118,6 @@ class lmod (
   String $stdenv_csh_template                       = 'lmod/z00_StdEnv.csh.erb',
   Optional[String] $stdenv_csh_source               = undef,
 ) {
-
   case $ensure {
     'present': {
       $_file_ensure = 'file'
@@ -168,5 +167,4 @@ class lmod (
 
   Class['lmod::install']
   -> Class['lmod::load']
-
 }

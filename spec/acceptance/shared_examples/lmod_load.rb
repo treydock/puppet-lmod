@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 def shell_paths
   case fact('osfamily')
   when 'Debian'
     [
       '/etc/profile.d/lmod.sh',
-      '/etc/csh/login.d/lmod.csh',
+      '/etc/csh/login.d/lmod.csh'
     ]
   else
     [
       '/etc/profile.d/modules.sh',
-      '/etc/profile.d/modules.csh',
+      '/etc/profile.d/modules.csh'
     ]
   end
 end

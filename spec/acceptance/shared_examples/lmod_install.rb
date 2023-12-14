@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def package_name
   if fact('osfamily') == 'RedHat'
     'Lmod'
@@ -16,7 +18,7 @@ def runtime_packages
       'lua-posix',
       'lua-term',
       'tcl',
-      'zsh',
+      'zsh'
     ]
   when 'Debian'
     if fact('os.release.major') == '9'
@@ -29,7 +31,7 @@ def runtime_packages
         'tcl',
         'csh',
         'tcsh',
-        'zsh',
+        'zsh'
       ]
     else
       [
@@ -41,7 +43,7 @@ def runtime_packages
         'tcl8.6',
         'csh',
         'tcsh',
-        'zsh',
+        'zsh'
       ]
     end
   else
@@ -57,7 +59,7 @@ def build_packages
       'gcc-c++',
       'make',
       'tcl-devel',
-      'lua-devel',
+      'lua-devel'
     ]
   when 'Debian'
     if fact('os.release.major') == '9'
@@ -68,7 +70,7 @@ def build_packages
         'tcl-dev',
         'liblua5.2-dev',
         'lua-filesystem-dev',
-        'lua-posix-dev',
+        'lua-posix-dev'
       ]
     else
       [
@@ -78,7 +80,7 @@ def build_packages
         'tcl8.6-dev',
         'liblua5.3-dev',
         'lua-filesystem-dev',
-        'lua-posix-dev',
+        'lua-posix-dev'
       ]
     end
   else

@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'lmod' do
   on_supported_os.each do |os, facts|
-    context "on #{os}" do
+    context "when on #{os}" do
       let(:facts) { facts }
 
       if facts[:osfamily] == 'Debian'
@@ -33,7 +35,7 @@ describe 'lmod' do
             'lua-posix',
             'lua-term',
             'tcl',
-            'zsh',
+            'zsh'
           ]
           package_name = 'Lmod'
           build_packages = ['lua-devel', 'tcl-devel', 'gcc', 'gcc-c++', 'make']
@@ -50,7 +52,7 @@ describe 'lmod' do
               'tcl',
               'csh',
               'tcsh',
-              'zsh',
+              'zsh'
             ]
             build_packages = ['liblua5.2-dev',
                               'lua-filesystem-dev',
@@ -69,7 +71,7 @@ describe 'lmod' do
               'tcl8.6',
               'csh',
               'tcsh',
-              'zsh',
+              'zsh'
             ]
             build_packages = ['liblua5.3-dev',
                               'lua-filesystem-dev',
@@ -90,35 +92,36 @@ describe 'lmod' do
         end
         it { is_expected.to contain_package(package_name).with_ensure('present').with_require(package_require) }
 
-        context "package_ensure => 'latest'" do
+        context "when package_ensure => 'latest'" do
           let(:params) { { package_ensure: 'latest' } }
 
           it { is_expected.to contain_package(package_name).with_ensure('latest') }
         end
 
-        context 'install_method => source' do
+        context 'when install_method => source' do
           let(:params) { { install_method: 'source' } }
 
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to have_package_resource_count(runtime_packages.size + build_packages.size) }
+
           (runtime_packages + build_packages).each do |package|
             it { is_expected.to contain_package(package).with_ensure('installed').with_require(package_require) }
           end
 
           it do
             verify_contents(catalogue, 'lmod-configure', [
-                              "./configure --prefix=/usr/share --with-module-root-path='#{modulepath_root}'",
+                              "./configure --prefix=/usr/share --with-module-root-path='#{modulepath_root}'"
                             ])
           end
         end
 
-        context 'ensure => absent' do
+        context 'when ensure => absent' do
           let(:params) { { ensure: 'absent' } }
 
           it { is_expected.to have_package_resource_count(1) }
           it { is_expected.to contain_package(package_name).with_ensure('absent') }
 
-          context 'install_method => source' do
+          context 'when install_method => source' do
             let(:params) { { ensure: 'absent', install_method: 'source' } }
 
             it { is_expected.to have_package_resource_count(0) }
@@ -150,7 +153,7 @@ describe 'lmod' do
                             '      export MANPATH=:',
                             # '    fi',
                             '    export MANPATH=$(/usr/share/lmod/lmod/libexec/addto MANPATH /usr/share/lmod/lmod/share/man)',
-                            '    export LMOD_AVAIL_STYLE=system',
+                            '    export LMOD_AVAIL_STYLE=system'
                           ])
         end
 
@@ -179,14 +182,14 @@ describe 'lmod' do
                             '    setenv MANPATH `/usr/share/lmod/lmod/libexec/addto MANPATH /usr/share/lmod/lmod/share/man`',
                             '    setenv LMOD_AVAIL_STYLE system',
                             'if ( -f  /usr/share/lmod/lmod/init/csh  ) then',
-                            '  source /usr/share/lmod/lmod/init/csh',
+                            '  source /usr/share/lmod/lmod/init/csh'
                           ])
         end
 
         it { is_expected.to contain_file('/etc/profile.d/z00_StdEnv.sh').with_ensure('absent') }
         it { is_expected.to contain_file('z00_StdEnv.csh').with_ensure('absent') }
 
-        context "when prefix => '/apps'" do
+        context "when when prefix => '/apps'" do
           let(:params) { { prefix: '/apps' } }
 
           it do
@@ -201,7 +204,7 @@ describe 'lmod' do
                               '      export MANPATH=:',
                               # '    fi',
                               '    export MANPATH=$(/apps/lmod/lmod/libexec/addto MANPATH /apps/lmod/lmod/share/man)',
-                              '    export LMOD_AVAIL_STYLE=system',
+                              '    export LMOD_AVAIL_STYLE=system'
                             ])
           end
 
@@ -219,12 +222,12 @@ describe 'lmod' do
                               '    setenv MANPATH `/apps/lmod/lmod/libexec/addto MANPATH /apps/lmod/lmod/share/man`',
                               '    setenv LMOD_AVAIL_STYLE system',
                               'if ( -f  /apps/lmod/lmod/init/csh  ) then',
-                              '  source /apps/lmod/lmod/init/csh',
+                              '  source /apps/lmod/lmod/init/csh'
                             ])
           end
         end
 
-        context "when modulepaths => ['Linux','Core','Compiler','MPI']" do
+        context "when when modulepaths => ['Linux','Core','Compiler','MPI']" do
           let(:params) { { modulepaths: ['Linux', 'Core', 'Compiler', 'MPI', '/foo'] } }
 
           it do
@@ -234,7 +237,7 @@ describe 'lmod' do
                               '    export MODULEPATH=$(/usr/share/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Compiler)',
                               '    export MODULEPATH=$(/usr/share/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/MPI)',
                               '    export MODULEPATH=$(/usr/share/lmod/lmod/libexec/addto --append MODULEPATH /foo)',
-                              '    export MODULEPATH=$(/usr/share/lmod/lmod/libexec/addto --append MODULEPATH /usr/share/lmod/lmod/modulefiles/Core)',
+                              '    export MODULEPATH=$(/usr/share/lmod/lmod/libexec/addto --append MODULEPATH /usr/share/lmod/lmod/modulefiles/Core)'
                             ])
           end
 
@@ -245,7 +248,7 @@ describe 'lmod' do
                               '    setenv MODULEPATH           `/usr/share/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/Compiler`',
                               '    setenv MODULEPATH           `/usr/share/lmod/lmod/libexec/addto --append MODULEPATH $MODULEPATH_ROOT/MPI`',
                               '    setenv MODULEPATH           `/usr/share/lmod/lmod/libexec/addto --append MODULEPATH /foo`',
-                              '    setenv MODULEPATH           `/usr/share/lmod/lmod/libexec/addto --append MODULEPATH /usr/share/lmod/lmod/modulefiles/Core`',
+                              '    setenv MODULEPATH           `/usr/share/lmod/lmod/libexec/addto --append MODULEPATH /usr/share/lmod/lmod/modulefiles/Core`'
                             ])
           end
         end
@@ -255,13 +258,13 @@ describe 'lmod' do
 
           it do
             verify_contents(catalogue, 'lmod-sh-load', [
-                              '    export LMOD_PACKAGE_PATH=$MODULEPATH_ROOT/Site',
+                              '    export LMOD_PACKAGE_PATH=$MODULEPATH_ROOT/Site'
                             ])
           end
 
           it do
             verify_contents(catalogue, 'lmod-csh-load', [
-                              '    setenv LMOD_PACKAGE_PATH $MODULEPATH_ROOT/Site',
+                              '    setenv LMOD_PACKAGE_PATH $MODULEPATH_ROOT/Site'
                             ])
           end
         end
@@ -289,7 +292,7 @@ describe 'lmod' do
                               '  else',
                               '    module refresh',
                               '  fi',
-                              'fi',
+                              'fi'
                             ])
           end
 
@@ -311,7 +314,7 @@ describe 'lmod' do
                               '  module --initial_load restore',
                               'else',
                               '  module refresh',
-                              'endif',
+                              'endif'
                             ])
           end
 
@@ -320,13 +323,13 @@ describe 'lmod' do
 
             it 'exports LMOD_SYSTEM_DEFAULT_MODULES="foo"' do
               verify_contents(catalogue, '/etc/profile.d/z00_StdEnv.sh', [
-                                '    export LMOD_SYSTEM_DEFAULT_MODULES="foo"',
+                                '    export LMOD_SYSTEM_DEFAULT_MODULES="foo"'
                               ])
             end
 
             it 'setenvs LMOD_SYSTEM_DEFAULT_MODULES="foo"' do
               verify_contents(catalogue, 'z00_StdEnv.csh', [
-                                '  setenv LMOD_SYSTEM_DEFAULT_MODULES "foo"',
+                                '  setenv LMOD_SYSTEM_DEFAULT_MODULES "foo"'
                               ])
             end
           end
@@ -337,13 +340,13 @@ describe 'lmod' do
 
           it 'sets LMOD_AVAIL_STYLE=grouped:system' do
             verify_contents(catalogue, 'lmod-sh-load', [
-                              '    export LMOD_AVAIL_STYLE=grouped:system',
+                              '    export LMOD_AVAIL_STYLE=grouped:system'
                             ])
           end
 
           it 'sets LMOD_AVAIL_STYLE grouped:system' do
             verify_contents(catalogue, 'lmod-csh-load', [
-                              '    setenv LMOD_AVAIL_STYLE grouped:system',
+                              '    setenv LMOD_AVAIL_STYLE grouped:system'
                             ])
           end
         end
@@ -355,7 +358,7 @@ describe 'lmod' do
             verify_contents(catalogue, 'lmod-sh-load', [
                               '    export LMOD_AVAIL_STYLE=system',
                               '    export LMOD_ADMIN_FILE=/usr/share/lmod/etc/admin.list',
-                              '  fi',
+                              '  fi'
                             ])
           end
 
@@ -363,7 +366,7 @@ describe 'lmod' do
             verify_contents(catalogue, 'lmod-csh-load', [
                               '    setenv LMOD_AVAIL_STYLE system',
                               '    setenv LMOD_ADMIN_FILE /usr/share/lmod/etc/admin.list',
-                              'endif',
+                              'endif'
                             ])
           end
         end
@@ -374,14 +377,14 @@ describe 'lmod' do
           it do
             verify_contents(catalogue, 'lmod-sh-load', [
                               '    export LMOD_SYSTEM_NAME=foo',
-                              '  fi',
+                              '  fi'
                             ])
           end
 
           it do
             verify_contents(catalogue, 'lmod-csh-load', [
                               '    setenv LMOD_SYSTEM_NAME foo',
-                              'endif',
+                              'endif'
                             ])
           end
         end
@@ -392,14 +395,14 @@ describe 'lmod' do
           it do
             verify_contents(catalogue, 'lmod-sh-load', [
                               '    export LMOD_SITE_NAME=foo',
-                              '  fi',
+                              '  fi'
                             ])
           end
 
           it do
             verify_contents(catalogue, 'lmod-csh-load', [
                               '    setenv LMOD_SITE_NAME foo',
-                              'endif',
+                              'endif'
                             ])
           end
         end
@@ -410,19 +413,19 @@ describe 'lmod' do
           it do
             verify_contents(catalogue, 'lmod-sh-load', [
                               '    export LMOD_CACHED_LOADS=yes',
-                              '  fi',
+                              '  fi'
                             ])
           end
 
           it do
             verify_contents(catalogue, 'lmod-csh-load', [
                               '    setenv LMOD_CACHED_LOADS yes',
-                              'endif',
+                              'endif'
                             ])
           end
         end
 
-        context 'ensure => absent' do
+        context 'when ensure => absent' do
           let(:params) { { ensure: 'absent' } }
 
           it { is_expected.to contain_file('lmod-sh-load').with_ensure('absent') }
