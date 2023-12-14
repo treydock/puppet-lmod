@@ -36,43 +36,50 @@ class { 'lmod':
 
 The following parameters are available in the `lmod` class:
 
-* [`ensure`](#ensure)
-* [`version`](#version)
-* [`package_ensure`](#package_ensure)
-* [`prefix`](#prefix)
-* [`install_method`](#install_method)
-* [`manage_epel`](#manage_epel)
-* [`source_dir`](#source_dir)
-* [`source_with_flags`](#source_with_flags)
-* [`package_name`](#package_name)
-* [`runtime_packages`](#runtime_packages)
-* [`build_packages`](#build_packages)
-* [`manage_alternatives`](#manage_alternatives)
-* [`modulepath_root`](#modulepath_root)
-* [`modulepaths`](#modulepaths)
-* [`set_lmod_package_path`](#set_lmod_package_path)
-* [`lmod_package_path`](#lmod_package_path)
-* [`set_default_module`](#set_default_module)
-* [`default_module`](#default_module)
-* [`avail_styles`](#avail_styles)
-* [`lmod_admin_file`](#lmod_admin_file)
-* [`system_name`](#system_name)
-* [`site_name`](#site_name)
-* [`cached_loads`](#cached_loads)
-* [`modules_bash_path`](#modules_bash_path)
-* [`modules_bash_template`](#modules_bash_template)
-* [`modules_bash_source`](#modules_bash_source)
-* [`modules_csh_path`](#modules_csh_path)
-* [`modules_csh_template`](#modules_csh_template)
-* [`modules_csh_source`](#modules_csh_source)
-* [`stdenv_bash_path`](#stdenv_bash_path)
-* [`stdenv_bash_template`](#stdenv_bash_template)
-* [`stdenv_bash_source`](#stdenv_bash_source)
-* [`stdenv_csh_path`](#stdenv_csh_path)
-* [`stdenv_csh_template`](#stdenv_csh_template)
-* [`stdenv_csh_source`](#stdenv_csh_source)
+* [`ensure`](#-lmod--ensure)
+* [`version`](#-lmod--version)
+* [`package_ensure`](#-lmod--package_ensure)
+* [`prefix`](#-lmod--prefix)
+* [`install_method`](#-lmod--install_method)
+* [`manage_epel`](#-lmod--manage_epel)
+* [`source_dir`](#-lmod--source_dir)
+* [`source_with_flags`](#-lmod--source_with_flags)
+* [`package_name`](#-lmod--package_name)
+* [`runtime_packages`](#-lmod--runtime_packages)
+* [`build_packages`](#-lmod--build_packages)
+* [`manage_alternatives`](#-lmod--manage_alternatives)
+* [`modulepath_root`](#-lmod--modulepath_root)
+* [`modulepaths`](#-lmod--modulepaths)
+* [`set_lmod_package_path`](#-lmod--set_lmod_package_path)
+* [`lmod_package_path`](#-lmod--lmod_package_path)
+* [`set_default_module`](#-lmod--set_default_module)
+* [`default_module`](#-lmod--default_module)
+* [`avail_styles`](#-lmod--avail_styles)
+* [`lmod_admin_file`](#-lmod--lmod_admin_file)
+* [`system_name`](#-lmod--system_name)
+* [`site_name`](#-lmod--site_name)
+* [`cached_loads`](#-lmod--cached_loads)
+* [`modules_bash_path`](#-lmod--modules_bash_path)
+* [`modules_bash_template`](#-lmod--modules_bash_template)
+* [`modules_bash_source`](#-lmod--modules_bash_source)
+* [`modules_csh_path`](#-lmod--modules_csh_path)
+* [`modules_csh_template`](#-lmod--modules_csh_template)
+* [`modules_csh_source`](#-lmod--modules_csh_source)
+* [`stdenv_bash_path`](#-lmod--stdenv_bash_path)
+* [`stdenv_bash_template`](#-lmod--stdenv_bash_template)
+* [`stdenv_bash_source`](#-lmod--stdenv_bash_source)
+* [`stdenv_csh_path`](#-lmod--stdenv_csh_path)
+* [`stdenv_csh_template`](#-lmod--stdenv_csh_template)
+* [`stdenv_csh_source`](#-lmod--stdenv_csh_source)
+* [`with_fish`](#-lmod--with_fish)
+* [`modules_fish_path`](#-lmod--modules_fish_path)
+* [`modules_fish_template`](#-lmod--modules_fish_template)
+* [`modules_fish_source`](#-lmod--modules_fish_source)
+* [`stdenv_fish_path`](#-lmod--stdenv_fish_path)
+* [`stdenv_fish_template`](#-lmod--stdenv_fish_template)
+* [`stdenv_fish_source`](#-lmod--stdenv_fish_source)
 
-##### <a name="ensure"></a>`ensure`
+##### <a name="-lmod--ensure"></a>`ensure`
 
 Data type: `Enum['present','absent']`
 
@@ -81,7 +88,7 @@ If lmod_package_from_repo is true and ensure is 'absent', then the lmod package 
 
 Default value: `'present'`
 
-##### <a name="version"></a>`version`
+##### <a name="-lmod--version"></a>`version`
 
 Data type: `String`
 
@@ -89,7 +96,7 @@ Version of Lmod to install when installing from source
 
 Default value: `'8.4.26'`
 
-##### <a name="package_ensure"></a>`package_ensure`
+##### <a name="-lmod--package_ensure"></a>`package_ensure`
 
 Data type: `String`
 
@@ -97,7 +104,7 @@ The ensure value for Lmod package.  Only applies when lmod_package_from_repo is 
 
 Default value: `'present'`
 
-##### <a name="prefix"></a>`prefix`
+##### <a name="-lmod--prefix"></a>`prefix`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -105,7 +112,7 @@ The prefix used when lmod was compiled.
 
 Default value: `'/usr/share'`
 
-##### <a name="install_method"></a>`install_method`
+##### <a name="-lmod--install_method"></a>`install_method`
 
 Data type: `Enum['package','source','none']`
 
@@ -113,15 +120,15 @@ How Lmod should be installed
 
 Default value: `'package'`
 
-##### <a name="manage_epel"></a>`manage_epel`
+##### <a name="-lmod--manage_epel"></a>`manage_epel`
 
 Data type: `Boolean`
 
 Boolean that determines if EPEL should be mananged by this module for systems installing Lmod via yum.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="source_dir"></a>`source_dir`
+##### <a name="-lmod--source_dir"></a>`source_dir`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -129,7 +136,7 @@ Directory to store Lmod source
 
 Default value: `'/usr/src'`
 
-##### <a name="source_with_flags"></a>`source_with_flags`
+##### <a name="-lmod--source_with_flags"></a>`source_with_flags`
 
 Data type: `Hash`
 
@@ -137,7 +144,7 @@ Key/value pair of flags to turn into --with-<key>=<value> passed to configure wh
 
 Default value: `{}`
 
-##### <a name="package_name"></a>`package_name`
+##### <a name="-lmod--package_name"></a>`package_name`
 
 Data type: `String`
 
@@ -145,7 +152,7 @@ Lmod package name if lmod_package_from_repo is true.
 
 Default value: `'Lmod'`
 
-##### <a name="runtime_packages"></a>`runtime_packages`
+##### <a name="-lmod--runtime_packages"></a>`runtime_packages`
 
 Data type: `Array`
 
@@ -153,7 +160,7 @@ Lmod runtime package dependencies, only installed if lmod_package_from_repo is f
 
 Default value: `[]`
 
-##### <a name="build_packages"></a>`build_packages`
+##### <a name="-lmod--build_packages"></a>`build_packages`
 
 Data type: `Array`
 
@@ -161,25 +168,25 @@ Lmod runtime devel package dependencies, only installed if manage_build_packages
 
 Default value: `[]`
 
-##### <a name="manage_alternatives"></a>`manage_alternatives`
+##### <a name="-lmod--manage_alternatives"></a>`manage_alternatives`
 
 Data type: `Boolean`
 
 Sets whether alternatives are managed by this module
 Only used for Debian and Ubuntu systems
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="modulepath_root"></a>`modulepath_root`
+##### <a name="-lmod--modulepath_root"></a>`modulepath_root`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 The modulepath for your lmod installation.  Default is 'UNSET'.
 If the value is 'UNSET' then the path $prefix/modulefiles is used.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="modulepaths"></a>`modulepaths`
+##### <a name="-lmod--modulepaths"></a>`modulepaths`
 
 Data type: `Array`
 
@@ -187,15 +194,15 @@ An Array of modulepaths to be defined in the module.sh and module.csh.
 
 Default value: `['$LMOD_sys', 'Core']`
 
-##### <a name="set_lmod_package_path"></a>`set_lmod_package_path`
+##### <a name="-lmod--set_lmod_package_path"></a>`set_lmod_package_path`
 
 Data type: `Boolean`
 
 Boolean that determines if the LMOD_PACKAGE_PATH environment variable should be set in modules.sh and modules.csh.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="lmod_package_path"></a>`lmod_package_path`
+##### <a name="-lmod--lmod_package_path"></a>`lmod_package_path`
 
 Data type: `String`
 
@@ -203,15 +210,15 @@ Value given to the LMOD_PACKAGE_PATH environment variable in modules.sh and modu
 
 Default value: `'$MODULEPATH_ROOT/Site'`
 
-##### <a name="set_default_module"></a>`set_default_module`
+##### <a name="-lmod--set_default_module"></a>`set_default_module`
 
 Data type: `Boolean`
 
 Boolean will disable the management of the files that define the default module.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="default_module"></a>`default_module`
+##### <a name="-lmod--default_module"></a>`default_module`
 
 Data type: `String`
 
@@ -220,7 +227,7 @@ This will not be set if set_default_module is false.
 
 Default value: `'StdEnv'`
 
-##### <a name="avail_styles"></a>`avail_styles`
+##### <a name="-lmod--avail_styles"></a>`avail_styles`
 
 Data type: `Array`
 
@@ -229,39 +236,39 @@ An empty Array prevents this environment variable from being set.
 
 Default value: `['system']`
 
-##### <a name="lmod_admin_file"></a>`lmod_admin_file`
+##### <a name="-lmod--lmod_admin_file"></a>`lmod_admin_file`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 Defines path used for LMOD_ADMIN_FILE.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="system_name"></a>`system_name`
+##### <a name="-lmod--system_name"></a>`system_name`
 
 Data type: `Optional[String]`
 
 Value used for LMOD_SYSTEM_NAME.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="site_name"></a>`site_name`
+##### <a name="-lmod--site_name"></a>`site_name`
 
 Data type: `Optional[String]`
 
 Value used for LMOD_SITE_NAME.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="cached_loads"></a>`cached_loads`
+##### <a name="-lmod--cached_loads"></a>`cached_loads`
 
 Data type: `Optional[Boolean]`
 
 Value used for LMOD_CACHED_LOADS.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="modules_bash_path"></a>`modules_bash_path`
+##### <a name="-lmod--modules_bash_path"></a>`modules_bash_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -269,7 +276,7 @@ Path to script to load bash modules environment
 
 Default value: `'/etc/profile.d/modules.sh'`
 
-##### <a name="modules_bash_template"></a>`modules_bash_template`
+##### <a name="-lmod--modules_bash_template"></a>`modules_bash_template`
 
 Data type: `String`
 
@@ -277,15 +284,15 @@ Module bash load template
 
 Default value: `'lmod/modules.sh.erb'`
 
-##### <a name="modules_bash_source"></a>`modules_bash_source`
+##### <a name="-lmod--modules_bash_source"></a>`modules_bash_source`
 
 Data type: `Optional[String]`
 
 Module bash load source
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="modules_csh_path"></a>`modules_csh_path`
+##### <a name="-lmod--modules_csh_path"></a>`modules_csh_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -293,7 +300,7 @@ Path to script to load csh modules environment
 
 Default value: `'/etc/profile.d/modules.csh'`
 
-##### <a name="modules_csh_template"></a>`modules_csh_template`
+##### <a name="-lmod--modules_csh_template"></a>`modules_csh_template`
 
 Data type: `String`
 
@@ -301,15 +308,15 @@ Module csh load template
 
 Default value: `'lmod/modules.csh.erb'`
 
-##### <a name="modules_csh_source"></a>`modules_csh_source`
+##### <a name="-lmod--modules_csh_source"></a>`modules_csh_source`
 
 Data type: `Optional[String]`
 
 Module csh load source
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="stdenv_bash_path"></a>`stdenv_bash_path`
+##### <a name="-lmod--stdenv_bash_path"></a>`stdenv_bash_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -317,7 +324,7 @@ Path to bash script that loads default modules
 
 Default value: `'/etc/profile.d/z00_StdEnv.sh'`
 
-##### <a name="stdenv_bash_template"></a>`stdenv_bash_template`
+##### <a name="-lmod--stdenv_bash_template"></a>`stdenv_bash_template`
 
 Data type: `String`
 
@@ -325,15 +332,15 @@ Default module bash load template
 
 Default value: `'lmod/z00_StdEnv.sh.erb'`
 
-##### <a name="stdenv_bash_source"></a>`stdenv_bash_source`
+##### <a name="-lmod--stdenv_bash_source"></a>`stdenv_bash_source`
 
 Data type: `Optional[String]`
 
 Default module bash load source
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="stdenv_csh_path"></a>`stdenv_csh_path`
+##### <a name="-lmod--stdenv_csh_path"></a>`stdenv_csh_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -341,7 +348,7 @@ Path to csh script that loads default modules
 
 Default value: `'/etc/profile.d/z00_StdEnv.csh'`
 
-##### <a name="stdenv_csh_template"></a>`stdenv_csh_template`
+##### <a name="-lmod--stdenv_csh_template"></a>`stdenv_csh_template`
 
 Data type: `String`
 
@@ -349,11 +356,67 @@ Default module csh load template
 
 Default value: `'lmod/z00_StdEnv.csh.erb'`
 
-##### <a name="stdenv_csh_source"></a>`stdenv_csh_source`
+##### <a name="-lmod--stdenv_csh_source"></a>`stdenv_csh_source`
 
 Data type: `Optional[String]`
 
 Default module bash load source
 
-Default value: ``undef``
+Default value: `undef`
+
+##### <a name="-lmod--with_fish"></a>`with_fish`
+
+Data type: `Boolean`
+
+Enable fish support
+
+Default value: `false`
+
+##### <a name="-lmod--modules_fish_path"></a>`modules_fish_path`
+
+Data type: `Stdlib::Absolutepath`
+
+Path to script to load fish modules environment
+
+Default value: `'/etc/fish/conf.d/modules.fish'`
+
+##### <a name="-lmod--modules_fish_template"></a>`modules_fish_template`
+
+Data type: `String`
+
+Module fish load template
+
+Default value: `'lmod/modules.fish.erb'`
+
+##### <a name="-lmod--modules_fish_source"></a>`modules_fish_source`
+
+Data type: `Optional[String]`
+
+Module fish load source
+
+Default value: `undef`
+
+##### <a name="-lmod--stdenv_fish_path"></a>`stdenv_fish_path`
+
+Data type: `Stdlib::Absolutepath`
+
+Path to fish script that loads default modules
+
+Default value: `'/etc/fish/conf.d/z00_StdEnv.fish'`
+
+##### <a name="-lmod--stdenv_fish_template"></a>`stdenv_fish_template`
+
+Data type: `String`
+
+Default module fish load template
+
+Default value: `'lmod/z00_StdEnv.fish.erb'`
+
+##### <a name="-lmod--stdenv_fish_source"></a>`stdenv_fish_source`
+
+Data type: `Optional[String]`
+
+Default module bash load source
+
+Default value: `undef`
 
