@@ -10,7 +10,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.13.0 <10.0.0"
+      "version_requirement": ">= 9.0.0 <10.0.0"
     },
     {
       "name": "puppet/epel",
@@ -22,22 +22,15 @@
     },
     {
       "name": "puppet/alternatives",
-      "version_requirement": ">= 2.1.0 <6.0.0"
+      "version_requirement": ">= 2.1.0 <7.0.0"
     }
   ],
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "7",
         "8",
         "9"
-      ]
-    },
-    {
-      "operatingsystem": "CentOS",
-      "operatingsystemrelease": [
-        "7"
       ]
     },
     {
@@ -57,14 +50,16 @@
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "11"
+        "11",
+        "12"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
         "20.04",
-        "22.04"
+        "22.04",
+        "24.04"
       ]
     }
   ],
@@ -81,5 +76,5 @@
   ],
   "pdk-version": "2.7.1",
   "template-url": "https://github.com/treydock/pdk-templates.git#master",
-  "template-ref": "heads/master-0-g52b1622"
+  "template-ref": "heads/master-0-gd2de99e"
 }

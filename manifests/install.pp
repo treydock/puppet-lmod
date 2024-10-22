@@ -34,8 +34,8 @@ class lmod::install {
         Class['lmod::install'] -> Class['lmod::install::source']
       }
       if $lmod::ensure == 'present' {
-        ensure_packages($lmod::runtime_packages, { 'require' => $package_require })
-        ensure_packages($lmod::build_packages, { 'require' => $package_require })
+        stdlib::ensure_packages($lmod::runtime_packages, { 'require' => $package_require })
+        stdlib::ensure_packages($lmod::build_packages, { 'require' => $package_require })
       }
     }
     default: {
@@ -45,11 +45,11 @@ class lmod::install {
 
   # The 'lmod' package does not appear to pull in tcsh
   if $lmod::ensure =='present' and $lmod::install_method == 'package' and $facts['os']['family'] == 'Debian' {
-    ensure_packages(['tcsh'])
+    stdlib::ensure_packages(['tcsh'])
   }
 
   if $lmod::ensure =='present' and $lmod::with_fish {
-    ensure_packages(['fish'], { 'require' => $package_require })
+    stdlib::ensure_packages(['fish'], { 'require' => $package_require })
   }
 
   if $lmod::manage_alternatives and
