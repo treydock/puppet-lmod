@@ -56,6 +56,10 @@
 #   Value used for LMOD_SITE_NAME.
 # @param cached_loads
 #   Value used for LMOD_CACHED_LOADS.
+# @param pager
+#   Value used for LMOD_PAGER
+# @param pager_opts
+#   Value used for LMOD_PAGER_OPTS
 # @param modules_bash_path
 #   Path to script to load bash modules environment
 # @param modules_bash_template
@@ -119,6 +123,8 @@ class lmod (
   Optional[String] $system_name                     = undef,
   Optional[String] $site_name                       = undef,
   Optional[Boolean] $cached_loads                   = undef,
+  Optional[Stdlib::Absolutepath] $pager             = undef,
+  Optional[String[1]] $pager_opts                   = undef,
   Stdlib::Absolutepath $modules_bash_path           = '/etc/profile.d/modules.sh',
   String $modules_bash_template                     = 'lmod/modules.sh.erb',
   Optional[String] $modules_bash_source             = undef,

@@ -63,6 +63,12 @@ if [ -z "${USER_IS_ROOT:-}" ]; then
 <% if scope.lookupvar('lmod::cached_loads') -%>
     export LMOD_CACHED_LOADS=<%= scope.lookupvar('lmod::cached_loads') ? 'yes' : 'no' %>
 <% end -%>
+<% if scope.lookupvar('lmod::pager') -%>
+    export LMOD_PAGER=<%= scope.lookupvar('lmod::pager') %>
+<% end -%>
+<% if scope.lookupvar('lmod::pager_opts') -%>
+    export LMOD_PAGER_OPTS=<%= scope.lookupvar('lmod::pager_opts') %>
+<% end -%>
   fi
 
   PS_CMD=/usr/bin/ps

@@ -429,6 +429,26 @@ describe 'lmod' do
           end
         end
 
+        context 'when pager and pager_opts defined' do
+          let(:params) { { pager: '/usr/bin/less', pager_opts: '-foo' } }
+
+          it do
+            verify_contents(catalogue, 'lmod-sh-load', [
+                              '    export LMOD_PAGER=/usr/bin/less',
+                              '    export LMOD_PAGER_OPTS=-foo',
+                              '  fi',
+                            ],)
+          end
+
+          it do
+            verify_contents(catalogue, 'lmod-csh-load', [
+                              '    setenv LMOD_PAGER /usr/bin/less',
+                              '    setenv LMOD_PAGER_OPTS -foo',
+                              'endif',
+                            ],)
+          end
+        end
+
         context 'when ensure => absent' do
           let(:params) { { ensure: 'absent' } }
 
