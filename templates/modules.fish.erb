@@ -64,6 +64,9 @@ if test -z "$USER_IS_ROOT"
 <% if scope.lookupvar('lmod::pager_opts') -%>
     set -gx LMOD_PAGER_OPTS "<%= scope.lookupvar('lmod::pager_opts') %>"
 <% end -%>
+<% scope['lmod::environment_variables'].each_pair do |key, value| -%>
+    set -gx <%= key %> "<%= value %>"
+<% end -%>
   end
 
   source <%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/init/fish >/dev/null # Module Support

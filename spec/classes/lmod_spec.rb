@@ -449,6 +449,24 @@ describe 'lmod' do
           end
         end
 
+        context 'when environment_variables defined' do
+          let(:params) { { environment_variables: { 'FOO' => 'bar' } } }
+
+          it do
+            verify_contents(catalogue, 'lmod-sh-load', [
+                              '    export FOO=bar',
+                              '  fi',
+                            ],)
+          end
+
+          it do
+            verify_contents(catalogue, 'lmod-csh-load', [
+                              '    setenv FOO bar',
+                              'endif',
+                            ],)
+          end
+        end
+
         context 'when ensure => absent' do
           let(:params) { { ensure: 'absent' } }
 

@@ -60,6 +60,8 @@
 #   Value used for LMOD_PAGER
 # @param pager_opts
 #   Value used for LMOD_PAGER_OPTS
+# @param environment_variables
+#   Additional environment variables to pass in load files
 # @param modules_bash_path
 #   Path to script to load bash modules environment
 # @param modules_bash_template
@@ -125,6 +127,7 @@ class lmod (
   Optional[Boolean] $cached_loads                   = undef,
   Optional[Stdlib::Absolutepath] $pager             = undef,
   Optional[String[1]] $pager_opts                   = undef,
+  Hash[String[1], Any] $environment_variables       = {},
   Stdlib::Absolutepath $modules_bash_path           = '/etc/profile.d/modules.sh',
   String $modules_bash_template                     = 'lmod/modules.sh.erb',
   Optional[String] $modules_bash_source             = undef,
