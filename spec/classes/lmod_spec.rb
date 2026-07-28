@@ -7,7 +7,7 @@ describe 'lmod' do
     context "when on #{os}" do
       let(:facts) { facts }
 
-      if facts[:osfamily] == 'Debian'
+      if facts[:os]['family'] == 'Debian'
         modulepath_root = '/usr/modulefiles'
         moduels_bash_path = '/etc/profile.d/lmod.sh'
         modules_csh_path = '/etc/csh/login.d/lmod.csh'
@@ -26,7 +26,7 @@ describe 'lmod' do
       it { is_expected.to contain_class('lmod::load') }
 
       describe 'lmod::install' do
-        if facts[:osfamily] == 'RedHat'
+        if facts[:os]['family'] == 'RedHat'
           package_require = 'Yumrepo[epel]'
           runtime_packages = [
             'lua',
@@ -39,7 +39,7 @@ describe 'lmod' do
           ]
           package_name = 'Lmod'
           build_packages = ['lua-devel', 'tcl-devel', 'gcc', 'gcc-c++', 'make']
-        elsif facts[:osfamily] == 'Debian'
+        elsif facts[:os]['family'] == 'Debian'
           package_require = nil
           package_name = 'lmod'
           if facts[:os]['release']['major'] == '9'
@@ -83,10 +83,10 @@ describe 'lmod' do
           end
         end
 
-        if facts[:osfamily] == 'RedHat'
+        if facts[:os]['family'] == 'RedHat'
           it { is_expected.to contain_class('epel') }
           it { is_expected.to have_package_resource_count(1) }
-        elsif facts[:osfamily] == 'Debian'
+        elsif facts[:os]['family'] == 'Debian'
           it { is_expected.to have_package_resource_count(2) }
           it { is_expected.to contain_package('tcsh') }
         end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 def package_name
-  if fact('osfamily') == 'RedHat'
+  if fact('os.family') == 'RedHat'
     'Lmod'
   else
     'lmod'
@@ -9,7 +9,7 @@ def package_name
 end
 
 def runtime_packages
-  case fact('osfamily')
+  case fact('os.family')
   when 'RedHat'
     [
       'lua',
@@ -52,7 +52,7 @@ def runtime_packages
 end
 
 def build_packages
-  case fact('osfamily')
+  case fact('os.family')
   when 'RedHat'
     [
       'gcc',

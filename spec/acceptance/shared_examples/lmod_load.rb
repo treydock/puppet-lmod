@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 def shell_paths
-  case fact('osfamily')
+  case fact('os.family')
   when 'Debian'
     [
       '/etc/profile.d/lmod.sh',

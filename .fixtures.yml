@@ -1,15 +1,14 @@
 fixtures:
-  repositories:
+  forge_modules:
     stdlib:
-      repo: https://github.com/puppetlabs/puppetlabs-stdlib.git
-    epel:
-      repo: https://github.com/voxpupuli/puppet-epel.git
-    archive:
-      repo: https://github.com/voxpupuli/puppet-archive.git
+      repo: puppetlabs/stdlib
     yumrepo_core:
-      repo: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
-      puppet_version: ">= 6.0.0"
+      repo: puppetlabs/yumrepo_core
+    epel:
+      repo: puppet/epel
+    archive:
+      repo: puppet/archive
     alternatives:
-      repo: https://github.com/voxpupuli/puppet-alternatives.git
+      repo: puppet/alternatives
   symlinks:
     lmod: "#{source_dir}"
