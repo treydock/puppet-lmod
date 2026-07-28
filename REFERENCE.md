@@ -59,6 +59,9 @@ The following parameters are available in the `lmod` class:
 * [`system_name`](#-lmod--system_name)
 * [`site_name`](#-lmod--site_name)
 * [`cached_loads`](#-lmod--cached_loads)
+* [`pager`](#-lmod--pager)
+* [`pager_opts`](#-lmod--pager_opts)
+* [`environment_variables`](#-lmod--environment_variables)
 * [`modules_bash_path`](#-lmod--modules_bash_path)
 * [`modules_bash_template`](#-lmod--modules_bash_template)
 * [`modules_bash_source`](#-lmod--modules_bash_source)
@@ -267,6 +270,30 @@ Data type: `Optional[Boolean]`
 Value used for LMOD_CACHED_LOADS.
 
 Default value: `undef`
+
+##### <a name="-lmod--pager"></a>`pager`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+Value used for LMOD_PAGER
+
+Default value: `undef`
+
+##### <a name="-lmod--pager_opts"></a>`pager_opts`
+
+Data type: `Optional[String[1]]`
+
+Value used for LMOD_PAGER_OPTS
+
+Default value: `undef`
+
+##### <a name="-lmod--environment_variables"></a>`environment_variables`
+
+Data type: `Hash[String[1], Any]`
+
+Additional environment variables to pass in load files
+
+Default value: `{}`
 
 ##### <a name="-lmod--modules_bash_path"></a>`modules_bash_path`
 

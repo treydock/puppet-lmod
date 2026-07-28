@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v6.0.0](https://github.com/treydock/puppet-lmod/tree/v6.0.0) (2026-07-28)
+
+[Full Changelog](https://github.com/treydock/puppet-lmod/compare/v5.0.0...v6.0.0)
+
+### Changed
+
+- Drop Puppet 7 and Ubuntu 20.04 support [\#47](https://github.com/treydock/puppet-lmod/pull/47) ([treydock](https://github.com/treydock))
+
+### Added
+
+- Support newer module dependencies [\#50](https://github.com/treydock/puppet-lmod/pull/50) ([treydock](https://github.com/treydock))
+- Add environment\_variables parameter [\#49](https://github.com/treydock/puppet-lmod/pull/49) ([treydock](https://github.com/treydock))
+- Add pager and pager\_opts parameters [\#48](https://github.com/treydock/puppet-lmod/pull/48) ([treydock](https://github.com/treydock))
+
 ## [v5.0.0](https://github.com/treydock/puppet-lmod/tree/v5.0.0) (2024-10-22)
 
 [Full Changelog](https://github.com/treydock/puppet-lmod/compare/v4.0.0...v5.0.0)
