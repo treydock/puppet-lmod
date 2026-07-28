@@ -58,6 +58,12 @@ if test -z "$USER_IS_ROOT"
 <% if scope.lookupvar('lmod::cached_loads') -%>
     set -gx LMOD_CACHED_LOADS "<%= scope.lookupvar('lmod::cached_loads') ? 'yes' : 'no' %>"
 <% end -%>
+<% if scope.lookupvar('lmod::pager') -%>
+    set -gx LMOD_PAGER "<%= scope.lookupvar('lmod::pager') %>"
+<% end -%>
+<% if scope.lookupvar('lmod::pager_opts') -%>
+    set -gx LMOD_PAGER_OPTS "<%= scope.lookupvar('lmod::pager_opts') %>"
+<% end -%>
   end
 
   source <%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/init/fish >/dev/null # Module Support

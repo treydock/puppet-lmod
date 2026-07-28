@@ -68,6 +68,12 @@ if ( ! $?MODULEPATH_ROOT ) then
 <% if scope.lookupvar('lmod::cached_loads') -%>
     setenv LMOD_CACHED_LOADS <%= scope.lookupvar('lmod::cached_loads') ? 'yes' : 'no' %>
 <% end -%>
+<% if scope.lookupvar('lmod::pager') -%>
+    setenv LMOD_PAGER <%= scope.lookupvar('lmod::pager') %>
+<% end -%>
+<% if scope.lookupvar('lmod::pager_opts') -%>
+    setenv LMOD_PAGER_OPTS <%= scope.lookupvar('lmod::pager_opts') %>
+<% end -%>
 endif
 
 if ( -f  <%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/init/csh  ) then
