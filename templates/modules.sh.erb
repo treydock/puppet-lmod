@@ -69,6 +69,9 @@ if [ -z "${USER_IS_ROOT:-}" ]; then
 <% if scope.lookupvar('lmod::pager_opts') -%>
     export LMOD_PAGER_OPTS=<%= scope.lookupvar('lmod::pager_opts') %>
 <% end -%>
+<% scope['lmod::environment_variables'].each_pair do |key, value| -%>
+    export <%= key %>=<%= value %>
+<% end -%>
   fi
 
   PS_CMD=/usr/bin/ps

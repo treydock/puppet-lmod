@@ -74,6 +74,9 @@ if ( ! $?MODULEPATH_ROOT ) then
 <% if scope.lookupvar('lmod::pager_opts') -%>
     setenv LMOD_PAGER_OPTS <%= scope.lookupvar('lmod::pager_opts') %>
 <% end -%>
+<% scope['lmod::environment_variables'].each_pair do |key, value| -%>
+    setenv <%= key %> <%= value %>
+<% end -%>
 endif
 
 if ( -f  <%= scope.lookupvar('lmod::prefix') %>/lmod/lmod/init/csh  ) then
